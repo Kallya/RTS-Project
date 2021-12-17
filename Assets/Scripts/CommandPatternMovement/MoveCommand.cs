@@ -5,8 +5,6 @@ using UnityEngine.AI;
 
 public class MoveCommand : ICommand
 {
-    // this player property is currently redundant
-    public GameObject player { get; private set; }
     public event System.Action<ICommand> OnCompletion;
 
     private NavMeshAgent _playerNavMeshAgent;
@@ -15,8 +13,6 @@ public class MoveCommand : ICommand
 
     public MoveCommand(GameObject player, Vector3 destination)
     {
-        this.player = player;
-
         this._playerNavMeshAgent = player.GetComponent<NavMeshAgent>();
         this._destination = destination;
         this._completionObserver = player.GetComponent<MoveCommandCompletionObserver>();

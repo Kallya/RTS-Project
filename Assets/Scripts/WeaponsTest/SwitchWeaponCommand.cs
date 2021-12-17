@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SwitchWeaponCommand : ICommand
 {
-    public GameObject player { get; private set; }
     public event System.Action<ICommand> OnCompletion;
 
     private PlayerWeapons _playerWeapons;
@@ -12,7 +11,6 @@ public class SwitchWeaponCommand : ICommand
 
     public SwitchWeaponCommand(GameObject player, int weaponSlot)
     {
-        this.player = player;
         this._playerWeapons = player.GetComponent<PlayerWeapons>();
         this._weaponSlot = weaponSlot;
     }

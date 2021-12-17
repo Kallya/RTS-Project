@@ -7,7 +7,5 @@ public interface ICommand
 {
     event System.Action<ICommand> OnCompletion;
 
-    GameObject player { get; }
-
     void Execute();
 }
