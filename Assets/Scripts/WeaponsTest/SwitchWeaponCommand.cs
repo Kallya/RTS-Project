@@ -11,8 +11,8 @@ public class SwitchWeaponCommand : ICommand
 
     public SwitchWeaponCommand(GameObject player, int weaponSlot)
     {
-        this._playerWeapons = player.GetComponent<PlayerWeapons>();
-        this._weaponSlot = weaponSlot;
+        _playerWeapons = player.GetComponent<PlayerWeapons>();
+        _weaponSlot = weaponSlot;
     }
 
     public void Execute()

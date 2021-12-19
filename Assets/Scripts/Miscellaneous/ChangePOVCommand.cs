@@ -6,19 +6,19 @@ public class ChangePOVCommand : ICommand
 {
     public event System.Action<ICommand> OnCompletion;
 
-    private int _nextCharacterIndex;
+    private int _nextCharacter;
     private PlayerCommandInput _playerInput;
 
-    public ChangePOVCommand(GameObject player, int nextCharacterIndex)
+    public ChangePOVCommand(GameObject player, int nextCharacter)
     {
-        this._nextCharacterIndex = nextCharacterIndex;
-        this._playerInput = player.GetComponent<PlayerCommandInput>();
+        _nextCharacter = nextCharacter;
+        _playerInput = player.GetComponent<PlayerCommandInput>();
     }
 
     public void Execute()
     {
         _playerInput.enabled = false;
-        ChangePOVListener.Instance.ChangePOV(_nextCharacterIndex);
+        ChangePOVListener.Instance.ChangePOV(_nextCharacter);
         OnCompletion?.Invoke(this);
     }
 }

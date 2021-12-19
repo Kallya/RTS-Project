@@ -13,9 +13,9 @@ public class MoveCommand : ICommand
 
     public MoveCommand(GameObject player, Vector3 destination)
     {
-        this._playerNavMeshAgent = player.GetComponent<NavMeshAgent>();
-        this._destination = destination;
-        this._completionObserver = player.GetComponent<MoveCommandCompletionObserver>();
+        _playerNavMeshAgent = player.GetComponent<NavMeshAgent>();
+        _destination = destination;
+        _completionObserver = player.GetComponent<MoveCommandCompletionObserver>();
     }
 
     public void Execute()

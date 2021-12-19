@@ -10,7 +10,7 @@ public class AttackCommand : ICommand
 
     public AttackCommand(GameObject player)
     {
-        this._weapon = (IWeapon)player.GetComponent<PlayerWeapons>().ActiveEquipment;
+        _weapon = (IWeapon)player.GetComponent<PlayerWeapons>().ActiveEquipment;
     }
 
     public void Execute()
