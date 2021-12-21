@@ -63,7 +63,7 @@ public class PlayerCommandInput : MonoBehaviour
         else
         {
             if (Input.GetMouseButtonDown(1))
-            _commandProcessor.ExecuteCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
+                _commandProcessor.ExecuteCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
 
             if (Input.GetKeyDown(KeyCode.G))
                 _isQueueingCommands = !_isQueueingCommands;

@@ -1,15 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class PlayerWeapons : MonoBehaviour
+public class PlayerWeapons : NetworkBehaviour
 {
     public IEquipment ActiveEquipment { get; private set; }
 
-    [SerializeField]
-    private Weapons _weapons;
-    // change the two lists to a dictionary where _availableWeapons references interface
-    [SerializeField]
+    [SerializeField] private Weapons _weapons;
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
     private List<GameObject> _availableWeapons;
     private GameObject _activeWeapon;
@@ -18,12 +16,16 @@ public class PlayerWeapons : MonoBehaviour
     private void Awake()
     {
         _weaponsToAdd = new GameObject[] {_weapons.Gun, _weapons.Shield, _weapons.Bomb, _weapons.Sword};
+    }
 
+    private void Start()
+    {
         // need to automate Instantiation
         foreach (GameObject w in _weaponsToAdd)
         {
-            GameObject g = Instantiate(w, transform);
-            _availableEquipmentInterfaces.Add(g, g.GetComponent<IWeapon>());
+            GameObject weapon = Instantiate(w, transform);
+            NetworkServer.Spawn(weapon, connectionToClient);
+            _availableEquipmentInterfaces.Add(weapon, weapon.GetComponent<IWeapon>());
         }
 
         foreach (KeyValuePair<GameObject, IEquipment> w in _availableEquipmentInterfaces)
@@ -35,10 +37,7 @@ public class PlayerWeapons : MonoBehaviour
         }
 
         _availableWeapons = new List<GameObject>(_availableEquipmentInterfaces.Keys);
-    }
-
-    private void Start()
-    {
+        
         SwitchWeapon(1);
     }
 

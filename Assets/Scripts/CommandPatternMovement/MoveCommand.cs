@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Mirror;
 
 public class MoveCommand : ICommand
 {
@@ -25,6 +26,7 @@ public class MoveCommand : ICommand
         _completionObserver.OnDestinationReached += DestinationReached;
     }
 
+    [Command]
     private void MoveToNextPosition()
     {
         _playerNavMeshAgent.destination = _destination;
