@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class Bullet : MonoBehaviour, IWeapon
+public class Bullet : NetworkBehaviour, IWeapon
 {
     public int Damage { get; set; }
 
@@ -18,15 +19,15 @@ public class Bullet : MonoBehaviour, IWeapon
     private void Update()
     {
         if (Vector3.Distance(transform.position, s_initPos) >= s_range)
-            Destroy(gameObject);
+            NetworkServer.Destroy(gameObject);
 
         transform.Translate(transform.forward * s_speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
     }
 
-    public void Attack() { return; }
+    public void Attack() {}
 }

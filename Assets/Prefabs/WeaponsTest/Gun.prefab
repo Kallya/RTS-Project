@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c27eb45d05fce474080fad77553547ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullet: {fileID: 5699393565631408543, guid: 65d736c3a6589004eb0501d788e24c15, type: 3}
+  _bullet: {fileID: 201341641173214757, guid: 65d736c3a6589004eb0501d788e24c15, type: 3}
   _shotPoint: {fileID: 6875914065132447330}
 --- !u!1 &6875914065132447329
 GameObject:

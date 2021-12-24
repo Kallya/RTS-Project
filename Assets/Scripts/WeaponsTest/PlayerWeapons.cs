@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+enum Weapon : byte
+{
+    Gun,
+    Shield,
+    Bomb,
+    Sword
+}
+
 public class PlayerWeapons : NetworkBehaviour
 {
     public IEquipment ActiveEquipment { get; private set; }
@@ -10,7 +18,7 @@ public class PlayerWeapons : NetworkBehaviour
     [SerializeField] private Weapons _weapons;
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
     private List<GameObject> _availableWeapons;
-    private GameObject _activeWeapon;
+    [SyncVar(hook=nameof(SetWeaponActives))] private int _activeWeaponSlot = 2;
     private GameObject[] _weaponsToAdd;
 
     private void Awake()
@@ -18,8 +26,7 @@ public class PlayerWeapons : NetworkBehaviour
         _weaponsToAdd = new GameObject[] {_weapons.Gun, _weapons.Shield, _weapons.Bomb, _weapons.Sword};
     }
 
-    [ServerCallback]
-    public override void OnStartAuthority()
+    private void OnEnable()
     {
         // need to automate Instantiation
         foreach (GameObject w in _weaponsToAdd)
@@ -38,30 +45,48 @@ public class PlayerWeapons : NetworkBehaviour
         }
 
         _availableWeapons = new List<GameObject>(_availableEquipmentInterfaces.Keys);
-        
+    }
+
+    public override void OnStartAuthority()
+    {
+        CmdAssignWeaponAuthority();
         CmdSwitchWeapon(1);
+    }
+
+    private void SetWeaponActives(int oldWeaponSlot, int newWeaponSlot)
+    {
+        // index is slot number minus 1
+        GameObject newWeapon = _availableWeapons[newWeaponSlot-1];
+
+        _availableWeapons[oldWeaponSlot-1]?.SetActive(false);
+
+        if (newWeapon != null)
+        {
+            newWeapon.SetActive(true);
+            ActiveEquipment = _availableEquipmentInterfaces[newWeapon];
+        }
+        else
+            ActiveEquipment = null;
     }
 
     [Command]
     public void CmdSwitchWeapon(int weaponSlot)
     {
-        int slotIndex = weaponSlot - 1;
-
         // check if weapon slot exists
-        if (slotIndex < 0 || slotIndex > _availableWeapons.Count - 1)
+        if (weaponSlot < 1 || weaponSlot > _availableWeapons.Count)
             return;
 
-        // check if there is weapon in slot
-        if (_availableWeapons[slotIndex] == null)
+        if (weaponSlot == _activeWeaponSlot)
             return;
-        
-        if (_availableWeapons[slotIndex] != _activeWeapon)
-        {
-            _activeWeapon?.SetActive(false);
-            _activeWeapon = _availableWeapons[slotIndex];
-            _activeWeapon.SetActive(true);
-            ActiveEquipment = _availableEquipmentInterfaces[_activeWeapon];
-        }
+
+        _activeWeaponSlot = weaponSlot;
+    }
+
+    [Command]
+    private void CmdAssignWeaponAuthority()
+    {
+        foreach (GameObject weapon in _availableWeapons)
+            weapon.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
     }
 
     public void LimitReached(GameObject weapon)
@@ -75,7 +100,7 @@ public class PlayerWeapons : NetworkBehaviour
         _availableWeapons[_availableWeapons.IndexOf(weapon)] = null;
 
         // null _activeWeapon to prevent deactivation
-        _activeWeapon = null;
-        CmdSwitchWeapon(1);
+        // Switch back automatically after losing a weapon?
+        // SwitchWeapon(1);
     }
 }
