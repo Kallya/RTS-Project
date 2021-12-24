@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "where-allocations", "where-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Mirror.CodeGen", "Unity.Mirror.CodeGen.csproj", "{bca27fd4-0889-ec3b-5ed4-85bee2b8c7aa}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrelSync", "ParrelSync.csproj", "{1341dd3c-a277-1039-989b-b35345d8a585}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mirror.Editor", "Mirror.Editor.csproj", "{eafdb5c5-255d-6250-c007-da3b73143b74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mirror.CompilerSymbols", "Mirror.CompilerSymbols.csproj", "{2b7db762-12b3-1af6-bc01-157468f0b4b0}"
@@ -50,6 +52,8 @@ Global
 		{954ad64a-a585-8e4d-63ca-0eea320d93b5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{bca27fd4-0889-ec3b-5ed4-85bee2b8c7aa}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{bca27fd4-0889-ec3b-5ed4-85bee2b8c7aa}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1341dd3c-a277-1039-989b-b35345d8a585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1341dd3c-a277-1039-989b-b35345d8a585}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{eafdb5c5-255d-6250-c007-da3b73143b74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{eafdb5c5-255d-6250-c007-da3b73143b74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2b7db762-12b3-1af6-bc01-157468f0b4b0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

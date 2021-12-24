@@ -26,7 +26,6 @@ public class MoveCommand : ICommand
         _completionObserver.OnDestinationReached += DestinationReached;
     }
 
-    [Command]
     private void MoveToNextPosition()
     {
         _playerNavMeshAgent.destination = _destination;

@@ -623,7 +623,9 @@ MonoBehaviour:
   playerPrefab: {fileID: 5083042597892674818, guid: 94ad39e34042a6d4694a34241a3236e6, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 201341641173214757, guid: 65d736c3a6589004eb0501d788e24c15, type: 3}
+  - {fileID: 6803984924362334617, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
   _playerCam: {fileID: 6803984924362334617, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
 --- !u!1 &1863874165
 GameObject:

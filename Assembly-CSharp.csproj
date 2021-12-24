@@ -38,6 +38,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\WeaponsTest\MoveCommandCompletionObserver.cs" />
      <Compile Include="Assets\Scripts\SampleScene\PlayerInput.cs" />
+     <Compile Include="Assets\ParrelSync\Examples\CustomArgumentExample.cs" />
      <Compile Include="Assets\Scripts\CommandPatternMovement\Command.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\SwitchWeaponCommand.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\Shield.cs" />
@@ -48,7 +49,7 @@
      <Compile Include="Assets\Scripts\CommandPatternMovement\PlayerCommandInput.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\AttackCommand.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\ClickDragInput.cs" />
-     <Compile Include="Assets\Scripts\Miscellaneous\ChangePOVListener.cs" />
+     <Compile Include="Assets\Scripts\Miscellaneous\POVManager.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\Gun.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\ChangePOVCommand.cs" />
      <Compile Include="Assets\Scripts\MouseClickMovement\PlayerMouseClickMovement.cs" />
@@ -65,10 +66,12 @@
      <Compile Include="Assets\Scripts\Stats\DamageableObject.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\IEquipment.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\PlayerWeapons.cs" />
+     <Compile Include="Assets\Scripts\Miscellaneous\PlayerConnect.cs" />
      <None Include="Assets\ScriptTemplates\51-Mirror__Network Authenticator-NewNetworkAuthenticator.cs.txt" />
      <None Include="Assets\ScriptTemplates\56-Mirror__Network Discovery-NewNetworkDiscovery.cs.txt" />
      <None Include="Assets\Mirror\Version.txt" />
      <None Include="Assets\Mirror\Readme.txt" />
+     <None Include="Assets\ParrelSync\VERSION.txt" />
      <None Include="Assets\ScriptTemplates\52-Mirror__Network Behaviour-NewNetworkBehaviour.cs.txt" />
      <None Include="Assets\Mirror\Notice.txt" />
      <None Include="Assets\Mirror\Plugins\Mono.Cecil\License.txt" />
@@ -731,6 +734,10 @@
     <ProjectReference Include="Mirror.Components.csproj">
       <Project>{e7966c2d-0b90-4b27-c246-20a20ccf0fc6}</Project>
       <Name>Mirror.Components</Name>
+    </ProjectReference>
+    <ProjectReference Include="ParrelSync.csproj">
+      <Project>{1341dd3c-a277-1039-989b-b35345d8a585}</Project>
+      <Name>ParrelSync</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

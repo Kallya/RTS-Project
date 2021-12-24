@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using Mirror;
 
 public class ChangePOVCommand : ICommand
 {
@@ -18,7 +20,7 @@ public class ChangePOVCommand : ICommand
     public void Execute()
     {
         _playerInput.enabled = false;
-        ChangePOVListener.Instance.ChangePOV(_nextCharacter);
+        POVManager.Instance.ChangePOV(_nextCharacter);
         OnCompletion?.Invoke(this);
     }
 }

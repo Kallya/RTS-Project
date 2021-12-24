@@ -18,13 +18,13 @@ public class PlayerWeapons : NetworkBehaviour
         _weaponsToAdd = new GameObject[] {_weapons.Gun, _weapons.Shield, _weapons.Bomb, _weapons.Sword};
     }
 
-    private void Start()
+    [ServerCallback]
+    public override void OnStartAuthority()
     {
         // need to automate Instantiation
         foreach (GameObject w in _weaponsToAdd)
         {
             GameObject weapon = Instantiate(w, transform);
-            NetworkServer.Spawn(weapon, connectionToClient);
             _availableEquipmentInterfaces.Add(weapon, weapon.GetComponent<IWeapon>());
         }
 
@@ -32,28 +32,34 @@ public class PlayerWeapons : NetworkBehaviour
         {
             w.Key.SetActive(false);
 
+            // listen for when weapon breaks/can't be used anymore
             if (w.Value is ILimitedUseWeapon weapon)
                 weapon.OnLimitReached += LimitReached;
         }
 
         _availableWeapons = new List<GameObject>(_availableEquipmentInterfaces.Keys);
         
-        SwitchWeapon(1);
+        CmdSwitchWeapon(1);
     }
 
-    public void SwitchWeapon(int weaponSlot)
+    [Command]
+    public void CmdSwitchWeapon(int weaponSlot)
     {
         int slotIndex = weaponSlot - 1;
 
-        // check if weapon in slot
+        // check if weapon slot exists
         if (slotIndex < 0 || slotIndex > _availableWeapons.Count - 1)
+            return;
+
+        // check if there is weapon in slot
+        if (_availableWeapons[slotIndex] == null)
             return;
         
         if (_availableWeapons[slotIndex] != _activeWeapon)
         {
             _activeWeapon?.SetActive(false);
             _activeWeapon = _availableWeapons[slotIndex];
-            _activeWeapon?.SetActive(true);
+            _activeWeapon.SetActive(true);
             ActiveEquipment = _availableEquipmentInterfaces[_activeWeapon];
         }
     }
@@ -70,6 +76,6 @@ public class PlayerWeapons : NetworkBehaviour
 
         // null _activeWeapon to prevent deactivation
         _activeWeapon = null;
-        SwitchWeapon(1);
+        CmdSwitchWeapon(1);
     }
 }

@@ -4,8 +4,7 @@ using UnityEngine;
 using Mirror;
 
 public class MyNetworkManager : NetworkManager
-{
-    [SerializeField] private GameObject _playerCam;
+{   
     // need dynamic implementation for number of characters to spawn
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
@@ -18,9 +17,6 @@ public class MyNetworkManager : NetworkManager
             Vector3 startPos = new Vector3(Random.Range(0, 50), 0f, Random.Range(0, 50));
             SpawnNetworkObject(playerPrefab, conn, startPos, Quaternion.identity);
         }
-
-        Instantiate(_playerCam);
-        ChangePOVListener.Instance.LocalPlayerConnId = conn.connectionId;
     }
 
     private void SpawnNetworkObject(GameObject prefab, NetworkConnection targetConn, Vector3 pos, Quaternion rotation)

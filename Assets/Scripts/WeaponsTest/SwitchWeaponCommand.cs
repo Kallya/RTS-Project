@@ -17,7 +17,7 @@ public class SwitchWeaponCommand : ICommand
 
     public void Execute()
     {
-        _playerWeapons.SwitchWeapon(_weaponSlot);
+        _playerWeapons.CmdSwitchWeapon(_weaponSlot);
         OnCompletion?.Invoke(this);
     }
 }
