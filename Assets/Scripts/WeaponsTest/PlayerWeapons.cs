@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-enum Weapon : byte
-{
-    Gun,
-    Shield,
-    Bomb,
-    Sword
-}
-
 public class PlayerWeapons : NetworkBehaviour
 {
     public IEquipment ActiveEquipment { get; private set; }
@@ -49,7 +41,6 @@ public class PlayerWeapons : NetworkBehaviour
 
     public override void OnStartAuthority()
     {
-        CmdAssignWeaponAuthority();
         CmdSwitchWeapon(1);
     }
 
@@ -82,13 +73,6 @@ public class PlayerWeapons : NetworkBehaviour
         _activeWeaponSlot = weaponSlot;
     }
 
-    [Command]
-    private void CmdAssignWeaponAuthority()
-    {
-        foreach (GameObject weapon in _availableWeapons)
-            weapon.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
-    }
-
     public void LimitReached(GameObject weapon)
     {
         ILimitedUseWeapon w = (ILimitedUseWeapon)_availableEquipmentInterfaces[weapon];
@@ -99,7 +83,6 @@ public class PlayerWeapons : NetworkBehaviour
         _availableEquipmentInterfaces[weapon] = null;
         _availableWeapons[_availableWeapons.IndexOf(weapon)] = null;
 
-        // null _activeWeapon to prevent deactivation
         // Switch back automatically after losing a weapon?
         // SwitchWeapon(1);
     }

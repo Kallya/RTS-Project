@@ -15,14 +15,14 @@ public class MyNetworkManager : NetworkManager
         for (int i = 1; i < 4; i++)
         {
             Vector3 startPos = new Vector3(Random.Range(0, 50), 0f, Random.Range(0, 50));
-            SpawnNetworkObject(playerPrefab, conn, startPos, Quaternion.identity);
+            SpawnNetworkObject(playerPrefab, startPos, Quaternion.identity, conn);
         }
     }
 
-    private void SpawnNetworkObject(GameObject prefab, NetworkConnection targetConn, Vector3 pos, Quaternion rotation)
+    private void SpawnNetworkObject(GameObject prefab, Vector3 pos, Quaternion rotation, NetworkConnection targetConn=null)
     {   
         GameObject obj = Instantiate(prefab, pos, rotation);
-        obj.name = $"{obj.name} [connId={targetConn.connectionId}]";
+        obj.name = $"{obj.name} [connId={targetConn?.connectionId}]";
         NetworkServer.Spawn(obj, targetConn);
     }
 }

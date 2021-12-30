@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 752565802226059129}
   - component: {fileID: 1359329043379591877}
   - component: {fileID: 2035937574215464913}
-  - component: {fileID: 6475475306925530717}
   - component: {fileID: 8337936134270443773}
-  - component: {fileID: -5213344069740663827}
-  - component: {fileID: 8474053081019829075}
+  - component: {fileID: 4524446000141672227}
+  - component: {fileID: 8333102108987402663}
+  - component: {fileID: 5545830895450894152}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -100,18 +100,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6475475306925530717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 201341641173214757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 348857d64d78c614ba2535451184f821, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &8337936134270443773
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -128,7 +116,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-5213344069740663827
+--- !u!114 &4524446000141672227
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,7 +133,21 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 65d736c3a6589004eb0501d788e24c15
   hasSpawned: 0
---- !u!114 &8474053081019829075
+--- !u!114 &8333102108987402663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201341641173214757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 348857d64d78c614ba2535451184f821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &5545830895450894152
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

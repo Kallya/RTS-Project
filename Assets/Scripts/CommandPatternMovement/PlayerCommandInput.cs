@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Mirror;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(MouseClickInput))]
-public class PlayerCommandInput : MonoBehaviour
+public class PlayerCommandInput : NetworkBehaviour
 {
     private CommandProcessor _commandProcessor;
     private MouseClickInput _mouseInput;

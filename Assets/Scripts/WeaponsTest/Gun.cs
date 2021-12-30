@@ -7,34 +7,23 @@ public class Gun : MonoBehaviour, IWeapon
 {
     public int Damage { get; } = 10;
 
-    [SerializeField]
-    private GameObject _bullet;
-    [SerializeField]
-    private Transform _shotPoint;
+    [SerializeField] private GameObject _bullet;
+    [SerializeField] private Transform _shotPoint;
     private static float s_fireRate = 0.3f;
-    private bool _canShoot = true;
+    // initialised to negative of fireRate so player can instantly start shooting on spawn
+    private float _lastShotTime = -s_fireRate;
 
     public void Attack()
     {
-        if (_canShoot == true)
+        if (Time.time >= _lastShotTime + s_fireRate)
         {
-            RpcInstantiateBullet();
-            StartCoroutine(StallFire());
+            InstantiateBullet();
+            _lastShotTime = Time.time;
         }
     }
 
-    [ClientRpc]
-    private void RpcInstantiateBullet()
+    private void InstantiateBullet()
     {
-        GameObject bulletInstance = Instantiate(_bullet, _shotPoint.position, transform.rotation * _bullet.transform.rotation);
-        bulletInstance.GetComponent<Bullet>().Damage = Damage;
-        NetworkServer.Spawn(bulletInstance);
-    }
-
-    private IEnumerator StallFire()
-    {
-        _canShoot = false;
-        yield return new WaitForSeconds(s_fireRate);
-        _canShoot = true;
+        ObjectSpawner.Instance.CmdSpawnNetworkObject(0, _shotPoint.position, transform.rotation * _bullet.transform.rotation);
     }
 }
