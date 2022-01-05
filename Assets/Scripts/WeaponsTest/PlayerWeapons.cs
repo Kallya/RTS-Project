@@ -6,29 +6,25 @@ using Mirror;
 public class PlayerWeapons : NetworkBehaviour
 {
     public IEquipment ActiveEquipment { get; private set; }
+    public string[] WeaponsToAdd { get; set; }
 
-    [SerializeField] private Weapons _weapons;
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
     private List<GameObject> _availableWeapons;
     [SyncVar(hook=nameof(SetWeaponActives))] private int _activeWeaponSlot = 2;
-    private GameObject[] _weaponsToAdd;
-
-    private void Awake()
-    {
-        _weaponsToAdd = new GameObject[] {_weapons.Gun, _weapons.Shield, _weapons.Bomb, _weapons.Sword};
-    }
 
     private void OnEnable()
     {
         // need to automate Instantiation
-        foreach (GameObject w in _weaponsToAdd)
+        foreach (string weaponName in WeaponsToAdd)
         {
-            GameObject weapon = Instantiate(w, transform);
+            GameObject weaponPrefab = Weapons.Instance.WeaponReferences[weaponName];
+            GameObject weapon = Instantiate(weaponPrefab, transform);
             _availableEquipmentInterfaces.Add(weapon, weapon.GetComponent<IWeapon>());
         }
 
         foreach (KeyValuePair<GameObject, IEquipment> w in _availableEquipmentInterfaces)
         {
+            // disable all weapons initially
             w.Key.SetActive(false);
 
             // listen for when weapon breaks/can't be used anymore

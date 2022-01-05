@@ -32,8 +32,7 @@ public class DamageableObject : MonoBehaviour
         if (other.gameObject.TryGetComponent<IWeapon>(out IWeapon weaponCollision))
         {
             TakeDamage(weaponCollision.Damage);
-            Debug.Log($"Took {weaponCollision.Damage} damage");
-            Debug.Log($"Current Health: {_damageableStats.Health.Value}");
+            Debug.Log($"{gameObject.name} took {weaponCollision.Damage} damage");
         }
     }
 }

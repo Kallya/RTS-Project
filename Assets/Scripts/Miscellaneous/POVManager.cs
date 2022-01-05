@@ -36,7 +36,11 @@ public class POVManager : NetworkBehaviour
 
     public void ChangePOV(int characterNum)
     {
+        if (characterNum > _activeCharacters.Length)
+            return;
+            
         int characterIndex = characterNum - 1;
+            
         _playerInputs[characterIndex].enabled = true;
         _vc.Follow = _activeCharacters[characterIndex].transform;
     }

@@ -5,7 +5,8 @@ using Mirror;
 
 public class Bullet : NetworkBehaviour, IWeapon
 {   
-    public int Damage { get; set; }
+    // is it possible to dynamically reference from gun?
+    public int Damage { get; } = 10;
 
     [SerializeField] private static float s_speed = 20f;
     [SerializeField] private static float s_range = 10f;
