@@ -9,13 +9,11 @@ public class WeaponConfig : MonoBehaviour
     {
         WeaponSelection[] weaponSelections = GetComponentsInChildren<WeaponSelection>();
         string[] weaponConfig = new string[weaponSelections.Length]; // array of names of character weapons
-
-        int i = weaponSelections.Length - 1;
-        foreach (WeaponSelection selection in weaponSelections)
+        
+        for (int i = 0; i < weaponSelections.Length; i++)
         {
-            TMP_Dropdown dropdown = selection.WeaponSelectionDropdown;
+            TMP_Dropdown dropdown = weaponSelections[i].WeaponSelectionDropdown;
             weaponConfig[i] = dropdown.options[dropdown.value].text;
-            i -= 1;
         }
 
         return weaponConfig;

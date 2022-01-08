@@ -83,7 +83,8 @@ namespace Mirror
             new Dictionary<Guid, UnSpawnDelegate>();
 
         // spawning
-        static bool isSpawnFinished;
+        // internal for tests
+        internal static bool isSpawnFinished;
 
         // Disabled scene objects that can be spawned again, by sceneId.
         internal static readonly Dictionary<ulong, NetworkIdentity> spawnableObjects =
@@ -249,7 +250,7 @@ namespace Mirror
             if (connection != null)
             {
                 // reset network time stats
-                NetworkTime.Reset();
+                NetworkTime.ResetStatics();
 
                 // reset unbatcher in case any batches from last session remain.
                 unbatcher = new Unbatcher();
@@ -1020,12 +1021,6 @@ namespace Mirror
             }
         }
 
-        internal static void ChangeOwner(NetworkIdentity identity, ChangeOwnerMessage message)
-        {
-            identity.hasAuthority = message.isOwner;
-            identity.NotifyAuthority();
-        }
-
         // Finds Existing Object with NetId or spawns a new one using AssetId or sceneId
         internal static bool FindOrSpawnObject(SpawnMessage message, out NetworkIdentity identity)
         {
@@ -1286,6 +1281,24 @@ namespace Mirror
                 Debug.LogError($"OnChangeOwner: Could not find object with netId {message.netId}");
         }
 
+        internal static void ChangeOwner(NetworkIdentity identity, ChangeOwnerMessage message)
+        {
+            identity.hasAuthority = message.isOwner;
+            identity.NotifyAuthority();
+
+            identity.isLocalPlayer = message.isLocalPlayer;
+            if (identity.isLocalPlayer)
+                localPlayer = identity;
+            else if (localPlayer == identity)
+            {
+                // localPlayer may already be assigned to something else
+                // so only make it null if it's this identity.
+                localPlayer = null;
+            }
+
+            CheckForLocalPlayer(identity);
+        }
+
         internal static void CheckForLocalPlayer(NetworkIdentity identity)
         {
             if (identity == localPlayer)
@@ -1414,29 +1427,51 @@ namespace Mirror
         }
 
         /// <summary>Shutdown the client.</summary>
+        // RuntimeInitializeOnLoadMethod -> fast playmode without domain reload
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void Shutdown()
         {
             //Debug.Log("Shutting down client.");
+
+            // calls prefabs.Clear();
+            // calls spawnHandlers.Clear();
+            // calls unspawnHandlers.Clear();
             ClearSpawners();
-            spawnableObjects.Clear();
-            ready = false;
-            isSpawnFinished = false;
+
+            // calls spawned.Clear() if no exception occurs
             DestroyAllClientObjects();
-            connectState = ConnectState.None;
-            handlers.Clear();
+
             spawned.Clear();
+            handlers.Clear();
+            spawnableObjects.Clear();
+
+            // sets nextNetworkId to 1
+            // sets clientAuthorityCallback to null
+            // sets previousLocalPlayer to null
+            NetworkIdentity.ResetStatics();
+
             // disconnect the client connection.
             // we do NOT call Transport.Shutdown, because someone only called
             // NetworkClient.Shutdown. we can't assume that the server is
             // supposed to be shut down too!
             if (Transport.activeTransport != null)
                 Transport.activeTransport.ClientDisconnect();
+
+            // reset statics
+            connectState = ConnectState.None;
             connection = null;
+            localPlayer = null;
+            ready = false;
+            isSpawnFinished = false;
+            isLoadingScene = false;
+
+            unbatcher = new Unbatcher();
 
             // clear events. someone might have hooked into them before, but
             // we don't want to use those hooks after Shutdown anymore.
             OnConnectedEvent = null;
             OnDisconnectedEvent = null;
+            OnErrorEvent = null;
         }
     }
 }

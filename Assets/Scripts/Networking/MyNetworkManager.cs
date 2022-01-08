@@ -30,7 +30,16 @@ public class MyNetworkManager : NetworkRoomManager
 
     public void OnNetworkLockIn(NetworkConnection conn, WeaponSelectionMessage msg)
     {  
-        _characterWeaponSelection = msg.weaponConfigs;
+        // player configs are null if no character
+        // they won't be accessed so there won't be a problem
+        _characterWeaponSelection = new string[4][]
+            {
+                msg.Config1,
+                msg.Config2,
+                msg.Config3,
+                msg.Config4
+            };
+        
         conn.identity.gameObject.GetComponent<MyNetworkRoomPlayer>().LockedIn = true;
         
         // check if all players are locked in
