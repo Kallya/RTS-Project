@@ -12,3 +12,8 @@ public interface ILimitedUseWeapon : IWeapon
 {
     event System.Action<GameObject> OnLimitReached;
 }
+
+public interface IAutoAttackWeapon : IWeapon
+{
+    float Range { get; }
+}

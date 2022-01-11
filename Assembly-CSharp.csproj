@@ -76,6 +76,7 @@
      <Compile Include="Assets\Scripts\Stats\DamageableObject.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\IEquipment.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\PlayerWeapons.cs" />
+     <Compile Include="Assets\Scripts\WeaponsTest\AutoAttackCommand.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\ScriptTemplates\51-Mirror__Network Authenticator-NewNetworkAuthenticator.cs.txt" />
@@ -719,17 +720,14 @@
     <Reference Include="UnityEditor.UI">
         <HintPath>C:\Users\kaleb\Documents\transfer\TestScenes\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.InputSystem">
-        <HintPath>C:\Users\kaleb\Documents\transfer\TestScenes\Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
         <HintPath>C:\Users\kaleb\Documents\transfer\TestScenes\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="ParrelSync.csproj">
-      <Project>{1341dd3c-a277-1039-989b-b35345d8a585}</Project>
-      <Name>ParrelSync</Name>
+    <ProjectReference Include="Mirror.csproj">
+      <Project>{8b0c3e60-e4ae-ae87-942c-8438b3e919af}</Project>
+      <Name>Mirror</Name>
     </ProjectReference>
     <ProjectReference Include="kcp2k.csproj">
       <Project>{856d79bc-984c-c29d-7576-b950034ab310}</Project>
@@ -738,18 +736,6 @@
     <ProjectReference Include="Mirror.Editor.csproj">
       <Project>{eafdb5c5-255d-6250-c007-da3b73143b74}</Project>
       <Name>Mirror.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="where-allocations.csproj">
-      <Project>{954ad64a-a585-8e4d-63ca-0eea320d93b5}</Project>
-      <Name>where-allocations</Name>
-    </ProjectReference>
-    <ProjectReference Include="Telepathy.csproj">
-      <Project>{1a71161c-6aa5-1e9b-a723-44c63133ec09}</Project>
-      <Name>Telepathy</Name>
-    </ProjectReference>
-    <ProjectReference Include="Mirror.Components.csproj">
-      <Project>{e7966c2d-0b90-4b27-c246-20a20ccf0fc6}</Project>
-      <Name>Mirror.Components</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Examples.csproj">
       <Project>{4cb84bda-0e72-1eb0-c6a0-68b236b942dc}</Project>
@@ -763,13 +749,25 @@
       <Project>{149157e0-001c-4d58-ccbc-8d5616c03016}</Project>
       <Name>Mirror.Authenticators</Name>
     </ProjectReference>
-    <ProjectReference Include="Mirror.csproj">
-      <Project>{8b0c3e60-e4ae-ae87-942c-8438b3e919af}</Project>
-      <Name>Mirror</Name>
+    <ProjectReference Include="Telepathy.csproj">
+      <Project>{1a71161c-6aa5-1e9b-a723-44c63133ec09}</Project>
+      <Name>Telepathy</Name>
+    </ProjectReference>
+    <ProjectReference Include="where-allocations.csproj">
+      <Project>{954ad64a-a585-8e4d-63ca-0eea320d93b5}</Project>
+      <Name>where-allocations</Name>
     </ProjectReference>
     <ProjectReference Include="SimpleWebTransport.csproj">
       <Project>{0deee6e4-68a7-bd67-42e7-a08ac0a66283}</Project>
       <Name>SimpleWebTransport</Name>
+    </ProjectReference>
+    <ProjectReference Include="Mirror.Components.csproj">
+      <Project>{e7966c2d-0b90-4b27-c246-20a20ccf0fc6}</Project>
+      <Name>Mirror.Components</Name>
+    </ProjectReference>
+    <ProjectReference Include="ParrelSync.csproj">
+      <Project>{1341dd3c-a277-1039-989b-b35345d8a585}</Project>
+      <Name>ParrelSync</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

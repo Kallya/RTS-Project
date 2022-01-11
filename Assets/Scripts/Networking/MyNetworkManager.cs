@@ -3,28 +3,58 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+// empty message to trigger UI enable for character setup
+public struct StartPreGameMessage : NetworkMessage {}
+
 public class MyNetworkManager : NetworkRoomManager
 {  
     public int CharacterNum { get; set; } = 0;
 
     private string[][] _characterWeaponSelection;
+    private UIObjectReferences _ui;
 
     public override void OnRoomServerSceneChanged(string sceneName)
     {
         if (sceneName == RoomScene)
+        {
             NetworkServer.RegisterHandler<WeaponSelectionMessage>(OnNetworkLockIn);
+
+            // disable UI because it's automatically enabled on spawn
+            _ui = GameObject.Find("UIObjectReferences").GetComponent<UIObjectReferences>();
+            _ui.CharacterSetupUI.SetActive(false);
+            _ui.EventSystem.SetActive(false);
+        }   
+    }
+
+    public override void OnRoomStartClient()
+    {
+        NetworkClient.RegisterHandler<StartPreGameMessage>(OnStartPreGame);
+    }
+
+    // synchronise character setup start on clients (not just server)
+    public void OnStartPreGame(StartPreGameMessage msg)
+    {
+        showRoomGUI = false;
+        
+        UIObjectReferences _ui = GameObject.Find("UIObjectReferences").GetComponent<UIObjectReferences>();
+        _ui.CharacterSetupUI.SetActive(true);
+        _ui.EventSystem.SetActive(true);
     }
 
     public override void OnRoomServerPlayersReady()
     {
-        showRoomGUI = false;
-        UIObjectReferences ui = GameObject.Find("UIObjectReferences").GetComponent<UIObjectReferences>();
-        ui.CharacterSetupUI.SetActive(true);
-        ui.EventSystem.SetActive(true);
+        StartPreGameMessage msg = new StartPreGameMessage();
+        NetworkServer.SendToReady(msg);
+    }
+
+    public override void OnRoomClientExit()
+    {
+        NetworkClient.UnregisterHandler<StartPreGameMessage>();
     }
 
     private void OnAllLockIn()
     {
+        NetworkServer.UnregisterHandler<WeaponSelectionMessage>();
         ServerChangeScene(GameplayScene);
     }
 
@@ -95,7 +125,10 @@ public class MyNetworkManager : NetworkRoomManager
     private void AssignWeapons(GameObject character, int playerIndex)
     {
         PlayerWeapons playerWeapons = character.GetComponent<PlayerWeapons>();
-        playerWeapons.WeaponsToAdd = _characterWeaponSelection[playerIndex];
-        playerWeapons.enabled = true;
+
+        string[] weaponSelection = _characterWeaponSelection[playerIndex];
+
+        foreach (string weapon in weaponSelection)
+            playerWeapons.WeaponsToAdd.Add(weapon);
     }
 }

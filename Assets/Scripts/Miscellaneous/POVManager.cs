@@ -9,7 +9,7 @@ public class POVManager : NetworkBehaviour
 {
     public static POVManager Instance { get; private set; }
 
-    private GameObject[] _activeCharacters;
+    private List<GameObject> _activeCharacters = new List<GameObject>();
     private List<PlayerCommandInput> _playerInputs = new List<PlayerCommandInput>();
     private CinemachineVirtualCamera _vc;
 
@@ -24,11 +24,16 @@ public class POVManager : NetworkBehaviour
     public void SetLocalCharacters()
     {
         // Get all characters controllable by client
-        _activeCharacters = GameObject.FindGameObjectsWithTag("Player")
-            .Where(player => player.GetComponent<NetworkIdentity>().hasAuthority)
-            .ToArray();
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (player.GetComponent<NetworkIdentity>().hasAuthority)
+                _activeCharacters.Add(player);
+            else
+                // differentiate enemy characters
+                player.tag = "Enemy";
+        }
         
-        for (int i = 0; i < _activeCharacters.Length; i++)
+        for (int i = 0; i < _activeCharacters.Count; i++)
             _playerInputs.Add(_activeCharacters[i].GetComponent<PlayerCommandInput>());
 
         ChangePOV(1);
@@ -36,7 +41,7 @@ public class POVManager : NetworkBehaviour
 
     public void ChangePOV(int characterNum)
     {
-        if (characterNum > _activeCharacters.Length)
+        if (characterNum > _activeCharacters.Count)
             return;
             
         int characterIndex = characterNum - 1;

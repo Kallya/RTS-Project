@@ -175,14 +175,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5083042597892674818}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488cc8efdc434e14d9949a5b6e1439a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  _weapons: {fileID: 11400000, guid: eb3b2b69b81e0024bb9afa069e2c2432, type: 2}
 --- !u!114 &5083042597892674825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +237,11 @@ MonoBehaviour:
   bufferSizeLimit: 64
   catchupThreshold: 4
   catchupMultiplier: 0.1
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}

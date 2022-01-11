@@ -11,8 +11,14 @@ public class PlayerCommandInput : NetworkBehaviour
     private CommandProcessor _commandProcessor;
     private MouseClickInput _mouseInput;
     
-    [SerializeField]
-    private bool _isQueueingCommands = false;
+    [SerializeField] private bool _isQueueingCommands;
+    [SerializeField] private bool _isAutoAttacking;
+
+    private void OnEnable()
+    {
+        _isQueueingCommands = false;
+        _isAutoAttacking = false;
+    }
 
     private void Awake()
     {
@@ -33,6 +39,9 @@ public class PlayerCommandInput : NetworkBehaviour
 
             if (Input.GetKeyDown(KeyCode.G))
                 _isQueueingCommands = !_isQueueingCommands;
+
+            if (Input.GetKeyDown(KeyCode.D))
+                _isAutoAttacking = !_isAutoAttacking;
 
             if (Input.GetKey(KeyCode.F))
                 _commandProcessor.QueueCommand(new AttackCommand(gameObject));
@@ -69,6 +78,9 @@ public class PlayerCommandInput : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.G))
                 _isQueueingCommands = !_isQueueingCommands;
 
+            if (Input.GetKeyDown(KeyCode.D))
+                _isAutoAttacking = !_isAutoAttacking;
+
             if (Input.GetKey(KeyCode.F))
                 _commandProcessor.ExecuteCommand(new AttackCommand(gameObject));
 
@@ -96,5 +108,8 @@ public class PlayerCommandInput : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha4))
                 _commandProcessor.ExecuteCommand(new ChangePOVCommand(gameObject, 4));
         }
+
+        if (_isAutoAttacking)
+            _commandProcessor.ExecuteCommand(new AutoAttackCommand(gameObject));
     }
 }

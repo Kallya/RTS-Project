@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class Gun : MonoBehaviour, IWeapon
+public class Gun : MonoBehaviour, IAutoAttackWeapon
 {
     public int Damage { get; } = 10;
+    public float Range { get; } = 10f;
 
     [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _shotPoint;

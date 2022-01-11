@@ -6,15 +6,14 @@ using Mirror;
 public class PlayerWeapons : NetworkBehaviour
 {
     public IEquipment ActiveEquipment { get; private set; }
-    public string[] WeaponsToAdd { get; set; }
+    public readonly SyncList<string> WeaponsToAdd = new SyncList<string>();
 
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
     private List<GameObject> _availableWeapons;
     [SyncVar(hook=nameof(SetWeaponActives))] private int _activeWeaponSlot = 2;
 
-    private void OnEnable()
+    private void SetupWeapons()
     {
-        // need to automate Instantiation
         foreach (string weaponName in WeaponsToAdd)
         {
             GameObject weaponPrefab = Weapons.Instance.WeaponReferences[weaponName];
@@ -35,9 +34,12 @@ public class PlayerWeapons : NetworkBehaviour
         _availableWeapons = new List<GameObject>(_availableEquipmentInterfaces.Keys);
     }
 
-    public override void OnStartAuthority()
+    private void Start()
     {
-        CmdSwitchWeapon(1);
+        SetupWeapons();
+
+        if (netIdentity.hasAuthority)
+            CmdSwitchWeapon(1);
     }
 
     private void SetWeaponActives(int oldWeaponSlot, int newWeaponSlot)
