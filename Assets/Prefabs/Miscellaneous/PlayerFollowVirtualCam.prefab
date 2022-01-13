@@ -79,7 +79,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1891110510272518969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47880e03308f2ff429b2c20117fc3b50, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c9eedd5f4b37944483f0296d22a0c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1891110510272518921
@@ -111,7 +111,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: fb5e08c839d745b4ebce1cb5ddf37aef
   hasSpawned: 0
 --- !u!1 &1891110510272518970
 GameObject:

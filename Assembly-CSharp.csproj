@@ -53,7 +53,6 @@
      <Compile Include="Assets\Scripts\WeaponsTest\Bomb.cs" />
      <Compile Include="Assets\Scripts\CommandPatternMovement\PlayerCommandInput.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\AttackCommand.cs" />
-     <Compile Include="Assets\Scripts\Miscellaneous\ClickDragInput.cs" />
      <Compile Include="Assets\Scripts\UI\WeaponSelection.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\POVManager.cs" />
      <Compile Include="Assets\Scripts\UI\UIObjectReferences.cs" />
@@ -73,10 +72,11 @@
      <Compile Include="Assets\Scripts\CommandPatternMovement\MouseClickInput.cs" />
      <Compile Include="Assets\Scripts\Networking\MyNetworkManager.cs" />
      <Compile Include="Assets\Scripts\CommandPatternMovement\CommandProcessor.cs" />
+     <Compile Include="Assets\Scripts\WeaponsTest\AutoAttackCommand.cs" />
      <Compile Include="Assets\Scripts\Stats\DamageableObject.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\IEquipment.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\PlayerWeapons.cs" />
-     <Compile Include="Assets\Scripts\WeaponsTest\AutoAttackCommand.cs" />
+     <Compile Include="Assets\Scripts\Miscellaneous\CameraControl.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\ScriptTemplates\51-Mirror__Network Authenticator-NewNetworkAuthenticator.cs.txt" />
