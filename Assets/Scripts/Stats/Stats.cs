@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class Stats
+public static class Stats
 {
     // create scriptable object for storing default values?
 
@@ -17,17 +18,31 @@ public class Stats
     }
 }
 
-public abstract class DamageableObjectStats : MonoBehaviour
-{
-    public abstract Stat Health { get; }
-}
-
 public class Stat
 {
-    public int Value { get; set; }
-
-    public Stat(int baseValue)
+    public event System.Action<Stat> OnStatChanged;
+    public string Name { get; private set; }
+    public int Value
     {
+        get => _value;
+        set
+        {
+            _value = value;
+            OnStatChanged?.Invoke(this);
+        }
+    }
+    public int BaseValue { get; private set; }
+
+    // default constructor since deserialisation requires
+    // though this isn't actually used
+    public Stat() {}
+
+    private int _value;
+
+    public Stat(string name, int baseValue)
+    {
+        Name = name;
+        BaseValue = baseValue;
         Value = baseValue;
     }
 }

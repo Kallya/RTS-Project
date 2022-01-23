@@ -61,6 +61,6 @@ public class CameraControl : MonoBehaviour
 
     private void CenterCamOnPlayer()
     {
-        _virtualCamBody.m_TrackedObjectOffset = Vector3.zero;
+        _virtualCamBody.m_ScreenX = _virtualCamBody.m_ScreenY = 0.5f;
     }
 }

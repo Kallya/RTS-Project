@@ -8,11 +8,6 @@ public struct StartPreGameMessage : NetworkMessage {}
 
 public class MyNetworkManager : NetworkRoomManager
 {  
-    public int CharacterNum { get; set; } = 0;
-
-    private string[][] _characterWeaponSelection;
-    private UIObjectReferences _ui;
-
     public override void OnRoomServerSceneChanged(string sceneName)
     {
         if (sceneName == RoomScene)
@@ -20,9 +15,8 @@ public class MyNetworkManager : NetworkRoomManager
             NetworkServer.RegisterHandler<WeaponSelectionMessage>(OnNetworkLockIn);
 
             // disable UI because it's automatically enabled on spawn
-            _ui = GameObject.Find("UIObjectReferences").GetComponent<UIObjectReferences>();
-            _ui.CharacterSetupUI.SetActive(false);
-            _ui.EventSystem.SetActive(false);
+            UIObjectReferences.Instance.CharacterSetupUI.SetActive(false);
+            UIObjectReferences.Instance.EventSystem.SetActive(false);
         }   
     }
 
@@ -62,15 +56,25 @@ public class MyNetworkManager : NetworkRoomManager
     {  
         // player configs are null if no character
         // they won't be accessed so there won't be a problem
-        _characterWeaponSelection = new string[4][]
+        string[][] characterWeaponSelection = new string[4][]
             {
                 msg.Config1,
                 msg.Config2,
                 msg.Config3,
                 msg.Config4
             };
-        
-        conn.identity.gameObject.GetComponent<MyNetworkRoomPlayer>().LockedIn = true;
+
+        int characterNum = 0;
+        foreach (string[] config in characterWeaponSelection)
+        {
+            if (config != null)
+                characterNum += 1;
+        }
+
+        MyNetworkRoomPlayer currRoomPlayer = conn.identity.gameObject.GetComponent<MyNetworkRoomPlayer>();
+        currRoomPlayer.LockedIn = true;
+        currRoomPlayer.CharacterNum = characterNum;
+        currRoomPlayer.CharacterWeaponSelection = characterWeaponSelection;
         
         // check if all players are locked in
         foreach (NetworkRoomPlayer player in roomSlots)
@@ -89,32 +93,24 @@ public class MyNetworkManager : NetworkRoomManager
         Vector3 startPos = GetRandomStartPos(0, 50);
         GameObject player = Instantiate(playerPrefab, startPos, Quaternion.identity);
 
-        AssignWeapons(player, 0);
+        AssignWeapons(player, roomPlayer, 0);
 
         return player;
     }
     
     public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
     {
+        int charactersToSpawn = roomPlayer.GetComponent<MyNetworkRoomPlayer>().CharacterNum;
         // Spawn additional characters
-        for (int i = 1; i < CharacterNum; i++)
+        for (int i = 1; i < charactersToSpawn; i++)
         {
             Vector3 startPos = GetRandomStartPos(0, 50);
-            GameObject character = SpawnNetworkObject(playerPrefab, startPos, Quaternion.identity, conn);
-
-            AssignWeapons(character, i);
+            GameObject character = Instantiate(playerPrefab, startPos, Quaternion.identity);
+            AssignWeapons(character, roomPlayer, i);
+            NetworkServer.Spawn(character, conn);
         }
 
         return true;
-    }
-
-    private GameObject SpawnNetworkObject(GameObject prefab, Vector3 pos, Quaternion rotation, NetworkConnection targetConn=null)
-    {   
-        GameObject go = Instantiate(prefab, pos, rotation);
-        go.name = $"{go.name} [connId={targetConn?.connectionId}]";
-        NetworkServer.Spawn(go, targetConn);
-
-        return go;
     }
 
     private Vector3 GetRandomStartPos(int minVal, int maxVal)
@@ -122,11 +118,11 @@ public class MyNetworkManager : NetworkRoomManager
         return new Vector3(Random.Range(minVal, maxVal), 0f, Random.Range(minVal, maxVal));
     }
 
-    private void AssignWeapons(GameObject character, int playerIndex)
+    private void AssignWeapons(GameObject character, GameObject roomPlayer, int playerIndex)
     {
         PlayerWeapons playerWeapons = character.GetComponent<PlayerWeapons>();
 
-        string[] weaponSelection = _characterWeaponSelection[playerIndex];
+        string[] weaponSelection = roomPlayer.GetComponent<MyNetworkRoomPlayer>().CharacterWeaponSelection[playerIndex];
 
         foreach (string weapon in weaponSelection)
             playerWeapons.WeaponsToAdd.Add(weapon);

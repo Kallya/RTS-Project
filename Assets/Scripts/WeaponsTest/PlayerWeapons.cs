@@ -5,11 +5,12 @@ using Mirror;
 
 public class PlayerWeapons : NetworkBehaviour
 {
+    public event System.Action<int> OnWeaponChanged;
     public IEquipment ActiveEquipment { get; private set; }
     public readonly SyncList<string> WeaponsToAdd = new SyncList<string>();
 
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
-    private List<GameObject> _availableWeapons;
+    private List<GameObject> _availableWeapons = new List<GameObject>();
     [SyncVar(hook=nameof(SetWeaponActives))] private int _activeWeaponSlot = 2;
 
     private void SetupWeapons()
@@ -37,13 +38,17 @@ public class PlayerWeapons : NetworkBehaviour
     private void Start()
     {
         SetupWeapons();
-
+        
         if (netIdentity.hasAuthority)
             CmdSwitchWeapon(1);
     }
 
     private void SetWeaponActives(int oldWeaponSlot, int newWeaponSlot)
     {
+        // check if weapons have been set (hook first called when field is declared)
+        if (_availableWeapons.Count == 0)
+            return;
+            
         // index is slot number minus 1
         GameObject newWeapon = _availableWeapons[newWeaponSlot-1];
 
@@ -56,6 +61,8 @@ public class PlayerWeapons : NetworkBehaviour
         }
         else
             ActiveEquipment = null;
+
+        OnWeaponChanged?.Invoke(newWeaponSlot);
     }
 
     [Command]
