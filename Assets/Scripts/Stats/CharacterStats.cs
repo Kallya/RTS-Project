@@ -18,13 +18,15 @@ public class CharacterStats : DamageableObjectStats
         Stats = new Stat[] {Health, Energy, Speed, Defence};
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        // stat values reinitialised here to trigger stat changed event
-        // so UI updates
-        Health.Value = Health.Value;
-        Energy.Value = Energy.Value;
-        Speed.Value = Speed.Value;
-        Defence.Value = Defence.Value;
+        InitialiseStats();
+    }
+
+    // reinitialise stats to trigger UI update
+    public void InitialiseStats()
+    {
+        foreach (Stat stat in Stats)
+            stat.Value = stat.Value;
     }
 }

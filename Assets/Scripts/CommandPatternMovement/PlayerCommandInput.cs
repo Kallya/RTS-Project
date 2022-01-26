@@ -8,17 +8,19 @@ using Mirror;
 [RequireComponent(typeof(MouseClickInput))]
 public class PlayerCommandInput : NetworkBehaviour
 {
+    public bool IsQueueingCommands { get; set; } = false;
+    public bool IsAutoAttacking { get; set; } = false;
+
     private CommandProcessor _commandProcessor;
     private MouseClickInput _mouseInput;
-    
-    [SerializeField] private bool _isQueueingCommands;
-    [SerializeField] private bool _isAutoAttacking;
 
+    // consider depending on how it feels to play
+/*
     private void OnEnable()
     {
-        _isQueueingCommands = false;
-        _isAutoAttacking = false;
+        IsQueueingCommands = false;
     }
+*/
 
     private void Awake()
     {
@@ -29,7 +31,7 @@ public class PlayerCommandInput : NetworkBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (_isQueueingCommands)
+        if (IsQueueingCommands)
         {
             if (Input.GetMouseButtonDown(1))
                 _commandProcessor.QueueCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
@@ -38,10 +40,10 @@ public class PlayerCommandInput : NetworkBehaviour
                 _commandProcessor.Undo();
 
             if (Input.GetKeyDown(KeyCode.G))
-                _isQueueingCommands = !_isQueueingCommands;
+                IsQueueingCommands = !IsQueueingCommands;
 
             if (Input.GetKeyDown(KeyCode.D))
-                _isAutoAttacking = !_isAutoAttacking;
+                IsAutoAttacking = !IsAutoAttacking;
 
             if (Input.GetKey(KeyCode.F))
                 _commandProcessor.QueueCommand(new AttackCommand(gameObject));
@@ -76,10 +78,10 @@ public class PlayerCommandInput : NetworkBehaviour
                 _commandProcessor.ExecuteCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
 
             if (Input.GetKeyDown(KeyCode.G))
-                _isQueueingCommands = !_isQueueingCommands;
+                IsQueueingCommands = !IsQueueingCommands;
 
             if (Input.GetKeyDown(KeyCode.D))
-                _isAutoAttacking = !_isAutoAttacking;
+                IsAutoAttacking = !IsAutoAttacking;
 
             if (Input.GetKey(KeyCode.F))
                 _commandProcessor.ExecuteCommand(new AttackCommand(gameObject));
@@ -109,7 +111,7 @@ public class PlayerCommandInput : NetworkBehaviour
                 _commandProcessor.ExecuteCommand(new ChangePOVCommand(gameObject, 4));
         }
 
-        if (_isAutoAttacking)
+        if (IsAutoAttacking)
             _commandProcessor.ExecuteCommand(new AutoAttackCommand(gameObject));
     }
 }

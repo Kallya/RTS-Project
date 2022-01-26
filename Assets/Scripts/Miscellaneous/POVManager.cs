@@ -47,7 +47,10 @@ public class POVManager : NetworkBehaviour
             return;
             
         int characterIndex = characterNum - 1;
-            
+
+        if (_vc.Follow != null)
+            _vc.Follow.GetComponent<PlayerCommandInput>().enabled = false;
+
         _playerInputs[characterIndex].enabled = true;
         _vc.Follow = _activeCharacters[characterIndex].transform;
         _vcBody.m_ScreenX = _vcBody.m_ScreenY = 0.5f;

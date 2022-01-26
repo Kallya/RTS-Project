@@ -27,7 +27,7 @@ public class PlayerInfoUIManager : MonoBehaviour
         if (CurrPlayerStats != null)
         {
             foreach (Stat stat in CurrPlayerStats.Stats)
-            stat.OnStatChanged -= StatChanged;
+                stat.OnStatChanged -= StatChanged;
         }
         
         if (CurrPlayerWeapons != null)
@@ -41,6 +41,8 @@ public class PlayerInfoUIManager : MonoBehaviour
             stat.OnStatChanged += StatChanged;
 
         CurrPlayerWeapons.OnWeaponChanged += WeaponChanged;
+        
+        CurrPlayerStats.InitialiseStats();
     }
 
     private void WeaponChanged(int newSlot)

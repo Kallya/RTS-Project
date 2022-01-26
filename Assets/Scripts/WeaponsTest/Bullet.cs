@@ -27,7 +27,13 @@ public class Bullet : NetworkBehaviour, IWeapon
 
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+        CmdDestroy(gameObject);
+    }
+
+    [Command]
+    private void CmdDestroy(GameObject go)
+    {
+        NetworkServer.Destroy(go);
     }
 
     // Bullet does not have an attack

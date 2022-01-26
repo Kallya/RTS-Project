@@ -10,7 +10,7 @@ public class PlayerWeapons : NetworkBehaviour
     public readonly SyncList<string> WeaponsToAdd = new SyncList<string>();
 
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
-    private List<GameObject> _availableWeapons = new List<GameObject>();
+    private List<GameObject> _availableWeapons;    
     [SyncVar(hook=nameof(SetWeaponActives))] private int _activeWeaponSlot = 2;
 
     private void SetupWeapons()
@@ -46,7 +46,7 @@ public class PlayerWeapons : NetworkBehaviour
     private void SetWeaponActives(int oldWeaponSlot, int newWeaponSlot)
     {
         // check if weapons have been set (hook first called when field is declared)
-        if (_availableWeapons.Count == 0)
+        if (_availableWeapons == null)
             return;
             
         // index is slot number minus 1

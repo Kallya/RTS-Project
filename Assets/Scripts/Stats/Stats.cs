@@ -33,10 +33,6 @@ public class Stat
     }
     public int BaseValue { get; private set; }
 
-    // default constructor since deserialisation requires
-    // though this isn't actually used
-    public Stat() {}
-
     private int _value;
 
     public Stat(string name, int baseValue)
