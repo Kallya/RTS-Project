@@ -5,9 +5,10 @@ using Mirror;
 
 public class PlayerWeapons : NetworkBehaviour
 {
-    public event System.Action<int> OnWeaponChanged;
+    public event System.Action<int, int> OnWeaponChanged;
     public IEquipment ActiveEquipment { get; private set; }
     public readonly SyncList<string> WeaponsToAdd = new SyncList<string>();
+    public int ActiveWeaponSlot { get => _activeWeaponSlot; }
 
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
     private List<GameObject> _availableWeapons;    
@@ -62,7 +63,7 @@ public class PlayerWeapons : NetworkBehaviour
         else
             ActiveEquipment = null;
 
-        OnWeaponChanged?.Invoke(newWeaponSlot);
+        OnWeaponChanged?.Invoke(oldWeaponSlot, newWeaponSlot);
     }
 
     [Command]

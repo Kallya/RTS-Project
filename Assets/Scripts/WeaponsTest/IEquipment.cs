@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IEquipment
 {
-
+    Sprite EquipSprite { get; }
 }
 
 public interface IUtility : IEquipment

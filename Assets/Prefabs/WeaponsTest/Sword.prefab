@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 749230124df57504da6f60de49c42a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _equipSprite: {fileID: 21300000, guid: 6132ba6e963f3a14b8e18b434826d158, type: 3}
 --- !u!54 &8003978265746057451
 Rigidbody:
   m_ObjectHideFlags: 0

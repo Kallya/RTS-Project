@@ -7,7 +7,7 @@ public class PlayerInfoUIManager : MonoBehaviour
 {
     public static PlayerInfoUIManager Instance { get; private set; }
     public event System.Action<Stat> OnAnyStatChanged;
-    public event System.Action<int> OnEquipSlotChanged;
+    public event System.Action<int, int> OnEquipSlotChanged;
     public CharacterStats CurrPlayerStats { get; private set; }
     public PlayerWeapons CurrPlayerWeapons { get; private set; }
 
@@ -21,7 +21,7 @@ public class PlayerInfoUIManager : MonoBehaviour
         POVManager.Instance.OnPOVChanged += POVChanged;
     }
 
-    private void POVChanged(Transform currPlayer)
+    private void POVChanged(Transform currCharacter)
     {
         // unsubscribe from previous character's stat/equipment changes
         if (CurrPlayerStats != null)
@@ -34,8 +34,8 @@ public class PlayerInfoUIManager : MonoBehaviour
             CurrPlayerWeapons.OnWeaponChanged -= WeaponChanged;
 
         // subscribe to current character's stat/equipment changes
-        CurrPlayerStats = currPlayer.GetComponent<CharacterStats>();
-        CurrPlayerWeapons = currPlayer.GetComponent<PlayerWeapons>();
+        CurrPlayerStats = currCharacter.GetComponent<CharacterStats>();
+        CurrPlayerWeapons = currCharacter.GetComponent<PlayerWeapons>();
 
         foreach (Stat stat in CurrPlayerStats.Stats)
             stat.OnStatChanged += StatChanged;
@@ -45,9 +45,9 @@ public class PlayerInfoUIManager : MonoBehaviour
         CurrPlayerStats.InitialiseStats();
     }
 
-    private void WeaponChanged(int newSlot)
+    private void WeaponChanged(int oldSlot, int newSlot)
     {
-        OnEquipSlotChanged?.Invoke(newSlot);
+        OnEquipSlotChanged?.Invoke(oldSlot, newSlot);
     }
 
     private void StatChanged(Stat stat)

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour, IAutoAttackWeapon
 {
+    public Sprite EquipSprite { get => _equipSprite; }
     public int Damage { get; } = 30;
     public float Range { get; } = 1f;
 
+    [SerializeField] private Sprite _equipSprite;
     private Rigidbody _rb;
     private bool _canAttack = true;
     private static float s_attackRate = 1f;

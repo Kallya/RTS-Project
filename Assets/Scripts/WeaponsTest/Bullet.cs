@@ -5,9 +5,12 @@ using Mirror;
 
 public class Bullet : NetworkBehaviour, IWeapon
 {   
+    // weapon sprite useless on bullet 
+    public Sprite EquipSprite { get => _equipSprite; }
     // is it possible to dynamically reference from gun?
     public int Damage { get; } = 10;
 
+    private Sprite _equipSprite;
     [SerializeField] private static float s_speed = 20f;
     [SerializeField] private static float s_range = 10f;
     private Vector3 s_initPos;

@@ -5,9 +5,11 @@ using Mirror;
 
 public class Gun : MonoBehaviour, IAutoAttackWeapon
 {
+    public Sprite EquipSprite { get => _equipSprite; }
     public int Damage { get; } = 10;
     public float Range { get; } = 10f;
 
+    [SerializeField] private Sprite _equipSprite;
     [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _shotPoint;
     private static float s_fireRate = 0.3f;

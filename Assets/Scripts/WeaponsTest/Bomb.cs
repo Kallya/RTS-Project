@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour, ILimitedUseWeapon
 {
+    public Sprite EquipSprite { get => _equipSprite; }
     public int Damage { get; } = 80;
     public GameObject player { get; private set; }
     public event System.Action<GameObject> OnLimitReached;
+
+    [SerializeField] private Sprite _equipSprite;
 
     public void Attack()
     {
