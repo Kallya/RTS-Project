@@ -121,7 +121,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  _isQueueingCommands: 0
 --- !u!114 &5083042597892674821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632715d7067295f4ba904ff7bafe1f37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &1320403266097816792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,3 +284,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b28a84b9e75264f806675cf88968b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1

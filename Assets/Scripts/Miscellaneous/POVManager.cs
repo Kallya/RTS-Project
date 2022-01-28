@@ -14,6 +14,8 @@ public class POVManager : NetworkBehaviour
     private List<PlayerCommandInput> _playerInputs = new List<PlayerCommandInput>();
     private CinemachineVirtualCamera _vc;
     private CinemachineFramingTransposer _vcBody;
+    [SerializeField] private GameObject _friendlySprite;
+    [SerializeField] private GameObject _enemySprite;
 
     private void Awake()
     {
@@ -29,10 +31,17 @@ public class POVManager : NetworkBehaviour
         // Get all characters controllable by client
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
+            // all of local client's characters have authority
             if (player.GetComponent<NetworkIdentity>().hasAuthority)
+            {
                 _activeCharacters.Add(player);
+                AddMinimapSprite(player, false);
+            }
             else
+            {
                 player.tag = "Enemy"; // differentiate enemy characters
+                AddMinimapSprite(player, true);
+            }
         }
         
         for (int i = 0; i < _activeCharacters.Count; i++)
@@ -56,5 +65,13 @@ public class POVManager : NetworkBehaviour
         _vcBody.m_ScreenX = _vcBody.m_ScreenY = 0.5f;
         
         OnPOVChanged?.Invoke(_vc.Follow);
+    }
+
+    private void AddMinimapSprite(GameObject character, bool isEnemy)
+    {
+        if (isEnemy == true)
+            Instantiate(_enemySprite, character.transform);
+        else
+            Instantiate(_friendlySprite, character.transform);
     }
 }
