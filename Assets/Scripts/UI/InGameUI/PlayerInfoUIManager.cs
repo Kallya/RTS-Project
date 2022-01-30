@@ -10,6 +10,7 @@ public class PlayerInfoUIManager : MonoBehaviour
     public event System.Action<int, int> OnEquipSlotChanged;
     public CharacterStats CurrPlayerStats { get; private set; }
     public PlayerWeapons CurrPlayerWeapons { get; private set; }
+    public GameObject CurrCharacter { get; private set; }
 
     private void Awake()
     {
@@ -23,6 +24,8 @@ public class PlayerInfoUIManager : MonoBehaviour
 
     private void POVChanged(Transform currCharacter)
     {
+        CurrCharacter = currCharacter.gameObject;
+
         // unsubscribe from previous character's stat/equipment changes
         if (CurrPlayerStats != null)
         {

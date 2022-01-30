@@ -10,6 +10,7 @@ public class PlayerCommandInput : NetworkBehaviour
 {
     public bool IsQueueingCommands { get; set; } = false;
     public bool IsAutoAttacking { get; set; } = false;
+    public bool IsCloaked { get; set; } = false;
 
     private CommandProcessor _commandProcessor;
     private MouseClickInput _mouseInput;
@@ -44,6 +45,9 @@ public class PlayerCommandInput : NetworkBehaviour
 
             if (Input.GetKeyDown(KeyCode.D))
                 IsAutoAttacking = !IsAutoAttacking;
+
+            if (Input.GetKeyDown(KeyCode.C))
+                IsCloaked = !IsCloaked;
 
             if (Input.GetKey(KeyCode.F))
                 _commandProcessor.QueueCommand(new AttackCommand(gameObject));
@@ -82,6 +86,9 @@ public class PlayerCommandInput : NetworkBehaviour
 
             if (Input.GetKeyDown(KeyCode.D))
                 IsAutoAttacking = !IsAutoAttacking;
+
+            if (Input.GetKeyDown(KeyCode.C))
+                IsCloaked = !IsCloaked;
 
             if (Input.GetKey(KeyCode.F))
                 _commandProcessor.ExecuteCommand(new AttackCommand(gameObject));

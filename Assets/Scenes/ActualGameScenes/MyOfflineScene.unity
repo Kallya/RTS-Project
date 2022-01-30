@@ -260,7 +260,10 @@ MonoBehaviour:
   CongestionWindow: 0
   SendWindowSize: 4096
   ReceiveWindowSize: 4096
+  MaxRetransmit: 40
   NonAlloc: 1
+  ReliableMaxMessageSize: 298449
+  UnreliableMaxMessageSize: 1199
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
@@ -277,7 +280,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  PersistNetworkManagerToOfflineScene: 0
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 30
@@ -292,6 +294,7 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 201341641173214757, guid: 65d736c3a6589004eb0501d788e24c15, type: 3}
+  - {fileID: 8189309856033541704, guid: 7e1088cb3817a344299fd3f5f7956b2a, type: 3}
   showRoomGUI: 1
   minPlayers: 1
   roomPlayerPrefab: {fileID: 7527436089385443803, guid: 298586b00865c144eabc863464dfbcad, type: 3}
@@ -300,6 +303,7 @@ MonoBehaviour:
   _allPlayersReady: 0
   roomSlots: []
   clientIndex: 0
+  emptyPlayerPrefab: {fileID: 8189309856033541704, guid: 7e1088cb3817a344299fd3f5f7956b2a, type: 3}
 --- !u!4 &187443668
 Transform:
   m_ObjectHideFlags: 0

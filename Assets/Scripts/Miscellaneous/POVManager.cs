@@ -16,6 +16,9 @@ public class POVManager : NetworkBehaviour
     private CinemachineFramingTransposer _vcBody;
     [SerializeField] private GameObject _friendlySprite;
     [SerializeField] private GameObject _enemySprite;
+    private static string _minimapSpriteName = "MinimapSprite";
+    private static int _cloakedLayer = 7;
+    private static int _minimapLayer = 6;
 
     private void Awake()
     {
@@ -25,22 +28,27 @@ public class POVManager : NetworkBehaviour
         _vcBody = _vc.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
 
+    public override void OnStartServer()
+    {
+        NetworkServer.RegisterHandler<CloakMessage>(OnCloaked);
+    }
+
     // Get all local characters (characters this client controls)
     public void SetLocalCharacters()
     {
         // Get all characters controllable by client
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        foreach (GameObject character in GameObject.FindGameObjectsWithTag("Player"))
         {
             // all of local client's characters have authority
-            if (player.GetComponent<NetworkIdentity>().hasAuthority)
+            if (character.GetComponent<NetworkIdentity>().hasAuthority)
             {
-                _activeCharacters.Add(player);
-                AddMinimapSprite(player, false);
+                _activeCharacters.Add(character);
+                AddMinimapSprite(character, false);
             }
             else
             {
-                player.tag = "Enemy"; // differentiate enemy characters
-                AddMinimapSprite(player, true);
+                character.tag = "Enemy"; // differentiate enemy characters
+                AddMinimapSprite(character, true);
             }
         }
         
@@ -69,9 +77,37 @@ public class POVManager : NetworkBehaviour
 
     private void AddMinimapSprite(GameObject character, bool isEnemy)
     {
+        GameObject minimapSprite;
+
         if (isEnemy == true)
-            Instantiate(_enemySprite, character.transform);
+            minimapSprite = Instantiate(_enemySprite, character.transform);
         else
-            Instantiate(_friendlySprite, character.transform);
+            minimapSprite = Instantiate(_friendlySprite, character.transform);
+
+        minimapSprite.name = _minimapSpriteName;
+    }
+
+    private void OnCloaked(NetworkConnection conn, CloakMessage msg)
+    {
+        RpcSetTargetCloak(msg.CharacterNetId, msg.IsCloaked);
+    }
+
+    [ClientRpc]
+    private void RpcSetTargetCloak(uint netId, bool isCloaked)
+    {
+        NetworkIdentity targetCharacter = NetworkClient.spawned[netId];
+
+        // if target character is owned by local player (on their team), then cloak doesn't affect the client's minimap
+        if (targetCharacter.connectionToClient != null)
+            return;
+
+        GameObject minimapSprite = targetCharacter.transform.Find(_minimapSpriteName).gameObject;
+
+        // set layers so minimap cam will or will not render
+        if (isCloaked == true)
+            minimapSprite.layer = _cloakedLayer;
+        else
+            minimapSprite.layer = _minimapLayer;
+
     }
 }

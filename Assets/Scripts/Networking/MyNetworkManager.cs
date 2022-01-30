@@ -8,6 +8,8 @@ public struct StartPreGameMessage : NetworkMessage {}
 
 public class MyNetworkManager : NetworkRoomManager
 {  
+    [SerializeField] private GameObject emptyPlayerPrefab;
+
     public override void OnRoomServerSceneChanged(string sceneName)
     {
         if (sceneName == RoomScene)
@@ -90,10 +92,8 @@ public class MyNetworkManager : NetworkRoomManager
 
     public override GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer)
     {
-        Vector3 startPos = GetRandomStartPos(0, 50);
-        GameObject player = Instantiate(playerPrefab, startPos, Quaternion.identity);
-
-        AssignWeapons(player, roomPlayer, 0);
+        // spawn empty gameobject to act as player gameobject (does not interact with game itself)
+        GameObject player = Instantiate(emptyPlayerPrefab, Vector3.zero, Quaternion.identity);
 
         return player;
     }
@@ -101,8 +101,8 @@ public class MyNetworkManager : NetworkRoomManager
     public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
     {
         int charactersToSpawn = roomPlayer.GetComponent<MyNetworkRoomPlayer>().CharacterNum;
-        // Spawn additional characters
-        for (int i = 1; i < charactersToSpawn; i++)
+        // Spawn all characters
+        for (int i = 0; i < charactersToSpawn; i++)
         {
             Vector3 startPos = GetRandomStartPos(0, 50);
             GameObject character = Instantiate(playerPrefab, startPos, Quaternion.identity);

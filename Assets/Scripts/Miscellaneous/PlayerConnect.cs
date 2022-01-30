@@ -11,7 +11,7 @@ public class PlayerConnect : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
-        
+            
         POVManager.Instance.SetLocalCharacters();
     }
 }
