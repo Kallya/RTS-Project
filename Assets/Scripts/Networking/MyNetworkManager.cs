@@ -101,6 +101,7 @@ public class MyNetworkManager : NetworkRoomManager
     public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
     {
         int charactersToSpawn = roomPlayer.GetComponent<MyNetworkRoomPlayer>().CharacterNum;
+        
         // Spawn all characters
         for (int i = 0; i < charactersToSpawn; i++)
         {

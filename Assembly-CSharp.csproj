@@ -67,7 +67,7 @@
      <Compile Include="Assets\Scripts\Miscellaneous\ChangePOVCommand.cs" />
      <Compile Include="Assets\Scripts\MouseClickMovement\PlayerMouseClickMovement.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\Bullet.cs" />
-     <Compile Include="Assets\Scripts\Miscellaneous\PlayerConnect.cs" />
+     <Compile Include="Assets\Scripts\UI\InGameUI\CloakButton.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\UpdateStatGraphicalIndicator.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\WeaponInterface.cs" />
      <Compile Include="Assets\Scripts\Stats\DamageableObjectStats.cs" />
@@ -84,7 +84,6 @@
      <Compile Include="Assets\Scripts\UI\InGameUI\UpdateEquipmentUI.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\IEquipment.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\PlayerWeapons.cs" />
-     <Compile Include="Assets\Scripts\UI\InGameUI\CloakButton.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\ScriptTemplates\51-Mirror__Network Authenticator-NewNetworkAuthenticator.cs.txt" />

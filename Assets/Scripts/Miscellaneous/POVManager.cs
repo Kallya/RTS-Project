@@ -33,7 +33,12 @@ public class POVManager : NetworkBehaviour
         NetworkServer.RegisterHandler<CloakMessage>(OnCloaked);
     }
 
-    // Get all local characters (characters this client controls)
+    public override void OnStartClient()
+    {
+        SetLocalCharacters();
+    }
+
+    // setup allied and enemy characters
     public void SetLocalCharacters()
     {
         // Get all characters controllable by client
