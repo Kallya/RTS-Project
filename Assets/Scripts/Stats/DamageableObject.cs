@@ -16,12 +16,11 @@ public class DamageableObject : NetworkBehaviour
     private void Update()
     {
         if (_damageableStats.Health.Value <= 0)
-            CmdDestroyObject();
+            DestroyObject();
     }
 
     // override to do other stuff on death (send notification?)
-    [Command]
-    public virtual void CmdDestroyObject()
+    public virtual void DestroyObject()
     {
         Destroy(gameObject);
     }
@@ -30,7 +29,12 @@ public class DamageableObject : NetworkBehaviour
     // but I don't know how to synchronised my Stat object values so yeah
     private void TakeDamage(int damage)
     {
-        Stats.DecreaseStat(_damageableStats.Health, damage);
+        int finalDmg = damage;
+
+        if (_damageableStats is CharacterStats charStats)
+            finalDmg = damage - charStats.Defence.Value;
+
+        Stats.DecreaseStat(_damageableStats.Health, finalDmg);
     }
 
     private void OnCollisionEnter(Collision other)

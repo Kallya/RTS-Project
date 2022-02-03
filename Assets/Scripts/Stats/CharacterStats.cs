@@ -7,10 +7,9 @@ public class CharacterStats : DamageableObjectStats
 {
     public Stat[] Stats;
 
-    // synced fields
     public override Stat Health { get; } = new Stat("Health", 100);
     public Stat Energy { get; } = new Stat("Energy", 100);
-    public Stat Speed { get; } = new Stat("Speed", 50);
+    public Stat Speed { get; } = new Stat("Speed", 5);
     public Stat Defence { get; } = new Stat("Defence", 5);
 
     private void Awake()

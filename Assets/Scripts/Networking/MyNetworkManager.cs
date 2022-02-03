@@ -5,10 +5,15 @@ using Mirror;
 
 // empty message to trigger UI enable for character setup
 public struct StartPreGameMessage : NetworkMessage {}
+// empty message to tell clients when to call SetLocalCharacters
+// to ensure all characters (allied and enemy) are setup
+public struct SetLocalCharactersMessage : NetworkMessage {}
 
 public class MyNetworkManager : NetworkRoomManager
 {  
     [SerializeField] private GameObject emptyPlayerPrefab;
+    private int _totalCharacterNum = 0;
+    private int _currSpawnedCharacterNum = 0;
 
     public override void OnRoomServerSceneChanged(string sceneName)
     {
@@ -25,16 +30,23 @@ public class MyNetworkManager : NetworkRoomManager
     public override void OnRoomStartClient()
     {
         NetworkClient.RegisterHandler<StartPreGameMessage>(OnStartPreGame);
+        NetworkClient.RegisterHandler<SetLocalCharactersMessage>(OnSetLocalCharacters);
     }
 
     // synchronise character setup start on clients (not just server)
-    public void OnStartPreGame(StartPreGameMessage msg)
+    private void OnStartPreGame(StartPreGameMessage msg)
     {
         showRoomGUI = false;
         
         UIObjectReferences _ui = GameObject.Find("UIObjectReferences").GetComponent<UIObjectReferences>();
         _ui.CharacterSetupUI.SetActive(true);
         _ui.EventSystem.SetActive(true);
+    }
+
+    private void OnSetLocalCharacters(SetLocalCharactersMessage msg)
+    {
+        POVManager.Instance.SetLocalCharacters();
+        NetworkClient.UnregisterHandler<SetLocalCharactersMessage>();
     }
 
     public override void OnRoomServerPlayersReady()
@@ -73,6 +85,8 @@ public class MyNetworkManager : NetworkRoomManager
                 characterNum += 1;
         }
 
+        _totalCharacterNum += characterNum;
+
         MyNetworkRoomPlayer currRoomPlayer = conn.identity.gameObject.GetComponent<MyNetworkRoomPlayer>();
         currRoomPlayer.LockedIn = true;
         currRoomPlayer.CharacterNum = characterNum;
@@ -109,6 +123,16 @@ public class MyNetworkManager : NetworkRoomManager
             GameObject character = Instantiate(playerPrefab, startPos, Quaternion.identity);
             AssignWeapons(character, roomPlayer, i);
             NetworkServer.Spawn(character, conn);
+
+            _currSpawnedCharacterNum += 1;
+        }
+
+        // reset counters for next lobby
+        if (_currSpawnedCharacterNum == _totalCharacterNum)
+        {
+            _currSpawnedCharacterNum = 0;
+            _totalCharacterNum = 0;
+            NetworkServer.SendToReady(new SetLocalCharactersMessage());
         }
 
         return true;

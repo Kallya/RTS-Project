@@ -12,6 +12,7 @@ public class PlayerWeapons : NetworkBehaviour
 
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
     private List<GameObject> _availableWeapons;    
+    // initialise weaponslot to 2 to prevent indexing error for first change
     [SyncVar(hook=nameof(SetWeaponActives))] private int _activeWeaponSlot = 2;
 
     private void SetupWeapons()
@@ -40,7 +41,7 @@ public class PlayerWeapons : NetworkBehaviour
     {
         SetupWeapons();
         
-        if (netIdentity.hasAuthority)
+        if (netIdentity.hasAuthority == true)
             CmdSwitchWeapon(1);
     }
 
@@ -49,7 +50,7 @@ public class PlayerWeapons : NetworkBehaviour
         // check if weapons have been set (hook first called when field is declared)
         if (_availableWeapons == null)
             return;
-            
+        
         // index is slot number minus 1
         GameObject newWeapon = _availableWeapons[newWeaponSlot-1];
 

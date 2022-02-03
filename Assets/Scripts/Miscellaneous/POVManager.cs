@@ -33,11 +33,6 @@ public class POVManager : NetworkBehaviour
         NetworkServer.RegisterHandler<CloakMessage>(OnCloaked);
     }
 
-    public override void OnStartClient()
-    {
-        SetLocalCharacters();
-    }
-
     // setup allied and enemy characters
     public void SetLocalCharacters()
     {
@@ -103,7 +98,7 @@ public class POVManager : NetworkBehaviour
         NetworkIdentity targetCharacter = NetworkClient.spawned[netId];
 
         // if target character is owned by local player (on their team), then cloak doesn't affect the client's minimap
-        if (targetCharacter.connectionToClient != null)
+        if (targetCharacter.hasAuthority == true)
             return;
 
         GameObject minimapSprite = targetCharacter.transform.Find(_minimapSpriteName).gameObject;
