@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-[RequireComponent(typeof(DamageableObjectStats))]
-public class DamageableObject : NetworkBehaviour
+public class DamageableObject : MonoBehaviour
 {
+    public event System.Action<GameObject> OnDestroyed;
     private DamageableObjectStats _damageableStats;
 
     private void Awake()
@@ -23,6 +23,7 @@ public class DamageableObject : NetworkBehaviour
     public virtual void DestroyObject()
     {
         Destroy(gameObject);
+        OnDestroyed?.Invoke(gameObject);
     }
 
     // Security wise stats should be updated on the server only and synchronised from there
@@ -40,9 +41,6 @@ public class DamageableObject : NetworkBehaviour
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.TryGetComponent<IWeapon>(out IWeapon weaponCollision))
-        {
             TakeDamage(weaponCollision.Damage);
-            Debug.Log($"{gameObject.name} took {weaponCollision.Damage} damage");
-        }
     }
 }

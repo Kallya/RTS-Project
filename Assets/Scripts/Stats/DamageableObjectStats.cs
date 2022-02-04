@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public abstract class DamageableObjectStats : NetworkBehaviour
+public abstract class DamageableObjectStats : MonoBehaviour
 {
     public abstract Stat Health { get; }
 }

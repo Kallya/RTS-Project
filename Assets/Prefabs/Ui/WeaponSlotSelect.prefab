@@ -588,6 +588,8 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Sword
       m_Image: {fileID: 0}
+    - m_Text: Shotgun
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1031,6 +1033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13ffee5aadbe61943971184f0a4941f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponSelectionDropdown: {fileID: 0}
 --- !u!1 &7900353513073242268
 GameObject:
   m_ObjectHideFlags: 0

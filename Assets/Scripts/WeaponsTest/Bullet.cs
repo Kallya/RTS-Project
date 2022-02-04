@@ -8,11 +8,12 @@ public class Bullet : NetworkBehaviour, IWeapon
     // weapon sprite useless on bullet 
     public Sprite EquipSprite { get => _equipSprite; }
     // is it possible to dynamically reference from gun?
-    public int Damage { get; } = 10;
+    public int Damage { get => _damage; }
 
     private Sprite _equipSprite;
-    [SerializeField] private static float s_speed = 20f;
-    [SerializeField] private static float s_range = 10f;
+    [SerializeField] private int _damage = 10; 
+    [SerializeField] private float _speed = 20f;
+    [SerializeField] private float _range = 10f;
     private Vector3 s_initPos;
 
     private void Awake()
@@ -22,15 +23,16 @@ public class Bullet : NetworkBehaviour, IWeapon
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, s_initPos) >= s_range)
+        if (Vector3.Distance(transform.position, s_initPos) >= _range)
             Destroy(gameObject); // should I pool the bullets instead?
 
-        transform.Translate(transform.forward * s_speed * Time.deltaTime);
+        transform.Translate(transform.forward * _speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+        if (netIdentity.isServer)
+            Destroy(gameObject);
     }
 
     // Bullet does not have an attack

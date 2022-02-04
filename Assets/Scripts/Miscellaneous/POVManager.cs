@@ -52,10 +52,24 @@ public class POVManager : NetworkBehaviour
             }
         }
         
-        for (int i = 0; i < _activeCharacters.Count; i++)
-            _playerInputs.Add(_activeCharacters[i].GetComponent<PlayerCommandInput>());
+        // Get all ally characters' input controllers
+        foreach (GameObject character in _activeCharacters)
+        {
+            _playerInputs.Add(character.GetComponent<PlayerCommandInput>());
+            character.GetComponent<DamageableObject>().OnDestroyed += Destroyed; // trigger for auto pov change
+        }
 
         ChangePOV(1);
+    }
+
+    private void Destroyed(GameObject go)
+    {
+        Debug.Log("Destroyed");
+        for (int i = 0; i < _activeCharacters.Count; i++)
+        {
+            if (_activeCharacters[i] != null)
+                ChangePOV(i + 1);
+        }
     }
 
     public void ChangePOV(int characterNum)
@@ -64,6 +78,12 @@ public class POVManager : NetworkBehaviour
             return;
             
         int characterIndex = characterNum - 1;
+
+        // dead characters will be nulled to maintain
+        // hotkeys for switching characters
+        // this prevents pov changes to null objects
+        if (_activeCharacters[characterIndex] == null)
+            return;
 
         if (_vc.Follow != null)
             _vc.Follow.GetComponent<PlayerCommandInput>().enabled = false;

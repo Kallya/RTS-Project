@@ -50,7 +50,10 @@ public class PlayerCommandInput : NetworkBehaviour
                 IsCloaked = !IsCloaked;
 
             if (Input.GetKey(KeyCode.F))
+            {
+                _commandProcessor.ExecuteCommand(new RotateToMouseCommand(gameObject));
                 _commandProcessor.QueueCommand(new AttackCommand(gameObject));
+            }
 
             if (Input.GetKeyDown(KeyCode.Q))
                 _commandProcessor.QueueCommand(new SwitchWeaponCommand(gameObject, 1));
@@ -91,7 +94,10 @@ public class PlayerCommandInput : NetworkBehaviour
                 IsCloaked = !IsCloaked;
 
             if (Input.GetKey(KeyCode.F))
+            {
+                _commandProcessor.ExecuteCommand(new RotateToMouseCommand(gameObject));
                 _commandProcessor.ExecuteCommand(new AttackCommand(gameObject));
+            }
 
             if (Input.GetKeyDown(KeyCode.Q))
                 _commandProcessor.ExecuteCommand(new SwitchWeaponCommand(gameObject, 1));

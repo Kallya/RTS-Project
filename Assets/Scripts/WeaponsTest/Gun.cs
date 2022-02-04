@@ -10,7 +10,7 @@ public class Gun : MonoBehaviour, IAutoAttackWeapon
     public float Range { get; } = 10f;
 
     [SerializeField] private Sprite _equipSprite;
-    [SerializeField] private GameObject _bullet;
+    [SerializeField] private Transform _bullet;
     [SerializeField] private Transform _shotPoint;
     private static float s_fireRate = 0.3f;
     // initialised to negative of fireRate so player can instantly start shooting on spawn
@@ -27,6 +27,6 @@ public class Gun : MonoBehaviour, IAutoAttackWeapon
 
     private void InstantiateBullet()
     {
-        ObjectSpawner.Instance.CmdSpawnNetworkObject(0, _shotPoint.position, transform.rotation * _bullet.transform.rotation);
+        ObjectSpawner.Instance.CmdSpawnNetworkObject(0, _shotPoint.position, transform.rotation * _bullet.rotation);
     }
 }
