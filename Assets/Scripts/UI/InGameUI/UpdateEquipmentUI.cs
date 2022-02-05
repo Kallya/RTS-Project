@@ -21,7 +21,7 @@ public class UpdateEquipmentUI : MonoBehaviour
 
     private void POVChanged(Transform currCharacter)
     {
-        PlayerWeapons currWeapons = PlayerInfoUIManager.Instance.CurrPlayerWeapons;
+        PlayerEquipment currWeapons = PlayerInfoUIManager.Instance.CurrPlayerWeapons;
         
         SetEquipmentSprites(currWeapons);
         
@@ -29,7 +29,7 @@ public class UpdateEquipmentUI : MonoBehaviour
         foreach (Image slot in _equipmentSlots)
             slot.color = Color.white;
 
-        SetSlotColour(currWeapons.ActiveWeaponSlot, Color.yellow);
+        SetSlotColour(currWeapons.ActiveEquipSlot, Color.yellow);
     }
 
     private void SetSlotColour(int slot, Color colour)
@@ -37,11 +37,11 @@ public class UpdateEquipmentUI : MonoBehaviour
         _equipmentSlots[slot-1].color = colour;
     }
 
-    private void SetEquipmentSprites(PlayerWeapons currWeapons)
+    private void SetEquipmentSprites(PlayerEquipment currWeapons)
     {
         for (int i = 0; i < _equipmentSlots.Count; i++)
         {
-            string weaponName = currWeapons.WeaponsToAdd[i];
+            string weaponName = currWeapons.EquipmentToAdd[i];
             _equipmentSlots[i].sprite = Weapons.Instance.WeaponReferences[weaponName]
                 .GetComponent<IEquipment>()
                 .EquipSprite;

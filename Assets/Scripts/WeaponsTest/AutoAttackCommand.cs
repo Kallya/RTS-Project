@@ -11,7 +11,7 @@ public class AutoAttackCommand : ICommand
 
     public AutoAttackCommand(GameObject player)
     {
-        _weapon = (IAutoAttackWeapon)player.GetComponent<PlayerWeapons>().ActiveEquipment;
+        _weapon = (IAutoAttackWeapon)player.GetComponent<PlayerEquipment>().ActiveEquipment;
         _playerTransform = player.transform;
     }
 

@@ -6,18 +6,18 @@ public class SwitchWeaponCommand : ICommand
 {
     public event System.Action<ICommand> OnCompletion;
 
-    private PlayerWeapons _playerWeapons;
+    private PlayerEquipment _playerWeapons;
     private int _weaponSlot;
 
     public SwitchWeaponCommand(GameObject player, int weaponSlot)
     {
-        _playerWeapons = player.GetComponent<PlayerWeapons>();
+        _playerWeapons = player.GetComponent<PlayerEquipment>();
         _weaponSlot = weaponSlot;
     }
 
     public void Execute()
     {
-        _playerWeapons.CmdSwitchWeapon(_weaponSlot);
+        _playerWeapons.CmdSwitchEquipment(_weaponSlot);
         OnCompletion?.Invoke(this);
     }
 }

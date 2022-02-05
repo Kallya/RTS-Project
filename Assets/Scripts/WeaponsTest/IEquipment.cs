@@ -9,5 +9,5 @@ public interface IEquipment
 
 public interface IUtility : IEquipment
 {
-    
+    void Activate();
 }

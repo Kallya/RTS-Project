@@ -584,8 +584,6 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Shield
       m_Image: {fileID: 0}
-    - m_Text: Bomb
-      m_Image: {fileID: 0}
     - m_Text: Sword
       m_Image: {fileID: 0}
     - m_Text: Shotgun

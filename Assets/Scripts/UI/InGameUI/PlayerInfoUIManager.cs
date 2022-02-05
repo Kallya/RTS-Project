@@ -9,7 +9,7 @@ public class PlayerInfoUIManager : MonoBehaviour
     public event System.Action<Stat> OnAnyStatChanged;
     public event System.Action<int, int> OnEquipSlotChanged;
     public CharacterStats CurrPlayerStats { get; private set; }
-    public PlayerWeapons CurrPlayerWeapons { get; private set; }
+    public PlayerEquipment CurrPlayerWeapons { get; private set; }
     public GameObject CurrCharacter { get; private set; }
 
     private void Awake()
@@ -34,16 +34,16 @@ public class PlayerInfoUIManager : MonoBehaviour
         }
         
         if (CurrPlayerWeapons != null)
-            CurrPlayerWeapons.OnWeaponChanged -= WeaponChanged;
+            CurrPlayerWeapons.OnEquipChanged -= WeaponChanged;
 
         // subscribe to current character's stat/equipment changes
         CurrPlayerStats = currCharacter.GetComponent<CharacterStats>();
-        CurrPlayerWeapons = currCharacter.GetComponent<PlayerWeapons>();
+        CurrPlayerWeapons = currCharacter.GetComponent<PlayerEquipment>();
 
         foreach (Stat stat in CurrPlayerStats.Stats)
             stat.OnStatChanged += StatChanged;
 
-        CurrPlayerWeapons.OnWeaponChanged += WeaponChanged;
+        CurrPlayerWeapons.OnEquipChanged += WeaponChanged;
         
         CurrPlayerStats.InitialiseStats();
     }

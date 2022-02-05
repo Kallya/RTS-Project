@@ -10,12 +10,12 @@ public class AttackCommand : ICommand
 
     public AttackCommand(GameObject player)
     {
-        _weapon = (IWeapon)player.GetComponent<PlayerWeapons>().ActiveEquipment;
+        _weapon = (IWeapon)player.GetComponent<PlayerEquipment>().ActiveEquipment;
     }
 
     public void Execute()
     {
-        _weapon?.Attack();
+        _weapon.Attack();
         OnCompletion?.Invoke(this);
     }
 }

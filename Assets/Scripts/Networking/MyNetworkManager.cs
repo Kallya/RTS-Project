@@ -145,11 +145,11 @@ public class MyNetworkManager : NetworkRoomManager
 
     private void AssignWeapons(GameObject character, GameObject roomPlayer, int playerIndex)
     {
-        PlayerWeapons playerWeapons = character.GetComponent<PlayerWeapons>();
+        PlayerEquipment playerWeapons = character.GetComponent<PlayerEquipment>();
 
         string[] weaponSelection = roomPlayer.GetComponent<MyNetworkRoomPlayer>().CharacterWeaponSelection[playerIndex];
 
         foreach (string weapon in weaponSelection)
-            playerWeapons.WeaponsToAdd.Add(weapon);
+            playerWeapons.EquipmentToAdd.Add(weapon);
     }
 }

@@ -14,6 +14,7 @@ public class PlayerCommandInput : NetworkBehaviour
 
     private CommandProcessor _commandProcessor;
     private MouseClickInput _mouseInput;
+    private PlayerEquipment _playerWeapons;
 
     // consider depending on how it feels to play
 /*
@@ -27,6 +28,7 @@ public class PlayerCommandInput : NetworkBehaviour
     {
         _commandProcessor = GetComponent<CommandProcessor>();
         _mouseInput = GetComponent<MouseClickInput>();
+        _playerWeapons = GetComponent<PlayerEquipment>();
     }
 
     // Update is called once per frame
@@ -51,8 +53,13 @@ public class PlayerCommandInput : NetworkBehaviour
 
             if (Input.GetKey(KeyCode.F))
             {
-                _commandProcessor.ExecuteCommand(new RotateToMouseCommand(gameObject));
-                _commandProcessor.QueueCommand(new AttackCommand(gameObject));
+                if (_playerWeapons.ActiveEquipment is IWeapon)
+                {
+                    _commandProcessor.ExecuteCommand(new RotateToMouseCommand(gameObject));
+                    _commandProcessor.QueueCommand(new AttackCommand(gameObject));
+                }
+                else if (_playerWeapons.ActiveEquipment is IUtility)
+                    _commandProcessor.ExecuteCommand(new ActivateCommand(gameObject));
             }
 
             if (Input.GetKeyDown(KeyCode.Q))
@@ -125,6 +132,9 @@ public class PlayerCommandInput : NetworkBehaviour
         }
 
         if (IsAutoAttacking)
-            _commandProcessor.ExecuteCommand(new AutoAttackCommand(gameObject));
+        {
+            if (_playerWeapons.ActiveEquipment is IAutoAttackWeapon)
+                _commandProcessor.ExecuteCommand(new AutoAttackCommand(gameObject));
+        }
     }
 }
