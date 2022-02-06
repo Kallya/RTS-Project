@@ -37,7 +37,13 @@ public class PlayerCommandInput : NetworkBehaviour
         if (IsQueueingCommands)
         {
             if (Input.GetMouseButtonDown(1))
-                _commandProcessor.QueueCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
+            {
+                RaycastHit objectHit = MouseClickInput.GetObjectHit();
+                if (objectHit.transform.tag == "Ground")
+                    _commandProcessor.QueueCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
+                // else if (objectHit.transform.tag == "Player")
+                    // _commandProcessor.QueueCommand(new TargetCommand())
+            }
                 
             if (Input.GetKeyDown(KeyCode.T)) 
                 _commandProcessor.Undo();
@@ -46,10 +52,10 @@ public class PlayerCommandInput : NetworkBehaviour
                 IsQueueingCommands = !IsQueueingCommands;
 
             if (Input.GetKeyDown(KeyCode.D))
-                IsAutoAttacking = !IsAutoAttacking;
+                _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsAutoAttacking"));
 
             if (Input.GetKeyDown(KeyCode.C))
-                IsCloaked = !IsCloaked;
+                _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsCloaked"));
 
             if (Input.GetKey(KeyCode.F))
             {
@@ -95,10 +101,10 @@ public class PlayerCommandInput : NetworkBehaviour
                 IsQueueingCommands = !IsQueueingCommands;
 
             if (Input.GetKeyDown(KeyCode.D))
-                IsAutoAttacking = !IsAutoAttacking;
+                _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsAutoAttacking"));
 
             if (Input.GetKeyDown(KeyCode.C))
-                IsCloaked = !IsCloaked;
+                _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsCloaked"));
 
             if (Input.GetKey(KeyCode.F))
             {

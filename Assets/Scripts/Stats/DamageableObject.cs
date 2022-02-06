@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class DamageableObject : MonoBehaviour
+public class DamageableObject : NetworkBehaviour
 {
     public event System.Action<GameObject> OnDestroyed;
     private DamageableObjectStats _damageableStats;
@@ -28,14 +28,29 @@ public class DamageableObject : MonoBehaviour
 
     // Security wise stats should be updated on the server only and synchronised from there
     // but I don't know how to synchronised my Stat object values so yeah
-    private void TakeDamage(int damage)
+    private void TakeDamage(int dmg)
     {
-        int finalDmg = damage;
+        if (!isServer)
+            return;
+
+        int finalDmg = dmg;
 
         if (_damageableStats is CharacterStats charStats)
-            finalDmg = damage - charStats.Defence.Value;
+            finalDmg = dmg - charStats.Defence.Value;
 
         Stats.DecreaseStat(_damageableStats.Health, finalDmg);
+
+        // change health on clients
+        RpcTakeDamage(finalDmg);
+    }
+
+    [ClientRpc]
+    private void RpcTakeDamage(int dmg)
+    {
+        if (isServer)
+            return;
+
+        Stats.DecreaseStat(_damageableStats.Health, dmg);
     }
 
     private void OnCollisionEnter(Collision other)

@@ -5,16 +5,18 @@ using Mirror;
 
 public static class Stats
 {
-    // create scriptable object for storing default values?
-
     public static void IncreaseStat(Stat statToChange, int value)
     {
-        statToChange.GetType().GetProperty("Value").SetValue(statToChange, statToChange.Value + value);
+        // statToChange.GetType().GetProperty("Value").SetValue(statToChange, statToChange.Value + value);
+
+        statToChange.Value += value;
     }
 
     public static void DecreaseStat(Stat statToChange, int value)
     {
-        statToChange.GetType().GetProperty("Value").SetValue(statToChange, statToChange.Value - value);
+        // statToChange.GetType().GetProperty("Value").SetValue(statToChange, statToChange.Value - value);
+
+        statToChange.Value -= value;
     }
 }
 

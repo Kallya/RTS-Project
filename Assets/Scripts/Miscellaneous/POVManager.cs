@@ -62,13 +62,16 @@ public class POVManager : NetworkBehaviour
         ChangePOV(1);
     }
 
+    // automatically switch to active character POV when one dies
     private void Destroyed(GameObject go)
     {
-        Debug.Log("Destroyed");
         for (int i = 0; i < _activeCharacters.Count; i++)
         {
             if (_activeCharacters[i] != null)
-                ChangePOV(i + 1);
+            {
+                ChangePOV(i+1);
+                break;
+            }
         }
     }
 
