@@ -7,11 +7,11 @@ public class CameraControl : MonoBehaviour
 {
     private CinemachineVirtualCamera _virtualCam;
     private CinemachineFramingTransposer _virtualCamBody;
-    [SerializeField] private static float s_rotSensitivity = 1000f;
-    [SerializeField] private static float s_zoomSensitivity = 500f;
-    [SerializeField] private static float s_moveSensitivity = 0.5f;
-    [SerializeField] private static float s_minZoom = 10f;
-    [SerializeField] private static float s_maxZoom = 50f;
+    private static float s_rotSensitivity = 1000f;
+    private static float s_zoomSensitivity = 500f;
+    private static float s_moveSensitivity = 10f;
+    private static float s_minZoom = 10f;
+    private static float s_maxZoom = 50f;
     private static Vector3 s_screenCenter;
 
     private void Awake()
@@ -33,18 +33,26 @@ public class CameraControl : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
 
         if (mousePos.x <= 0 || mousePos.x >= Screen.width || mousePos.y <= 0 || mousePos.y >= Screen.height)
-            MoveCamToMouse(s_moveSensitivity, mousePos, s_screenCenter);
+            MoveCamToMouse(s_moveSensitivity, s_screenCenter);
 
         if (Input.GetKeyDown(KeyCode.Space))
             CenterCamOnPlayer();
     }
 
-    private void MoveCamToMouse(float moveSensitivity, Vector3 mousePos, Vector3 screenCenter)
+    private void MoveCamToMouse(float moveSensitivity, Vector3 screenCenter)
     {
+        Vector3 mouseDir = Vector3.Normalize(Input.mousePosition - screenCenter);
+        Vector3 camMoveVec = Quaternion.Euler(0f, 0f, -_virtualCam.Follow.rotation.y-45f) * mouseDir * moveSensitivity * Time.deltaTime;
+
+        _virtualCamBody.m_TrackedObjectOffset.x += camMoveVec.x;
+        _virtualCamBody.m_TrackedObjectOffset.z += camMoveVec.y;
+        
+        /*
         Vector3 mouseDir = Vector3.Normalize(mousePos - screenCenter);
         Vector3 camMoveVec = mouseDir * moveSensitivity * Time.deltaTime;
         _virtualCamBody.m_ScreenX -= camMoveVec.x;
         _virtualCamBody.m_ScreenY += camMoveVec.y;
+        */
     }
 
     private void RotateCamHorizontal(float rotSensitivity)

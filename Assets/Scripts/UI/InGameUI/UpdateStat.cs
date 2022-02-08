@@ -20,7 +20,6 @@ public class UpdateStat : MonoBehaviour
 
     private void AnyStatChanged(Stat stat)
     {
-        Debug.Log(stat.Value);
         if (stat.Name == _thisStatName)
         {
             if (gameObject.tag == "FractionalStat")
