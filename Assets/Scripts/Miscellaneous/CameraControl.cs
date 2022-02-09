@@ -42,7 +42,8 @@ public class CameraControl : MonoBehaviour
     private void MoveCamToMouse(float moveSensitivity, Vector3 screenCenter)
     {
         Vector3 mouseDir = Vector3.Normalize(Input.mousePosition - screenCenter);
-        Vector3 camMoveVec = Quaternion.Euler(0f, 0f, -_virtualCam.Follow.rotation.y-45f) * mouseDir * moveSensitivity * Time.deltaTime;
+        float rotation = 360f - _virtualCam.Follow.rotation.eulerAngles.y;
+        Vector3 camMoveVec = Quaternion.Euler(0f, 0f, rotation) * mouseDir * moveSensitivity * Time.deltaTime;
 
         _virtualCamBody.m_TrackedObjectOffset.x += camMoveVec.x;
         _virtualCamBody.m_TrackedObjectOffset.z += camMoveVec.y;
@@ -69,6 +70,6 @@ public class CameraControl : MonoBehaviour
 
     private void CenterCamOnPlayer()
     {
-        _virtualCamBody.m_ScreenX = _virtualCamBody.m_ScreenY = 0.5f;
+        _virtualCamBody.m_TrackedObjectOffset.x = _virtualCamBody.m_TrackedObjectOffset.z = 0f;
     }
 }
