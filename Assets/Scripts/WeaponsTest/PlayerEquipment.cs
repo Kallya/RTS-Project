@@ -12,6 +12,7 @@ public class PlayerEquipment : NetworkBehaviour
 
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
     private List<GameObject> _availableEquipment;    
+    private GameObject _rangeIndicatorSprite;
     // initialise equipSlot to 2 to prevent indexing error for first change
     [SyncVar(hook=nameof(SetEquipmentActives))] private int _activeEquipSlot = 2;
 
@@ -40,6 +41,8 @@ public class PlayerEquipment : NetworkBehaviour
     private void Start()
     {
         SetupEquipment();
+
+        _rangeIndicatorSprite = GetComponent<PlayerSpriteReferences>().RangeIndicatorSprite;
         
         if (netIdentity.hasAuthority == true)
             CmdSwitchEquipment(1);
@@ -60,9 +63,18 @@ public class PlayerEquipment : NetworkBehaviour
         {
             newEquip.SetActive(true);
             ActiveEquipment = _availableEquipmentInterfaces[newEquip];
+
+            if (ActiveEquipment is IWeapon)
+            {
+                IWeapon weapon = ActiveEquipment as IWeapon;
+                SetRangeIndicator(weapon.Range);
+            }
         }
         else
+        {
             ActiveEquipment = null;
+            SetRangeIndicator(1);
+        }
 
         OnEquipChanged?.Invoke(oldSlot, newSlot);
     }
@@ -80,7 +92,7 @@ public class PlayerEquipment : NetworkBehaviour
         _activeEquipSlot = equipSlot;
     }
 
-    public void LimitReached(GameObject weapon)
+    private void LimitReached(GameObject weapon)
     {
         ILimitedUseWeapon w = (ILimitedUseWeapon)_availableEquipmentInterfaces[weapon];
         // unsubscribe from weapon as it is unattached
@@ -92,5 +104,10 @@ public class PlayerEquipment : NetworkBehaviour
 
         // Switch back automatically after losing a weapon?
         // SwitchWeapon(1);
+    }
+
+    private void SetRangeIndicator(float range)
+    {
+        _rangeIndicatorSprite.transform.localScale = new Vector3(range*2.5f, range*2.5f, 1f);
     }
 }

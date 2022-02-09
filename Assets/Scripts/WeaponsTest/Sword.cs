@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sword : MonoBehaviour, IAutoAttackWeapon
+public class Sword : MonoBehaviour, IWeapon
 {
     public Sprite EquipSprite { get => _equipSprite; }
     public int Damage { get; } = 30;

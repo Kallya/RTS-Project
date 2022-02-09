@@ -139,8 +139,8 @@ public class PlayerCommandInput : NetworkBehaviour
 
         if (IsAutoAttacking)
         {
-            if (_playerWeapons.ActiveEquipment is IAutoAttackWeapon)
-                _commandProcessor.ExecuteCommand(new AutoAttackCommand(gameObject));
+            if (_playerWeapons.ActiveEquipment is IWeapon)
+            _commandProcessor.ExecuteCommand(new AutoAttackCommand(gameObject));
         }
     }
 }

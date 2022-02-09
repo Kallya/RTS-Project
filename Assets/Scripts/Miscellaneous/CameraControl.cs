@@ -42,18 +42,11 @@ public class CameraControl : MonoBehaviour
     private void MoveCamToMouse(float moveSensitivity, Vector3 screenCenter)
     {
         Vector3 mouseDir = Vector3.Normalize(Input.mousePosition - screenCenter);
-        float rotation = 360f - _virtualCam.Follow.rotation.eulerAngles.y;
+        float rotation = _virtualCam.Follow.eulerAngles.y - 45f;
         Vector3 camMoveVec = Quaternion.Euler(0f, 0f, rotation) * mouseDir * moveSensitivity * Time.deltaTime;
 
         _virtualCamBody.m_TrackedObjectOffset.x += camMoveVec.x;
         _virtualCamBody.m_TrackedObjectOffset.z += camMoveVec.y;
-        
-        /*
-        Vector3 mouseDir = Vector3.Normalize(mousePos - screenCenter);
-        Vector3 camMoveVec = mouseDir * moveSensitivity * Time.deltaTime;
-        _virtualCamBody.m_ScreenX -= camMoveVec.x;
-        _virtualCamBody.m_ScreenY += camMoveVec.y;
-        */
     }
 
     private void RotateCamHorizontal(float rotSensitivity)

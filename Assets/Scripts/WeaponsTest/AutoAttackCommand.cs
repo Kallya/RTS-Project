@@ -6,12 +6,12 @@ public class AutoAttackCommand : ICommand
 {
     public event System.Action<ICommand> OnCompletion;
 
-    private IAutoAttackWeapon _weapon;
+    private IWeapon _weapon;
     private Transform _playerTransform;
 
     public AutoAttackCommand(GameObject player)
     {
-        _weapon = (IAutoAttackWeapon)player.GetComponent<PlayerEquipment>().ActiveEquipment;
+        _weapon = (IWeapon)player.GetComponent<PlayerEquipment>().ActiveEquipment;
         _playerTransform = player.transform;
     }
 

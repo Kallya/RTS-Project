@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // could this inherit from Gun instead? (good practice?)
-public class Shotgun : MonoBehaviour, IAutoAttackWeapon
+public class Shotgun : MonoBehaviour, IWeapon
 {
     public Sprite EquipSprite { get => _equipSprite; }
     public int Damage { get; } = 5;

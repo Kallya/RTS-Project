@@ -5,15 +5,11 @@ using UnityEngine;
 public interface IWeapon : IEquipment
 {
     int Damage { get; }
+    float Range { get; }
     void Attack();
 }
 
 public interface ILimitedUseWeapon : IWeapon
 {
     event System.Action<GameObject> OnLimitReached;
-}
-
-public interface IAutoAttackWeapon : IWeapon
-{
-    float Range { get; }
 }

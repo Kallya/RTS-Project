@@ -9,6 +9,7 @@ public class Bullet : NetworkBehaviour, IWeapon
     public Sprite EquipSprite { get => _equipSprite; }
     // is it possible to dynamically reference from gun?
     public int Damage { get => _damage; }
+    public float Range { get => _range; }
 
     private Sprite _equipSprite;
     [SerializeField] private int _damage = 10; 

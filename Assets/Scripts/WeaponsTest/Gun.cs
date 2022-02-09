@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class Gun : MonoBehaviour, IAutoAttackWeapon
+public class Gun : MonoBehaviour, IWeapon
 {
     public Sprite EquipSprite { get => _equipSprite; }
     public int Damage { get; } = 10;

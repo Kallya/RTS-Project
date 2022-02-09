@@ -12,10 +12,12 @@ public class POVManager : NetworkBehaviour
 
     private List<GameObject> _activeCharacters = new List<GameObject>();
     private List<PlayerCommandInput> _playerInputs = new List<PlayerCommandInput>();
+    private Dictionary<GameObject, PlayerSpriteReferences> _spriteReferences = new Dictionary<GameObject, PlayerSpriteReferences>();
     private CinemachineVirtualCamera _vc;
     private CinemachineFramingTransposer _vcBody;
     [SerializeField] private GameObject _friendlySprite;
     [SerializeField] private GameObject _enemySprite;
+    [SerializeField] private GameObject _rangeIndicatorSprite;
     private static string _minimapSpriteName = "MinimapSprite";
     private static int _cloakedLayer = 7;
     private static int _minimapLayer = 6;
@@ -43,7 +45,9 @@ public class POVManager : NetworkBehaviour
             if (character.GetComponent<NetworkIdentity>().hasAuthority)
             {
                 _activeCharacters.Add(character);
+                _spriteReferences.Add(character, character.GetComponent<PlayerSpriteReferences>());
                 AddMinimapSprite(character, false);
+                AddRangeIndicator(character);
             }
             else
             {
@@ -89,11 +93,16 @@ public class POVManager : NetworkBehaviour
             return;
 
         if (_vc.Follow != null)
+        {
             _vc.Follow.GetComponent<PlayerCommandInput>().enabled = false;
+            _vc.Follow.GetComponent<PlayerSpriteReferences>().RangeIndicatorSprite.SetActive(false);
+        }
 
         _playerInputs[characterIndex].enabled = true;
         _vc.Follow = _activeCharacters[characterIndex].transform;
-        _vcBody.m_ScreenX = _vcBody.m_ScreenY = 0.5f;
+        _vcBody.m_TrackedObjectOffset = Vector3.zero;   // center cam on new character
+
+        _spriteReferences[_activeCharacters[characterIndex]].RangeIndicatorSprite.SetActive(true);
         
         OnPOVChanged?.Invoke(_vc.Follow);
     }
@@ -108,6 +117,14 @@ public class POVManager : NetworkBehaviour
             minimapSprite = Instantiate(_friendlySprite, character.transform);
 
         minimapSprite.name = _minimapSpriteName;
+        _spriteReferences[character].MinimapSprite = minimapSprite;
+    }
+
+    private void AddRangeIndicator(GameObject character)
+    {
+        GameObject indicator = Instantiate(_rangeIndicatorSprite, character.transform);
+        indicator.SetActive(false);
+        _spriteReferences[character].RangeIndicatorSprite = indicator;
     }
 
     private void OnCloaked(NetworkConnection conn, CloakMessage msg)
@@ -124,7 +141,7 @@ public class POVManager : NetworkBehaviour
         if (targetCharacter.hasAuthority == true)
             return;
 
-        GameObject minimapSprite = targetCharacter.transform.Find(_minimapSpriteName).gameObject;
+        GameObject minimapSprite = _spriteReferences[targetCharacter.gameObject].MinimapSprite;
 
         // set layers so minimap cam will or will not render
         if (isCloaked == true)
