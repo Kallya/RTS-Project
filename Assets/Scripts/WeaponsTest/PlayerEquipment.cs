@@ -9,12 +9,23 @@ public class PlayerEquipment : NetworkBehaviour
     public IEquipment ActiveEquipment { get; private set; }
     public readonly SyncList<string> EquipmentToAdd = new SyncList<string>();
     public int ActiveEquipSlot { get => _activeEquipSlot; }
+    public GameObject RangeIndicatorSprite 
+    {
+        get => _rangeIndicatorSprite;
+        set
+        {
+            _rangeIndicatorSprite = value;
+
+            if (ActiveEquipment is IWeapon)
+                SetRangeIndicator(((IWeapon)ActiveEquipment).Range);
+        }
+    }
 
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
     private List<GameObject> _availableEquipment;    
-    private GameObject _rangeIndicatorSprite;
     // initialise equipSlot to 2 to prevent indexing error for first change
     [SyncVar(hook=nameof(SetEquipmentActives))] private int _activeEquipSlot = 2;
+    private GameObject _rangeIndicatorSprite;
 
     private void SetupEquipment()
     {
@@ -41,8 +52,6 @@ public class PlayerEquipment : NetworkBehaviour
     private void Start()
     {
         SetupEquipment();
-
-        _rangeIndicatorSprite = GetComponent<PlayerSpriteReferences>().RangeIndicatorSprite;
         
         if (netIdentity.hasAuthority == true)
             CmdSwitchEquipment(1);
@@ -108,6 +117,9 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void SetRangeIndicator(float range)
     {
-        _rangeIndicatorSprite.transform.localScale = new Vector3(range*2.5f, range*2.5f, 1f);
+        if (_rangeIndicatorSprite == null)
+            return;
+
+        _rangeIndicatorSprite.transform.localScale = new Vector3(range*2.2f, range*2.2f, 1f);
     }
 }

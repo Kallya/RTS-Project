@@ -41,11 +41,12 @@ public class POVManager : NetworkBehaviour
         // Get all characters controllable by client
         foreach (GameObject character in GameObject.FindGameObjectsWithTag("Player"))
         {
+            _spriteReferences.Add(character, character.GetComponent<PlayerSpriteReferences>()); // cache sprite references
+
             // all of local client's characters have authority
             if (character.GetComponent<NetworkIdentity>().hasAuthority)
             {
                 _activeCharacters.Add(character);
-                _spriteReferences.Add(character, character.GetComponent<PlayerSpriteReferences>());
                 AddMinimapSprite(character, false);
                 AddRangeIndicator(character);
             }
@@ -125,6 +126,8 @@ public class POVManager : NetworkBehaviour
         GameObject indicator = Instantiate(_rangeIndicatorSprite, character.transform);
         indicator.SetActive(false);
         _spriteReferences[character].RangeIndicatorSprite = indicator;
+
+        character.GetComponent<PlayerEquipment>().RangeIndicatorSprite = indicator;
     }
 
     private void OnCloaked(NetworkConnection conn, CloakMessage msg)

@@ -24,6 +24,10 @@ public class CameraControl : MonoBehaviour
     
     private void Update()
     {
+        // don't do anything if POV isn't set
+        if (_virtualCam.Follow == null)
+            return;
+
         if (Input.GetMouseButton(0))
             RotateCamHorizontal(s_rotSensitivity);
 

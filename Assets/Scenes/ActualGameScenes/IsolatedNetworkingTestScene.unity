@@ -4931,6 +4931,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 451024096957447929, guid: 8437e97ed1ba2e849920f08b200eef18, type: 3}
     - target: {fileID: 1891110510272518922, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
+      propertyPath: m_XDamping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891110510272518922, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
+      propertyPath: m_YDamping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891110510272518922, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
+      propertyPath: m_ZDamping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891110510272518922, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: m_CameraDistance
       value: 30
       objectReference: {fileID: 0}
