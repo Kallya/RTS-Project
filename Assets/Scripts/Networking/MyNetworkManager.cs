@@ -8,6 +8,7 @@ public struct StartPreGameMessage : NetworkMessage {}
 // empty message to tell clients when to call SetLocalCharacters
 // to ensure all characters (allied and enemy) are setup
 public struct SetLocalCharactersMessage : NetworkMessage {}
+public struct SetScoreboardMessage : NetworkMessage { public int TotalCharacterNum; }
 
 public class MyNetworkManager : NetworkRoomManager
 {  
@@ -132,7 +133,7 @@ public class MyNetworkManager : NetworkRoomManager
         {
             _currSpawnedCharacterNum = 0;
             _totalCharacterNum = 0;
-            NetworkServer.SendToReady(new SetLocalCharactersMessage());
+            NetworkServer.SendToReady(new SetLocalCharactersMessage()); // tell clients to assign setup relative allied and enemy characters
         }
 
         return true;
