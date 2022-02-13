@@ -72,6 +72,7 @@
      <Compile Include="Assets\Scripts\WeaponsTest\Bullet.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\CloakButton.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\UpdateStatGraphicalIndicator.cs" />
+     <Compile Include="Assets\Scripts\Miscellaneous\PlayerSpriteReferences.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\WeaponInterface.cs" />
      <Compile Include="Assets\Scripts\Stats\DamageableObjectStats.cs" />
      <Compile Include="Assets\Scripts\Stats\ObjectStats.cs" />
@@ -80,6 +81,8 @@
      <Compile Include="Assets\Scripts\WeaponsTest\Weapons.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\Sword.cs" />
      <Compile Include="Assets\Scripts\CommandPatternMovement\MouseClickInput.cs" />
+     <Compile Include="Assets\Scripts\Networking\MainMenuConnect.cs" />
+     <Compile Include="Assets\Scripts\UI\InGameUI\ScoreManager.cs" />
      <Compile Include="Assets\Scripts\Networking\MyNetworkManager.cs" />
      <Compile Include="Assets\Scripts\CommandPatternMovement\CommandProcessor.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\AutoAttackCommand.cs" />
@@ -89,7 +92,7 @@
      <Compile Include="Assets\Scripts\WeaponsTest\IEquipment.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\PlayerEquipment.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\RotateToMouseCommand.cs" />
-     <Compile Include="Assets\Scripts\Miscellaneous\PlayerSpriteReferences.cs" />
+     <Compile Include="Assets\Scripts\UI\PreGameLobby\LobbyPlayerTextRefs.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\ScriptTemplates\51-Mirror__Network Authenticator-NewNetworkAuthenticator.cs.txt" />

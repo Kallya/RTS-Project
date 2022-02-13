@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 187443667}
   - component: {fileID: 187443666}
   - component: {fileID: 187443665}
+  - component: {fileID: 187443669}
   m_Layer: 0
   m_Name: MyNetworkManager
   m_TagString: Untagged
@@ -296,7 +297,7 @@ MonoBehaviour:
   - {fileID: 201341641173214757, guid: 65d736c3a6589004eb0501d788e24c15, type: 3}
   - {fileID: 8706318059285128934, guid: dc2a8a4180f87134d9d4c8deee62e184, type: 3}
   - {fileID: 8189309856033541704, guid: 7e1088cb3817a344299fd3f5f7956b2a, type: 3}
-  showRoomGUI: 1
+  showRoomGUI: 0
   minPlayers: 1
   roomPlayerPrefab: {fileID: 7527436089385443803, guid: 298586b00865c144eabc863464dfbcad, type: 3}
   RoomScene: Assets/Scenes/ActualGameScenes/MyRoomScene.unity
@@ -304,6 +305,8 @@ MonoBehaviour:
   _allPlayersReady: 0
   roomSlots: []
   clientIndex: 0
+  PlayerStatePrefab: {fileID: 0}
+  PlayerStatePanel: {fileID: 0}
   emptyPlayerPrefab: {fileID: 8189309856033541704, guid: 7e1088cb3817a344299fd3f5f7956b2a, type: 3}
 --- !u!4 &187443668
 Transform:
@@ -319,6 +322,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &187443669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187443664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89bfab631a6cca14a80f8e5a9212b6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerNameInput: {fileID: 3347228990464808375}
 --- !u!1 &397355233
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,7 +617,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 583904054}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 187443669}
+        m_TargetAssemblyTypeName: MainMenuConnect, Assembly-CSharp
+        m_MethodName: OnHostGameBtnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &583904054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,7 +1123,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1914797573}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 187443669}
+        m_TargetAssemblyTypeName: MainMenuConnect, Assembly-CSharp
+        m_MethodName: OnStartServerBtnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1914797573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1216,7 +1256,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1985169299}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 187443669}
+        m_TargetAssemblyTypeName: MainMenuConnect, Assembly-CSharp
+        m_MethodName: OnJoinGameBtnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1985169299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1402,7 +1454,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1756,7 +1808,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 6}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &6962858871627404119

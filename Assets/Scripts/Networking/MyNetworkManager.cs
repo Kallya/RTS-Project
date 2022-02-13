@@ -8,10 +8,12 @@ public struct StartPreGameMessage : NetworkMessage {}
 // empty message to tell clients when to call SetLocalCharacters
 // to ensure all characters (allied and enemy) are setup
 public struct SetLocalCharactersMessage : NetworkMessage {}
-public struct SetScoreboardMessage : NetworkMessage { public int TotalCharacterNum; }
 
 public class MyNetworkManager : NetworkRoomManager
 {  
+    public RectTransform PlayerStatePrefab;
+    public RectTransform PlayerStatePanel;
+
     [SerializeField] private GameObject emptyPlayerPrefab;
     private int _totalCharacterNum = 0;
     private int _currSpawnedCharacterNum = 0;
@@ -103,6 +105,14 @@ public class MyNetworkManager : NetworkRoomManager
         }
 
         OnAllLockIn();
+    }
+
+    public override GameObject OnRoomServerCreateRoomPlayer(NetworkConnection conn)
+    {
+        GameObject roomPlayer = Instantiate(roomPlayerPrefab.gameObject, Vector3.zero, Quaternion.identity);
+        roomPlayer.GetComponent<MyNetworkRoomPlayer>().PlayerName = GetComponent<MainMenuConnect>()._playerNameInput.text;
+
+        return roomPlayer;
     }
 
     public override GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer)

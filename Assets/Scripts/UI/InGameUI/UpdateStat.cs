@@ -5,12 +5,12 @@ using TMPro;
 
 public class UpdateStat : MonoBehaviour
 {
-    private TextMeshProUGUI _statText;
+    private TMP_Text _statText;
     [SerializeField] private string _thisStatName;
 
     private void Awake()
     {
-        _statText = GetComponent<TextMeshProUGUI>();
+        _statText = GetComponent<TMP_Text>();
     }
 
     private void Start()
