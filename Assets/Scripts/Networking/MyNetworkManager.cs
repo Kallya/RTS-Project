@@ -8,6 +8,10 @@ public struct StartPreGameMessage : NetworkMessage {}
 // empty message to tell clients when to call SetLocalCharacters
 // to ensure all characters (allied and enemy) are setup
 public struct SetLocalCharactersMessage : NetworkMessage {}
+public struct SetScoreboardMessage : NetworkMessage
+{
+    public string[] PlayerNames = new string[];
+}
 
 public class MyNetworkManager : NetworkRoomManager
 {  
