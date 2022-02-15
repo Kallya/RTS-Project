@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6778145043148817186}
   - component: {fileID: 8678244949513172669}
   m_Layer: 5
-  m_Name: TeamText
+  m_Name: TeamNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 9108692081664244391}
   - component: {fileID: 7976805976252822512}
   m_Layer: 5
-  m_Name: PlayersRemainingText
+  m_Name: CharactersRemainingText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -411,6 +411,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5232724224695801474}
+  - component: {fileID: 3694091143711352969}
   m_Layer: 5
   m_Name: TeamInfoRow
   m_TagString: Untagged
@@ -440,3 +441,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000038624, y: 0}
   m_SizeDelta: {x: 393.58, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3694091143711352969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838232155168527920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9fa85d927f6034c88d98240a4f9878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TeamNameText: {fileID: 8678244949513172669}
+  PointsText: {fileID: 8701995764029464380}
+  CharactersRemainingText: {fileID: 7976805976252822512}

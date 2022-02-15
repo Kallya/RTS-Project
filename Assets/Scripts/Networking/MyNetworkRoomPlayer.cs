@@ -8,7 +8,7 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
     public int CharacterNum { get; set; } = 1;
     public string PlayerName { get; set; }
     public string[][] CharacterWeaponSelection { get; set; }
-
+/*
     public override void OnGUI()
     {
         MyNetworkManager room = MyNetworkManager.singleton as MyNetworkManager;
@@ -25,4 +25,5 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
         else
             textRefs.PlayerStatus.text = "Not Ready";
     }
+*/
 }

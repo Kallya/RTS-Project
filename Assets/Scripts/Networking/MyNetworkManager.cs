@@ -10,7 +10,8 @@ public struct StartPreGameMessage : NetworkMessage {}
 public struct SetLocalCharactersMessage : NetworkMessage {}
 public struct SetScoreboardMessage : NetworkMessage
 {
-    public string[] PlayerNames = new string[];
+    public string[] PlayerNames;
+    public int[] TeamSizes;
 }
 
 public class MyNetworkManager : NetworkRoomManager
@@ -26,6 +27,8 @@ public class MyNetworkManager : NetworkRoomManager
     {
         if (sceneName == RoomScene)
         {
+            // PlayerStatePanel = GameObject.Find("LobbyGUI").transform.Find("Panel").GetComponent<RectTransform>();
+
             NetworkServer.RegisterHandler<WeaponSelectionMessage>(OnNetworkLockIn);
 
             // disable UI because it's automatically enabled on spawn
@@ -38,6 +41,7 @@ public class MyNetworkManager : NetworkRoomManager
     {
         NetworkClient.RegisterHandler<StartPreGameMessage>(OnStartPreGame);
         NetworkClient.RegisterHandler<SetLocalCharactersMessage>(OnSetLocalCharacters);
+        NetworkClient.RegisterHandler<SetScoreboardMessage>(OnSetScoreboardMessage);
     }
 
     // synchronise character setup start on clients (not just server)
@@ -54,6 +58,12 @@ public class MyNetworkManager : NetworkRoomManager
     {
         POVManager.Instance.SetLocalCharacters();
         NetworkClient.UnregisterHandler<SetLocalCharactersMessage>();
+    }
+
+    private void OnSetScoreboardMessage(SetScoreboardMessage msg)
+    {
+        ScoreManager.Instance.SetScoreboard(msg.PlayerNames, msg.TeamSizes);
+        NetworkClient.UnregisterHandler<SetScoreboardMessage>();
     }
 
     public override void OnRoomServerPlayersReady()
@@ -142,12 +152,30 @@ public class MyNetworkManager : NetworkRoomManager
             _currSpawnedCharacterNum += 1;
         }
 
-        // reset counters for next lobby
         if (_currSpawnedCharacterNum == _totalCharacterNum)
         {
+            // reset counters for next lobby
             _currSpawnedCharacterNum = 0;
             _totalCharacterNum = 0;
+
             NetworkServer.SendToReady(new SetLocalCharactersMessage()); // tell clients to assign setup relative allied and enemy characters
+
+            // send info for scoreboard setup
+            List<string> playerNames = new List<string>();
+            List<int> teamSizes = new List<int>();
+
+            foreach(MyNetworkRoomPlayer player in roomSlots)
+            {
+                playerNames.Add(player.PlayerName);
+                teamSizes.Add(player.CharacterNum);
+            }
+
+            SetScoreboardMessage msg = new SetScoreboardMessage()
+            {
+                PlayerNames=playerNames.ToArray(),
+                TeamSizes=teamSizes.ToArray()
+            };
+            NetworkServer.SendToReady(msg);
         }
 
         return true;
