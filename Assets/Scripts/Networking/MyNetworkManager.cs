@@ -48,10 +48,9 @@ public class MyNetworkManager : NetworkRoomManager
     private void OnStartPreGame(StartPreGameMessage msg)
     {
         showRoomGUI = false;
-        
-        UIObjectReferences _ui = GameObject.Find("UIObjectReferences").GetComponent<UIObjectReferences>();
-        _ui.CharacterSetupUI.SetActive(true);
-        _ui.EventSystem.SetActive(true);
+
+        UIObjectReferences.Instance.CharacterSetupUI.SetActive(true);
+        UIObjectReferences.Instance.EventSystem.SetActive(true);
     }
 
     private void OnSetLocalCharacters(SetLocalCharactersMessage msg)
@@ -62,6 +61,7 @@ public class MyNetworkManager : NetworkRoomManager
 
     private void OnSetScoreboardMessage(SetScoreboardMessage msg)
     {
+        ScoreManager.Instance.gameObject.SetActive(false);
         ScoreManager.Instance.SetScoreboard(msg.PlayerNames, msg.TeamSizes);
         NetworkClient.UnregisterHandler<SetScoreboardMessage>();
     }
