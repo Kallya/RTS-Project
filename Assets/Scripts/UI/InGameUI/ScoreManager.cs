@@ -13,7 +13,7 @@ public class Score
         set
         {
             _scoreCount = value;
-            OnScoreChanged.Invoke(this);
+            OnScoreChanged?.Invoke(this);
         }
     }
     public int CharactersRemaining
@@ -22,7 +22,7 @@ public class Score
         set
         {
             _charactersRemaining = value;
-            OnScoreChanged.Invoke(this);
+            OnScoreChanged?.Invoke(this);
         }
     }
 
