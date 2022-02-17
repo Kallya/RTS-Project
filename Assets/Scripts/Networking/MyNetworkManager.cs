@@ -10,6 +10,7 @@ public struct StartPreGameMessage : NetworkMessage {}
 public struct SetLocalCharactersMessage : NetworkMessage {}
 public struct SetScoreboardMessage : NetworkMessage
 {
+    public int[] ConnectionIds;
     public string[] PlayerNames;
     public int[] TeamSizes;
 }
@@ -62,7 +63,7 @@ public class MyNetworkManager : NetworkRoomManager
     private void OnSetScoreboardMessage(SetScoreboardMessage msg)
     {
         ScoreManager.Instance.gameObject.SetActive(false);
-        ScoreManager.Instance.SetScoreboard(msg.PlayerNames, msg.TeamSizes);
+        ScoreManager.Instance.SetScoreboard(msg.ConnectionIds, msg.PlayerNames, msg.TeamSizes);
         NetworkClient.UnregisterHandler<SetScoreboardMessage>();
     }
 
@@ -161,17 +162,20 @@ public class MyNetworkManager : NetworkRoomManager
             NetworkServer.SendToReady(new SetLocalCharactersMessage()); // tell clients to assign setup relative allied and enemy characters
 
             // send info for scoreboard setup
+            List<int> connectionIds = new List<int>();
             List<string> playerNames = new List<string>();
             List<int> teamSizes = new List<int>();
 
             foreach(MyNetworkRoomPlayer player in roomSlots)
             {
+                connectionIds.Add(player.connectionToClient.connectionId);
                 playerNames.Add(player.PlayerName);
                 teamSizes.Add(player.CharacterNum);
             }
 
             SetScoreboardMessage msg = new SetScoreboardMessage()
             {
+                ConnectionIds=connectionIds.ToArray(),
                 PlayerNames=playerNames.ToArray(),
                 TeamSizes=teamSizes.ToArray()
             };

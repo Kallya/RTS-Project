@@ -24,7 +24,7 @@ public class MouseClickInput : MonoBehaviour
             case "Ground":
                 dest = target.point;
                 break;
-            case "Player":
+            case "Enemy":
                 dest = target.transform.position;
                 break;
             default:

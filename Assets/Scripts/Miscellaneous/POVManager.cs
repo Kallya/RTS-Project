@@ -61,18 +61,22 @@ public class POVManager : NetworkBehaviour
         foreach (GameObject character in _activeCharacters)
         {
             _playerInputs.Add(character.GetComponent<PlayerCommandInput>());
-            character.GetComponent<DamageableObject>().OnDestroyed += Destroyed; // trigger for auto pov change
+            character.GetComponent<DamageableCharacter>().OnDestroyed += Destroyed; // trigger for auto pov change
         }
 
         ChangePOV(1);
     }
 
-    // automatically switch to active character POV when one dies
+    // automatically switch to active character POV when current one dies
     private void Destroyed(GameObject go)
     {
+        if (go.transform != _vc.Follow)
+            return; 
+
         for (int i = 0; i < _activeCharacters.Count; i++)
         {
-            if (_activeCharacters[i] != null)
+            GameObject character = _activeCharacters[i];
+            if (character != null && character != go)
             {
                 ChangePOV(i+1);
                 break;

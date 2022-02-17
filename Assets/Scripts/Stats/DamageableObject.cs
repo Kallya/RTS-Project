@@ -5,7 +5,6 @@ using Mirror;
 
 public class DamageableObject : NetworkBehaviour
 {
-    public event System.Action<GameObject> OnDestroyed;
     private DamageableObjectStats _damageableStats;
 
     private void Awake()
@@ -23,12 +22,11 @@ public class DamageableObject : NetworkBehaviour
     public virtual void DestroyObject()
     {
         Destroy(gameObject);
-        OnDestroyed?.Invoke(gameObject);
     }
 
     // Security wise stats should be updated on the server only and synchronised from there
     // but I don't know how to synchronised my Stat object values so yeah
-    private void TakeDamage(int dmg)
+    public void TakeDamage(int dmg)
     {
         if (!isServer)
             return;

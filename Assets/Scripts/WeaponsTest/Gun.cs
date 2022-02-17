@@ -27,6 +27,7 @@ public class Gun : MonoBehaviour, IWeapon
 
     private void InstantiateBullet()
     {
-        ObjectSpawner.Instance.CmdSpawnNetworkObject(0, _shotPoint.position, transform.rotation * _bullet.rotation);
+        NetworkIdentity playerId = transform.parent.GetComponent<NetworkIdentity>();
+        ObjectSpawner.Instance.CmdSpawnNetworkObject(0, _shotPoint.position, transform.rotation * _bullet.rotation, playerId.connectionToClient);
     }
 }

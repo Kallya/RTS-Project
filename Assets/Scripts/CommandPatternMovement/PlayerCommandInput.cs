@@ -54,7 +54,7 @@ public class PlayerCommandInput : NetworkBehaviour
                 string objectTag = GetObjectClicked();
                 if (objectTag == "Ground")
                     _commandProcessor.QueueCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
-                else if (objectTag == "Player")
+                else if (objectTag == "Enemy")
                     _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsTargeting"));
             }
                 

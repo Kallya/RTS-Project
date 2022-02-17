@@ -7,9 +7,9 @@ public class CameraControl : MonoBehaviour
 {
     private CinemachineVirtualCamera _virtualCam;
     private CinemachineFramingTransposer _virtualCamBody;
-    private static float s_rotSensitivity = 1000f;
+    private static float s_rotSensitivity = 1500f;
     private static float s_zoomSensitivity = 500f;
-    private static float s_moveSensitivity = 10f;
+    private static float s_moveSensitivity = 30f;
     private static float s_minZoom = 10f;
     private static float s_maxZoom = 50f;
     private static Vector3 s_screenCenter;
@@ -43,6 +43,7 @@ public class CameraControl : MonoBehaviour
             CenterCamOnPlayer();
     }
 
+    // Considering remove cause still not working
     private void MoveCamToMouse(float moveSensitivity, Vector3 screenCenter)
     {
         Vector3 mouseDir = Vector3.Normalize(Input.mousePosition - screenCenter);

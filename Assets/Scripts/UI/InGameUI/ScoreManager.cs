@@ -42,7 +42,7 @@ public class ScoreManager : NetworkBehaviour
 {
     public static ScoreManager Instance { get; private set; }
 
-    private List<Score> _playerScores = new List<Score>();
+    private Dictionary<int, Score> _playerScores = new Dictionary<int, Score>();
     private Dictionary<string, ScoreTextReferences> _scoreTextRefs = new Dictionary<string, ScoreTextReferences>();
     [SerializeField] private RectTransform _teamInfoRowPrefab;
     [SerializeField] private Transform _infoBoard;
@@ -52,7 +52,7 @@ public class ScoreManager : NetworkBehaviour
         Instance = this;
     }
 
-    public void SetScoreboard(string[] playerNames, int[] teamSizes)
+    public void SetScoreboard(int[] connectionIds, string[] playerNames, int[] teamSizes)
     {
         for (int i = 0; i < playerNames.Length; i++)
         {
@@ -63,13 +63,14 @@ public class ScoreManager : NetworkBehaviour
 
             // setup for ui to update when score updates
             ScoreTextReferences textComponents = scoreRow.GetComponent<ScoreTextReferences>();
+            int connId = connectionIds[i];
             string playerName = playerNames[i];
             int teamSize = teamSizes[i];
 
             _scoreTextRefs.Add(playerName, textComponents);
 
             Score playerScore = new Score(playerName, teamSize);
-            _playerScores.Add(playerScore);
+            _playerScores.Add(connId, playerScore);
             playerScore.OnScoreChanged += ScoreChanged;
 
             textComponents.TeamNameText.text = playerName;
@@ -88,10 +89,18 @@ public class ScoreManager : NetworkBehaviour
 
     private void InitialiseScores()
     {
-        foreach (Score score in _playerScores)
+        foreach (Score score in _playerScores.Values)
         {
             score.CharactersRemaining = score.CharactersRemaining;
             score.ScoreCount = score.ScoreCount;
         }
+    }
+
+    public void UpdateScore(int killerConnId, int victimConnId)
+    {
+        _playerScores[victimConnId].CharactersRemaining -= 1;
+
+        if (killerConnId != victimConnId)
+            _playerScores[killerConnId].ScoreCount += 1;
     }
 }
