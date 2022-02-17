@@ -14,6 +14,8 @@ public class WeaponConfig : MonoBehaviour
         {
             TMP_Dropdown dropdown = weaponSelections[i].WeaponSelectionDropdown;
             weaponConfig[i] = dropdown.options[dropdown.value].text;
+
+            dropdown.interactable = false; // disable dropdowns
         }
 
         return weaponConfig;

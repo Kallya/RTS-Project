@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
 // all configs are separate fields because NetworkMessage does not support array of arrays
@@ -16,6 +17,11 @@ public class LockInButton : MonoBehaviour
 {
     public void OnLockIn()
     {
+        // disable all buttons
+        Button[] buttons = transform.parent.GetComponentsInChildren<Button>();
+        foreach (Button btn in buttons)
+            btn.interactable = false;
+
         WeaponSelectionMessage msg = new WeaponSelectionMessage();
         string[][] weaponConfigs = GetWeaponConfigs();
 

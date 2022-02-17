@@ -13,15 +13,35 @@ public class DamageableCharacter : DamageableObject
         _lastCollConnId = GetCollId(coll);
 
         if (coll.gameObject.TryGetComponent<IWeapon>(out IWeapon weaponCollision))
-            TakeDamage(weaponCollision.Damage);
+            ServerTakeDamage(weaponCollision.Damage);
     }
 
-    public override void DestroyObject()
+    private void DestroyCharacterSetup(int attackerConnId, int thisConnId)
     {
-        ScoreManager.Instance.UpdateScore(_lastCollConnId, connectionToClient.connectionId);
+        ScoreManager.Instance.UpdateScore(_lastCollConnId, thisConnId);
         OnDestroyed?.Invoke(gameObject);
-        
-        base.DestroyObject();
+    }
+
+    public override void ServerDestroyObject()
+    {
+        if (!isServer)
+            return;
+
+        // destroyed object (this) connId stored here
+        // cause destroyed before DestroyCharacterSetup called
+        // leading to null object ref when accessing connectionToClient
+        int thisConnId = connectionToClient.connectionId;
+
+        DestroyCharacterSetup(_lastCollConnId, thisConnId);
+        RpcDestroyObject(_lastCollConnId, thisConnId);
+
+        base.ServerDestroyObject();
+    }
+
+    [ClientRpc]
+    private void RpcDestroyObject(int attackerConnId, int thisConnId)
+    {
+        DestroyCharacterSetup(attackerConnId, thisConnId);
     }
 
     // two cases

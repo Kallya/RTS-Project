@@ -147,6 +147,7 @@ public class MyNetworkManager : NetworkRoomManager
         {
             Vector3 startPos = GetRandomStartPos(0, 50);
             GameObject character = Instantiate(playerPrefab, startPos, Quaternion.identity);
+            character.name = conn.connectionId.ToString();
             AssignWeapons(character, roomPlayer, i);
             NetworkServer.Spawn(character, conn);
 

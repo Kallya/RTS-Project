@@ -100,6 +100,7 @@ public class ScoreManager : NetworkBehaviour
     {
         _playerScores[victimConnId].CharactersRemaining -= 1;
 
+        // inequality not registering as intended on client
         if (killerConnId != victimConnId)
             _playerScores[killerConnId].ScoreCount += 1;
     }

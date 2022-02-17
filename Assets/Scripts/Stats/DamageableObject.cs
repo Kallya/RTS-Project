@@ -15,18 +15,21 @@ public class DamageableObject : NetworkBehaviour
     private void Update()
     {
         if (_damageableStats.Health.Value <= 0)
-            DestroyObject();
+            ServerDestroyObject();
     }
 
     // override to do other stuff on death (send notification?)
-    public virtual void DestroyObject()
+    public virtual void ServerDestroyObject()
     {
+        if (!isServer)
+            return;
+            
         Destroy(gameObject);
     }
 
     // Security wise stats should be updated on the server only and synchronised from there
     // but I don't know how to synchronised my Stat object values so yeah
-    public void TakeDamage(int dmg)
+    public void ServerTakeDamage(int dmg)
     {
         if (!isServer)
             return;
@@ -54,6 +57,6 @@ public class DamageableObject : NetworkBehaviour
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.TryGetComponent<IWeapon>(out IWeapon weaponCollision))
-            TakeDamage(weaponCollision.Damage);
+            ServerTakeDamage(weaponCollision.Damage);
     }
 }
