@@ -6,7 +6,7 @@ using Mirror;
 
 public class MainMenuConnect : MonoBehaviour
 {
-    public TMP_InputField _playerNameInput;
+    public TMP_InputField PlayerNameInput;
     private MyNetworkManager _manager;
 
     private void Awake()

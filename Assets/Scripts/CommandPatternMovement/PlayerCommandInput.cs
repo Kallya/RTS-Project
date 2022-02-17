@@ -43,6 +43,10 @@ public class PlayerCommandInput : NetworkBehaviour
     // Update is called once per frame
     private void Update()
     {
+        // Don't allow the server to interact with game through inputs
+        if (isServerOnly)
+            return;
+
         if (IsQueueingCommands)
         {
             if (Input.GetMouseButtonDown(1))

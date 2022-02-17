@@ -16,6 +16,6 @@ public class ToggleScoreboardCommand : ICommand
     public void Execute()
     {
         ScoreManager.Instance.gameObject.SetActive(_activeState);
-        OnCompletion.Invoke(this);
+        OnCompletion?.Invoke(this);
     }
 }

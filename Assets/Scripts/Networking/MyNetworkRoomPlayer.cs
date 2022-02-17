@@ -8,6 +8,18 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
     public int CharacterNum { get; set; } = 1;
     public string PlayerName { get; set; }
     public string[][] CharacterWeaponSelection { get; set; }
+
+    public override void OnStartAuthority()
+    {
+        string playerName = MyNetworkManager.singleton.GetComponent<MainMenuConnect>().PlayerNameInput.text;
+        CmdSetPlayerName(playerName);
+    }
+
+    [Command]
+    private void CmdSetPlayerName(string playerName)
+    {
+        PlayerName = playerName;
+    }
 /*
     public override void OnGUI()
     {

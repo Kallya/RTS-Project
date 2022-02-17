@@ -104,6 +104,7 @@ public class MyNetworkManager : NetworkRoomManager
 
         _totalCharacterNum += characterNum;
 
+        // set customisation for player's team
         MyNetworkRoomPlayer currRoomPlayer = conn.identity.gameObject.GetComponent<MyNetworkRoomPlayer>();
         currRoomPlayer.LockedIn = true;
         currRoomPlayer.CharacterNum = characterNum;
@@ -124,7 +125,6 @@ public class MyNetworkManager : NetworkRoomManager
     public override GameObject OnRoomServerCreateRoomPlayer(NetworkConnection conn)
     {
         GameObject roomPlayer = Instantiate(roomPlayerPrefab.gameObject, Vector3.zero, Quaternion.identity);
-        roomPlayer.GetComponent<MyNetworkRoomPlayer>().PlayerName = GetComponent<MainMenuConnect>()._playerNameInput.text;
 
         return roomPlayer;
     }

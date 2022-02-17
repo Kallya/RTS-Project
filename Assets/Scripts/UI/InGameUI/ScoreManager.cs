@@ -52,11 +52,6 @@ public class ScoreManager : NetworkBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        InitialiseScores(); // reinitialise to update UI
-    }
-
     public void SetScoreboard(string[] playerNames, int[] teamSizes)
     {
         for (int i = 0; i < playerNames.Length; i++)
@@ -79,6 +74,8 @@ public class ScoreManager : NetworkBehaviour
 
             textComponents.TeamNameText.text = playerName;
         }
+
+        InitialiseScores(); // reinitialise to update UI
     }
 
     private void ScoreChanged(Score score)
