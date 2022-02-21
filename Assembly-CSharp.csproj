@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\UI\InGameUI\PlayerInfoUIManager.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\ActivateCommand.cs" />
      <Compile Include="Assets\Scripts\Networking\ObjectSpawner.cs" />
+     <Compile Include="Assets\Scripts\UI\InGameUI\Clock.cs" />
      <Compile Include="Assets\Scripts\CommandPatternMovement\PlayerCommandInput.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\AttackCommand.cs" />
      <Compile Include="Assets\Scripts\UI\PreGameLobby\WeaponSelection.cs" />
@@ -90,13 +91,13 @@
      <Compile Include="Assets\Scripts\Stats\DamageableObject.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\ScoreTextReferences.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\UpdateEquipmentUI.cs" />
+     <Compile Include="Assets\Scripts\Stats\DamageableCharacter.cs" />
      <Compile Include="Assets\Scripts\UI\PreGameLobby\LobbyPlayerTextRefs.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\ChangeToggleCommand.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\IEquipment.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\PlayerEquipment.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\RotateToMouseCommand.cs" />
-     <Compile Include="Assets\Scripts\UI\InGameUI\Clock.cs" />
-     <Compile Include="Assets\Scripts\Stats\DamageableCharacter.cs" />
+     <Compile Include="Assets\Scripts\WeaponsTest\TargetCommand.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\ScriptTemplates\51-Mirror__Network Authenticator-NewNetworkAuthenticator.cs.txt" />

@@ -22,7 +22,7 @@ public class DamageableCharacter : DamageableObject
 
     private void DestroyCharacterSetup(int attackerConnId, int thisConnId)
     {
-        ScoreManager.Instance.UpdateScore(_lastCollConnId, thisConnId);
+        ScoreManager.Instance.UpdateScore(attackerConnId, thisConnId);
         OnDestroyed?.Invoke(gameObject);
     }
 

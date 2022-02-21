@@ -16,6 +16,7 @@ public class PlayerCommandInput : NetworkBehaviour
     private CommandProcessor _commandProcessor;
     private MouseClickInput _mouseInput;
     private PlayerEquipment _playerWeapons;
+    private RaycastHit _objectHit;
 
     // consider depending on how it feels to play
 /*
@@ -32,14 +33,6 @@ public class PlayerCommandInput : NetworkBehaviour
         _playerWeapons = GetComponent<PlayerEquipment>();
     }
 
-    // get tag of object clicked on
-    private string GetObjectClicked()
-    {
-        RaycastHit objectHit = MouseClickInput.GetObjectHit();
-
-        return objectHit.transform.tag;
-    }
-
     // Update is called once per frame
     private void Update()
     {
@@ -51,10 +44,11 @@ public class PlayerCommandInput : NetworkBehaviour
         {
             if (Input.GetMouseButtonDown(1))
             {
-                string objectTag = GetObjectClicked();
-                if (objectTag == "Ground")
+                _objectHit = MouseClickInput.GetObjectHit();
+
+                if (_objectHit.transform.tag == "Ground")
                     _commandProcessor.QueueCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
-                else if (objectTag == "Enemy")
+                else if (_objectHit.transform.tag == "Enemy")
                     _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsTargeting"));
             }
                 
@@ -94,10 +88,10 @@ public class PlayerCommandInput : NetworkBehaviour
         {
             if (Input.GetMouseButtonDown(1))
             {
-                string objectTag = GetObjectClicked();
-                if (objectTag == "Ground")
+                _objectHit = MouseClickInput.GetObjectHit();
+                if (_objectHit.transform.tag == "Ground")
                     _commandProcessor.ExecuteCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
-                else if (objectTag == "Player")
+                else if (_objectHit.transform.tag == "Enemy")
                     _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsTargeting"));
             }
 
@@ -153,6 +147,11 @@ public class PlayerCommandInput : NetworkBehaviour
         }
 
         if (IsTargeting)
-            _commandProcessor.ExecuteCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
+        {
+            _commandProcessor.ExecuteCommand(new TargetCommand(gameObject, _objectHit.transform));
+
+            if (_objectHit.transform == null)
+                _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsTargeting"));
+        }
     }
 }
