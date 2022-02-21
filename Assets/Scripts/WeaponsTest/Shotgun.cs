@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 // could this inherit from Gun instead? (good practice?)
 public class Shotgun : MonoBehaviour, IWeapon
@@ -28,6 +29,6 @@ public class Shotgun : MonoBehaviour, IWeapon
     private void InstantiateBullets()
     {
         foreach (Transform shotPoint in _shotPoints)
-            ObjectSpawner.Instance.CmdSpawnNetworkObject(1, shotPoint.position, transform.rotation * _bullet.rotation);
+            ObjectSpawner.Instance.CmdSpawnNetworkObject(1, shotPoint.position, transform.rotation * _bullet.rotation, NetworkClient.connection as NetworkConnectionToClient);
     }
 }

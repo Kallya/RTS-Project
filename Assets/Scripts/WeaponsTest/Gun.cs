@@ -12,6 +12,7 @@ public class Gun : MonoBehaviour, IWeapon
     [SerializeField] private Sprite _equipSprite;
     [SerializeField] private Transform _bullet;
     [SerializeField] private Transform _shotPoint;
+    private NetworkIdentity playerId;
     private static float s_fireRate = 0.3f;
     // initialised to negative of fireRate so player can instantly start shooting on spawn
     private float _lastShotTime = -s_fireRate;
@@ -27,7 +28,6 @@ public class Gun : MonoBehaviour, IWeapon
 
     private void InstantiateBullet()
     {
-        NetworkIdentity playerId = transform.parent.GetComponent<NetworkIdentity>();
-        ObjectSpawner.Instance.CmdSpawnNetworkObject(0, _shotPoint.position, transform.rotation * _bullet.rotation, playerId.connectionToClient);
+        ObjectSpawner.Instance.CmdSpawnNetworkObject(0, _shotPoint.position, transform.rotation * _bullet.rotation, NetworkClient.connection as NetworkConnectionToClient);
     }
 }
