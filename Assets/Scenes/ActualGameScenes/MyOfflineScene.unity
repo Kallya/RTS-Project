@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -291,8 +291,7 @@ MonoBehaviour:
   roomSlots: []
   clientIndex: 0
   PlayerStatePrefab: {fileID: 8158913752314004282, guid: 5febf9062aa7410449d516dd5362d0a2, type: 3}
-  PlayerStatePanel: {fileID: 0}
-  emptyPlayerPrefab: {fileID: 8189309856033541704, guid: 7e1088cb3817a344299fd3f5f7956b2a, type: 3}
+  _emptyPlayerPrefab: {fileID: 8189309856033541704, guid: 7e1088cb3817a344299fd3f5f7956b2a, type: 3}
 --- !u!4 &187443668
 Transform:
   m_ObjectHideFlags: 0

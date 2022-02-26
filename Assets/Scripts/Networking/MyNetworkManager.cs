@@ -18,9 +18,8 @@ public struct SetScoreboardMessage : NetworkMessage
 public class MyNetworkManager : NetworkRoomManager
 {  
     public RectTransform PlayerStatePrefab;
-    public Transform PlayerStatePanel { get; private set; }
 
-    [SerializeField] private GameObject emptyPlayerPrefab;
+    [SerializeField] private GameObject _emptyPlayerPrefab;
     private int _totalCharacterNum = 0;
     private int _currSpawnedCharacterNum = 0;
 
@@ -42,6 +41,7 @@ public class MyNetworkManager : NetworkRoomManager
         NetworkClient.RegisterHandler<SetLocalCharactersMessage>(OnSetLocalCharacters);
         NetworkClient.RegisterHandler<SetScoreboardMessage>(OnSetScoreboardMessage);
     }
+
 
     // synchronise character setup start on clients (not just server)
     private void OnStartPreGame(StartPreGameMessage msg)
@@ -66,11 +66,6 @@ public class MyNetworkManager : NetworkRoomManager
     {
         StartPreGameMessage msg = new StartPreGameMessage();
         NetworkServer.SendToReady(msg);
-    }
-
-    public override void OnRoomClientEnter()
-    {
-        PlayerStatePanel = GameObject.Find("LobbyGUI").transform.Find("Panel");
     }
 
     public override void OnRoomClientExit()
@@ -133,7 +128,7 @@ public class MyNetworkManager : NetworkRoomManager
     public override GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer)
     {
         // spawn empty gameobject to act as player gameobject (does not interact with game itself)
-        GameObject player = Instantiate(emptyPlayerPrefab, Vector3.zero, Quaternion.identity);
+        GameObject player = Instantiate(_emptyPlayerPrefab, Vector3.zero, Quaternion.identity);
 
         return player;
     }

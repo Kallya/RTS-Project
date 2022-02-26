@@ -6,7 +6,10 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
     public bool LockedIn { get; set; } = false;
     public int CharacterNum { get; set; } = 1;
     public string[][] CharacterWeaponSelection { get; set; }
-    [SyncVar] public string PlayerName;
+    [SyncVar(hook=nameof(SetRoomPlayerUI))] public string PlayerName;
+    public LobbyPlayerTextRefs uiTextRefs { get; private set; }
+
+    private RectTransform _playerStateUI;
 
     public override void OnStartLocalPlayer()
     {
@@ -15,27 +18,39 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
         CmdSetPlayerName(playerName);
     }
 
+    public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)
+    {
+        if (newReadyState == true)
+            uiTextRefs.PlayerStatus.text = "Ready";
+        else
+            uiTextRefs.PlayerStatus.text = "Not Ready";
+
+    }
+
     [Command]
     private void CmdSetPlayerName(string playerName)
     {
         PlayerName = playerName;
     }
 
-    public override void OnClientEnterRoom()
+    private void SetRoomPlayerUI(string oldPlayerName, string newPlayerName)
     {
-        SetRoomPlayerUI();
-    }
+        if (newPlayerName == null)
+            return; 
 
-    private void SetRoomPlayerUI()
-    {
+        Transform playerStatePanel = GameObject.Find("LobbyGUI").transform.Find("Panel");
         MyNetworkManager room = MyNetworkManager.singleton as MyNetworkManager;
 
-        RectTransform playerStateUI = Instantiate(room.PlayerStatePrefab, room.PlayerStatePanel);
-        playerStateUI.offsetMin = new Vector2(0f, 510 - index*170);
-        playerStateUI.offsetMax = new Vector2(0f, -index*170);
+        _playerStateUI = Instantiate(room.PlayerStatePrefab, playerStatePanel);
+        _playerStateUI.offsetMin = new Vector2(0f, 510 - index*170);
+        _playerStateUI.offsetMax = new Vector2(0f, -index*170);
         
-        LobbyPlayerTextRefs textRefs = playerStateUI.GetComponent<LobbyPlayerTextRefs>();
-        textRefs.PlayerName.text = PlayerName;
+        uiTextRefs = _playerStateUI.GetComponent<LobbyPlayerTextRefs>();
+        uiTextRefs.PlayerName.text = PlayerName;
     }
 
+    private void OnDestroy()
+    {
+        Destroy(_playerStateUI.gameObject);
+    }
 }

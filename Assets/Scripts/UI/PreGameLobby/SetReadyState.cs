@@ -7,6 +7,8 @@ public class SetReadyState : MonoBehaviour
 {
     public void OnReadyBtnClick()
     {
-        NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>().CmdChangeReadyState(true);
+        MyNetworkRoomPlayer roomPlayer = NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>();
+
+        roomPlayer.CmdChangeReadyState(true);
     }
 }
