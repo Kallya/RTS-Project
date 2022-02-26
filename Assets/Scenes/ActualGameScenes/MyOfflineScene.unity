@@ -217,7 +217,6 @@ GameObject:
   - component: {fileID: 187443668}
   - component: {fileID: 187443667}
   - component: {fileID: 187443666}
-  - component: {fileID: 187443665}
   - component: {fileID: 187443669}
   m_Layer: 0
   m_Name: MyNetworkManager
@@ -226,20 +225,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &187443665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 187443664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offsetX: 0
-  offsetY: 0
 --- !u!114 &187443666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +282,7 @@ MonoBehaviour:
   - {fileID: 201341641173214757, guid: 65d736c3a6589004eb0501d788e24c15, type: 3}
   - {fileID: 8706318059285128934, guid: dc2a8a4180f87134d9d4c8deee62e184, type: 3}
   - {fileID: 8189309856033541704, guid: 7e1088cb3817a344299fd3f5f7956b2a, type: 3}
-  showRoomGUI: 1
+  showRoomGUI: 0
   minPlayers: 1
   roomPlayerPrefab: {fileID: 7527436089385443803, guid: 298586b00865c144eabc863464dfbcad, type: 3}
   RoomScene: Assets/Scenes/ActualGameScenes/MyRoomScene.unity

@@ -18,7 +18,7 @@ public struct SetScoreboardMessage : NetworkMessage
 public class MyNetworkManager : NetworkRoomManager
 {  
     public RectTransform PlayerStatePrefab;
-    public RectTransform PlayerStatePanel;
+    public Transform PlayerStatePanel { get; private set; }
 
     [SerializeField] private GameObject emptyPlayerPrefab;
     private int _totalCharacterNum = 0;
@@ -28,13 +28,11 @@ public class MyNetworkManager : NetworkRoomManager
     {
         if (sceneName == RoomScene)
         {
-            // PlayerStatePanel = GameObject.Find("LobbyGUI").transform.Find("Panel").GetComponent<RectTransform>();
-
             NetworkServer.RegisterHandler<WeaponSelectionMessage>(OnNetworkLockIn);
 
             // disable UI because it's automatically enabled on spawn
+            // need to change cause no longer need to ref eventsystem
             UIObjectReferences.Instance.CharacterSetupUI.SetActive(false);
-            UIObjectReferences.Instance.EventSystem.SetActive(false);
         }   
     }
 
@@ -48,10 +46,7 @@ public class MyNetworkManager : NetworkRoomManager
     // synchronise character setup start on clients (not just server)
     private void OnStartPreGame(StartPreGameMessage msg)
     {
-        showRoomGUI = false;
-
         UIObjectReferences.Instance.CharacterSetupUI.SetActive(true);
-        UIObjectReferences.Instance.EventSystem.SetActive(true);
     }
 
     private void OnSetLocalCharacters(SetLocalCharactersMessage msg)
@@ -71,6 +66,11 @@ public class MyNetworkManager : NetworkRoomManager
     {
         StartPreGameMessage msg = new StartPreGameMessage();
         NetworkServer.SendToReady(msg);
+    }
+
+    public override void OnRoomClientEnter()
+    {
+        PlayerStatePanel = GameObject.Find("LobbyGUI").transform.Find("Panel");
     }
 
     public override void OnRoomClientExit()

@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\UI\PreGameLobby\WeaponConfig.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\SwitchWeaponCommand.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\Wire.cs" />
+     <Compile Include="Assets\Scripts\WeaponsTest\TargetCommand.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\Shield.cs" />
      <Compile Include="Assets\Scripts\MouseClickMovement\PlayerMouseInput.cs" />
      <Compile Include="Assets\Scripts\Stats\Stats.cs" />
@@ -97,7 +98,7 @@
      <Compile Include="Assets\Scripts\WeaponsTest\IEquipment.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\PlayerEquipment.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\RotateToMouseCommand.cs" />
-     <Compile Include="Assets\Scripts\WeaponsTest\TargetCommand.cs" />
+     <Compile Include="Assets\Scripts\UI\PreGameLobby\SetReadyState.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\ScriptTemplates\51-Mirror__Network Authenticator-NewNetworkAuthenticator.cs.txt" />
