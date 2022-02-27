@@ -7,7 +7,7 @@ public class CameraControl : MonoBehaviour
 {
     private CinemachineVirtualCamera _virtualCam;
     private CinemachineFramingTransposer _virtualCamBody;
-    private static float s_rotSensitivity = 1500f;
+    // private static float s_rotSensitivity = 1500f;
     private static float s_zoomSensitivity = 500f;
     private static float s_moveSensitivity = 30f;
     private static float s_minZoom = 10f;
@@ -28,8 +28,11 @@ public class CameraControl : MonoBehaviour
         if (_virtualCam.Follow == null)
             return;
 
+        // can't be bothered to fix cam rotation
+        /*
         if (Input.GetMouseButton(0))
             RotateCamHorizontal(s_rotSensitivity);
+        */
 
         if (Input.mouseScrollDelta.y != 0)
             AdjustCamZoom(s_zoomSensitivity, s_minZoom, s_maxZoom);
@@ -54,11 +57,13 @@ public class CameraControl : MonoBehaviour
         _virtualCamBody.m_TrackedObjectOffset.z += camMoveVec.y;
     }
 
+    /*
     private void RotateCamHorizontal(float rotSensitivity)
     {
         float horizontal = Input.GetAxis("Mouse X");
         _virtualCam.transform.Rotate(new Vector3(0f, horizontal * rotSensitivity * Time.deltaTime, 0f), Space.World);
     }
+    */
 
     private void AdjustCamZoom(float zoomSensitivity, float minZoom, float maxZoom)
     {

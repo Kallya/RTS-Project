@@ -51,6 +51,9 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
 
     private void OnDestroy()
     {
+        if (_playerStateUI == null)
+            return;
+            
         Destroy(_playerStateUI.gameObject);
     }
 }

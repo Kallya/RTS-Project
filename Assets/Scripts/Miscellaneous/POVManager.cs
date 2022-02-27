@@ -18,6 +18,8 @@ public class POVManager : NetworkBehaviour
     [SerializeField] private GameObject _friendlySprite;
     [SerializeField] private GameObject _enemySprite;
     [SerializeField] private GameObject _rangeIndicatorSprite;
+    [SerializeField] private GameObject _allyHealthBarSprite;
+    [SerializeField] private GameObject _enemyHealthBarSprite;
     private static string _minimapSpriteName = "MinimapSprite";
     private static int _cloakedLayer = 7;
     private static int _minimapLayer = 6;
@@ -49,11 +51,13 @@ public class POVManager : NetworkBehaviour
                 _activeCharacters.Add(character);
                 AddMinimapSprite(character, false);
                 AddRangeIndicator(character);
+                AddHealthBar(character, false);
             }
             else
             {
                 character.tag = "Enemy"; // differentiate enemy characters
                 AddMinimapSprite(character, true);
+                AddHealthBar(character, true);
             }
         }
         
@@ -132,6 +136,16 @@ public class POVManager : NetworkBehaviour
         _spriteReferences[character].RangeIndicatorSprite = indicator;
 
         character.GetComponent<PlayerEquipment>().RangeIndicatorSprite = indicator;
+    }
+
+    private void AddHealthBar(GameObject character, bool isEnemy)
+    {
+        GameObject healthBar;
+
+        if (isEnemy == true)
+            healthBar = Instantiate(_enemyHealthBarSprite, character.transform);
+        else
+            healthBar = Instantiate(_allyHealthBarSprite, character.transform);
     }
 
     private void OnCloaked(NetworkConnection conn, CloakMessage msg)
