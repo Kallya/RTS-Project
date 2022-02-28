@@ -12,16 +12,11 @@ public class ObjectSpawner : NetworkBehaviour
         Instance = this;
     }
 
-    // is it possible to use this also for MyNetworkManager?
+    // spawning twice on client?
     [Command(requiresAuthority=false)]
     public void CmdSpawnNetworkObject(int spawnPrefabIndex, Vector3 pos, Quaternion rotation, NetworkConnectionToClient targetConn=null)
     {   
-        // prevent index error
-        if (spawnPrefabIndex >= NetworkManager.singleton.spawnPrefabs.Count || spawnPrefabIndex < 0)
-            return;
-
         GameObject go = Instantiate(MyNetworkManager.singleton.spawnPrefabs[spawnPrefabIndex], pos, rotation);
-        go.name = $"{go.name} [connId={targetConn?.connectionId}]";
         NetworkServer.Spawn(go, targetConn);
     }
 }
