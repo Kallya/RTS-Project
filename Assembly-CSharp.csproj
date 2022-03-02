@@ -39,7 +39,7 @@
      <Compile Include="Assets\Scripts\WeaponsTest\Shotgun.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\MoveCommandCompletionObserver.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\UIPlayerControls.cs" />
-     <Compile Include="Assets\Scripts\UI\InGameUI\UpdateHealthBar.cs" />
+     <Compile Include="Assets\Scripts\UI\InGameUI\UpdateStatBar.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\Initialise.cs" />
      <Compile Include="Assets\Scripts\SampleScene\PlayerInput.cs" />
      <Compile Include="Assets\ParrelSync\Examples\CustomArgumentExample.cs" />
@@ -101,6 +101,8 @@
      <Compile Include="Assets\Scripts\WeaponsTest\IEquipment.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\PlayerEquipment.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\RotateToMouseCommand.cs" />
+     <Compile Include="Assets\Scripts\UI\InGameUI\UpdateHealthBar.cs" />
+     <Compile Include="Assets\Scripts\UI\InGameUI\UpdateEnergyBar.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\ScriptTemplates\51-Mirror__Network Authenticator-NewNetworkAuthenticator.cs.txt" />

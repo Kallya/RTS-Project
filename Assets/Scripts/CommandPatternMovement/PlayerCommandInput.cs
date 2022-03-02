@@ -39,7 +39,7 @@ public class PlayerCommandInput : NetworkBehaviour
         // Don't allow the server to interact with game through inputs
         if (isServerOnly)
             return;
-
+        // need to rethink this
         if (IsQueueingCommands)
         {
             if (Input.GetMouseButtonDown(1))

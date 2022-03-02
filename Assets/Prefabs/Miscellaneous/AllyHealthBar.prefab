@@ -91,7 +91,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4722335043211546719}
-  - component: {fileID: -5286341827657065410}
+  - component: {fileID: 6946261076437872279}
   m_Layer: 0
   m_Name: AllyHealthBar
   m_TagString: Untagged
@@ -107,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4722335043211546712}
   m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 2.3, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 3406442072677224278}
@@ -115,7 +115,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
---- !u!114 &-5286341827657065410
+--- !u!114 &6946261076437872279
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,10 +124,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4722335043211546712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79235bc8a42646e4b94d1116ef6b2efb, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b99fe33c27726f4ca4a95b8feadcda8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthBarSprite: {fileID: 3406442072677224278}
+  _statBarSprite: {fileID: 3406442072677224278}
 --- !u!1 &4999078985181394649
 GameObject:
   m_ObjectHideFlags: 0

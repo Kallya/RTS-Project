@@ -1,30 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIPlayerControls : MonoBehaviour
 {
-    private PlayerCommandInput playerInput;
-    private CommandProcessor playerCmdProcessor;
+    private PlayerCommandInput _playerInput;
+    private CommandProcessor _playerCmdProcessor;
 
     private void Start()
     {
         POVManager.Instance.OnPOVChanged += POVChanged;
     }
 
-    public void OnQueueBtnClick()
+    public void OnQueueBtnClick(Image queueBtnImg)
     {
-        playerInput.IsQueueingCommands = !playerInput.IsQueueingCommands;
+        _playerCmdProcessor.ExecuteCommand(new ChangeToggleCommand(_playerInput, "IsQueueingCommands"));
+        SetBtnColour(queueBtnImg, _playerInput.IsQueueingCommands);
     }
 
-    public void OnAutoAttackBtnClick()
+    public void OnAutoAttackBtnClick(Image autoAtkBtnImg)
     {
-        playerInput.IsAutoAttacking = !playerInput.IsAutoAttacking;
+        _playerCmdProcessor.ExecuteCommand(new ChangeToggleCommand(_playerInput, "IsAutoAttacking"));
+        SetBtnColour(autoAtkBtnImg, _playerInput.IsAutoAttacking);
     }
 
     public void OnUndoBtnClick()
     {
-        playerCmdProcessor.Undo();
+        _playerCmdProcessor.Undo();
     }
 
     public void OnBailBtnClick()
@@ -34,7 +37,15 @@ public class UIPlayerControls : MonoBehaviour
 
     private void POVChanged(Transform currPlayer)
     {
-        playerInput = currPlayer.GetComponent<PlayerCommandInput>();
-        playerCmdProcessor = currPlayer.GetComponent<CommandProcessor>();
+        _playerInput = currPlayer.GetComponent<PlayerCommandInput>();
+        _playerCmdProcessor = currPlayer.GetComponent<CommandProcessor>();
+    }
+
+    private void SetBtnColour(Image btnImg, bool toggle)
+    {
+        if (toggle == true)
+            btnImg.color = Color.green;
+        else
+            btnImg.color = Color.white;
     }
 }

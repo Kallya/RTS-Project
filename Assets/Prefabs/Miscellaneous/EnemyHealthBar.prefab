@@ -173,7 +173,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6218963537029209978}
-  - component: {fileID: -6463334740269157232}
+  - component: {fileID: -5131095830749135639}
   m_Layer: 0
   m_Name: EnemyHealthBar
   m_TagString: Untagged
@@ -189,7 +189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6218963537029209981}
   m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 2.3, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 4310985134396218190}
@@ -197,7 +197,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
---- !u!114 &-6463334740269157232
+--- !u!114 &-5131095830749135639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6218963537029209981}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79235bc8a42646e4b94d1116ef6b2efb, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b99fe33c27726f4ca4a95b8feadcda8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthBarSprite: {fileID: 4310985134396218190}
+  _statBarSprite: {fileID: 4310985134396218190}
