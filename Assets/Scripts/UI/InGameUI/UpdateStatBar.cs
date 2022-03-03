@@ -7,6 +7,7 @@ public class UpdateStatBar : MonoBehaviour
     [SerializeField] private Transform _statBarSprite;
 
     private Quaternion _initRot;
+    private Vector3 _initPos;
 
     private void Awake()
     {
@@ -20,7 +21,7 @@ public class UpdateStatBar : MonoBehaviour
     
     public virtual void SubscribeToStatChange()
     {
-        // subscribe to specific stat's change event on character's CharacterStats
+        // subscribe to stat change event here
     }
 
     // stop hp bar from rotating

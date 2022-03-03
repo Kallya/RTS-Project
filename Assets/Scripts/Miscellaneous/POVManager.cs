@@ -9,8 +9,8 @@ public class POVManager : NetworkBehaviour
 {
     public static POVManager Instance { get; private set; }
     public event System.Action<Transform> OnPOVChanged;
+    public List<GameObject> ActiveCharacters = new List<GameObject>();
 
-    private List<GameObject> _activeCharacters = new List<GameObject>();
     private List<PlayerCommandInput> _playerInputs = new List<PlayerCommandInput>();
     private Dictionary<GameObject, PlayerSpriteReferences> _spriteReferences = new Dictionary<GameObject, PlayerSpriteReferences>();
     private CinemachineVirtualCamera _vc;
@@ -49,7 +49,7 @@ public class POVManager : NetworkBehaviour
             // all of local client's characters have authority
             if (character.GetComponent<NetworkIdentity>().hasAuthority)
             {
-                _activeCharacters.Add(character);
+                ActiveCharacters.Add(character);
                 AddMinimapSprite(character, false);
                 AddRangeIndicator(character);
                 AddHealthBar(character, false);
@@ -65,7 +65,7 @@ public class POVManager : NetworkBehaviour
         }
         
         // Get all ally characters' input controllers
-        foreach (GameObject character in _activeCharacters)
+        foreach (GameObject character in ActiveCharacters)
         {
             _playerInputs.Add(character.GetComponent<PlayerCommandInput>());
             character.GetComponent<DamageableCharacter>().OnDestroyed += Destroyed; // trigger for auto pov change
@@ -80,9 +80,9 @@ public class POVManager : NetworkBehaviour
         if (go.transform != _vc.Follow)
             return; 
 
-        for (int i = 0; i < _activeCharacters.Count; i++)
+        for (int i = 0; i < ActiveCharacters.Count; i++)
         {
-            GameObject character = _activeCharacters[i];
+            GameObject character = ActiveCharacters[i];
             if (character != null && character != go)
             {
                 ChangePOV(i+1);
@@ -93,7 +93,7 @@ public class POVManager : NetworkBehaviour
 
     public void ChangePOV(int characterNum)
     {
-        if (characterNum > _activeCharacters.Count)
+        if (characterNum > ActiveCharacters.Count)
             return;
             
         int characterIndex = characterNum - 1;
@@ -101,7 +101,7 @@ public class POVManager : NetworkBehaviour
         // dead characters will be nulled to maintain
         // hotkeys for switching characters
         // this prevents pov changes to null objects
-        if (_activeCharacters[characterIndex] == null)
+        if (ActiveCharacters[characterIndex] == null)
             return;
 
         if (_vc.Follow != null)
@@ -111,10 +111,10 @@ public class POVManager : NetworkBehaviour
         }
 
         _playerInputs[characterIndex].enabled = true;
-        _vc.Follow = _activeCharacters[characterIndex].transform;
+        _vc.Follow = ActiveCharacters[characterIndex].transform;
         _vcBody.m_TrackedObjectOffset = Vector3.zero;   // center cam on new character
 
-        _spriteReferences[_activeCharacters[characterIndex]].RangeIndicatorSprite.SetActive(true);
+        _spriteReferences[ActiveCharacters[characterIndex]].RangeIndicatorSprite.SetActive(true);
         
         OnPOVChanged?.Invoke(_vc.Follow);
     }

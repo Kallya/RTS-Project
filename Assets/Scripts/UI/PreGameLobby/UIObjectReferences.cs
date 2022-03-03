@@ -7,7 +7,6 @@ public class UIObjectReferences : MonoBehaviour
 {
     public static UIObjectReferences Instance { get; private set; }
     public GameObject CharacterSetupUI;
-    public GameObject EventSystem;
 
     private void Awake()
     {

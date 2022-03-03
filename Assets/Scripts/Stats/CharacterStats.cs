@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.UI;
 
 public class CharacterStats : DamageableObjectStats
 {
+    public Sprite CharacterSprite;
     public Stat[] Stats;
 
     public override Stat Health { get; } = new Stat("Health", 100);

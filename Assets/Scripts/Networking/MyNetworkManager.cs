@@ -31,7 +31,6 @@ public class MyNetworkManager : NetworkRoomManager
 
             // disable UI because it's automatically enabled on spawn
             // need to change cause no longer need to ref eventsystem
-            UIObjectReferences.Instance.CharacterSetupUI.SetActive(false);
         }   
     }
 
@@ -53,6 +52,8 @@ public class MyNetworkManager : NetworkRoomManager
     {
         POVManager.Instance.SetLocalCharacters();
         NetworkClient.UnregisterHandler<SetLocalCharactersMessage>();
+
+        TeamMiniHUDSetup.Instance.Setup();
     }
 
     private void OnSetScoreboardMessage(SetScoreboardMessage msg)

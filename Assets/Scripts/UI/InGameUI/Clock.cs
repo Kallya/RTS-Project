@@ -21,6 +21,10 @@ public class Clock : MonoBehaviour
     private void Update()
     {
         double remainingTime = _timeAllowed - NetworkTime.time + _initTime;
+
+        // if (remainingTime < 0)
+            // change to end game scene
+
         int remainingMin = (int)(remainingTime / 60);
         int remainingSec = (int)remainingTime % 60;
 
