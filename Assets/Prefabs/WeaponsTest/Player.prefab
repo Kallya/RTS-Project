@@ -256,6 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b28a84b9e75264f806675cf88968b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterSprite: {fileID: 21300000, guid: 01b361c04ede5c246ad81528aa78d128, type: 3}
 --- !u!114 &1341216405356785060
 MonoBehaviour:
   m_ObjectHideFlags: 0

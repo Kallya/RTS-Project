@@ -5,6 +5,7 @@ using UnityEngine;
 public class TeamMiniHUDSetup : MonoBehaviour
 {
     public static TeamMiniHUDSetup Instance { get; private set; }
+    
     [SerializeField] private RectTransform characterHUDPrefab;
 
     private void Awake()
