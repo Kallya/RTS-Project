@@ -12,12 +12,8 @@ public class UpdateStatGraphicalIndicator : MonoBehaviour
     {
         _indicator = GetComponent<Slider>();
     }
-    private void Start()
-    {
-        PlayerInfoUIManager.Instance.OnAnyStatChanged += AnyStatChanged;
-    }
 
-    private void AnyStatChanged(Stat stat)
+    public void AnyStatChanged(Stat stat)
     {
         if (stat.Name == _thisStatName)
             _indicator.value = (float)stat.Value / stat.BaseValue;

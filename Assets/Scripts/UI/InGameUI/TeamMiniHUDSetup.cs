@@ -20,7 +20,7 @@ public class TeamMiniHUDSetup : MonoBehaviour
         for (int i = 0; i < localCharacters.Count; i++)
         {
             RectTransform hud = Instantiate(characterHUDPrefab, transform);
-            hud.offsetMin = new Vector2(-75 + i*50, 0f);
+            hud.anchoredPosition = new Vector2(-75 + i*50, 0f);
             hud.GetComponent<CharacterHUDSetup>().Character = localCharacters[i].transform.GetComponent<CharacterStats>();
         }
     }

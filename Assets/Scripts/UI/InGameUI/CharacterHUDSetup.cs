@@ -14,6 +14,7 @@ public class CharacterHUDSetup : MonoBehaviour
             SetupHUD();
         }
     }
+    
     [SerializeField] private Image _characterPortrait;
     [SerializeField] private GameObject _healthBar;
     [SerializeField] private GameObject _energyBar;
@@ -22,7 +23,7 @@ public class CharacterHUDSetup : MonoBehaviour
     private void SetupHUD()
     {
         _characterPortrait.sprite = Character.CharacterSprite;
-        Character.Health.OnStatChanged += _healthBar.GetComponent<UpdateStatBar>().StatChanged;
-        Character.Energy.OnStatChanged += _energyBar.GetComponent<UpdateStatBar>().StatChanged;
+        Character.Health.OnStatChanged += _healthBar.GetComponent<UpdateStatGraphicalIndicator>().AnyStatChanged;
+        Character.Energy.OnStatChanged += _energyBar.GetComponent<UpdateStatGraphicalIndicator>().AnyStatChanged;
     }
 }
