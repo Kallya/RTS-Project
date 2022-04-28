@@ -5,6 +5,7 @@ using UnityEngine;
 public interface IWeapon : IEquipment
 {
     int Damage { get; }
+    int EnergyCost { get; }
     float Range { get; }
     void Attack();
 }

@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 
 // all configs are separate fields because NetworkMessage does not support array of arrays
-public struct WeaponSelectionMessage : NetworkMessage
+public struct CharacterConfigurationMessage : NetworkMessage
 {
+    public string[] CharacterTypes;
     public string[] Config1;
     public string[] Config2;
     public string[] Config3;
@@ -22,9 +24,12 @@ public class LockInButton : MonoBehaviour
         foreach (Button btn in buttons)
             btn.interactable = false;
 
-        WeaponSelectionMessage msg = new WeaponSelectionMessage();
-        string[][] weaponConfigs = GetWeaponConfigs();
+        CharacterConfigurationMessage msg = new CharacterConfigurationMessage();
+        Tuple<string[], string[][]> characterConfigs = GetCharacterConfigs();
+        string[][] weaponConfigs = characterConfigs.Item2;
+        string[] characterTypes = characterConfigs.Item1;
 
+        msg.CharacterTypes = characterTypes;
         // this seems really inefficient, is there a better way?
         // for some reason can't assign additively, other msg fields are nulled
         switch (weaponConfigs.Length)
@@ -52,14 +57,18 @@ public class LockInButton : MonoBehaviour
         NetworkClient.Send(msg);
     }
 
-    private string[][] GetWeaponConfigs()
+    private Tuple<string[], string[][]> GetCharacterConfigs()
     {
-        WeaponConfig[] weaponConfigs = transform.parent.GetComponentsInChildren<WeaponConfig>();
-        string[][] configs = new string[weaponConfigs.Length][]; // array of string arrays holding character weapon names
+        CharacterConfig[] characterConfigs = transform.parent.GetComponentsInChildren<CharacterConfig>();
+        string[][] weaponConfigs = new string[characterConfigs.Length][]; // array of string arrays holding character weapon names
+        string[] characterTypes = new string[characterConfigs.Length];
 
-        for (int i = 0; i < weaponConfigs.Length; i++)
-            configs[i] = weaponConfigs[i].GetWeaponConfig();
+        for (int i = 0; i < characterConfigs.Length; i++)
+        {
+            weaponConfigs[i] = characterConfigs[i].GetWeaponConfig();
+            characterTypes[i] = characterConfigs[i].GetCharacterType();
+        }
 
-        return configs;
+        return new Tuple<string[], string[][]>(characterTypes, weaponConfigs);
     }
 }

@@ -27,7 +27,7 @@ public class MyNetworkManager : NetworkRoomManager
     {
         if (sceneName == RoomScene)
         {
-            NetworkServer.RegisterHandler<WeaponSelectionMessage>(OnNetworkLockIn);
+            NetworkServer.RegisterHandler<CharacterConfigurationMessage>(OnNetworkLockIn);
 
             // disable UI because it's automatically enabled on spawn
             // need to change cause no longer need to ref eventsystem
@@ -76,11 +76,11 @@ public class MyNetworkManager : NetworkRoomManager
 
     private void OnAllLockIn()
     {
-        NetworkServer.UnregisterHandler<WeaponSelectionMessage>();
+        NetworkServer.UnregisterHandler<CharacterConfigurationMessage>();
         ServerChangeScene(GameplayScene);
     }
 
-    public void OnNetworkLockIn(NetworkConnection conn, WeaponSelectionMessage msg)
+    public void OnNetworkLockIn(NetworkConnection conn, CharacterConfigurationMessage msg)
     {  
         // player configs are null if no character
         // they won't be accessed so there won't be a problem
@@ -105,6 +105,7 @@ public class MyNetworkManager : NetworkRoomManager
         MyNetworkRoomPlayer currRoomPlayer = conn.identity.gameObject.GetComponent<MyNetworkRoomPlayer>();
         currRoomPlayer.LockedIn = true;
         currRoomPlayer.CharacterNum = characterNum;
+        currRoomPlayer.CharacterTypes = msg.CharacterTypes;
         currRoomPlayer.CharacterWeaponSelection = characterWeaponSelection;
         
         // check if all players are locked in
@@ -144,6 +145,27 @@ public class MyNetworkManager : NetworkRoomManager
             Vector3 startPos = GetRandomStartPos(0, 50);
             GameObject character = Instantiate(playerPrefab, startPos, Quaternion.identity);
             character.name = conn.connectionId.ToString();
+
+            // add character stats dependent on type
+            string characterType = roomPlayer.GetComponent<MyNetworkRoomPlayer>().CharacterTypes[i];
+            Sprite characterPortrait = CharacterPortraits.Instance.PortraitReferences[characterType];
+            CharacterStats stats = null;
+
+            switch (characterType)
+            {
+                case "Kabuki (Tank)":
+                    stats = character.AddComponent<KabukiCharacterStats>();
+                    break;
+                case "Tengu (All-Rounder)":
+                    stats = character.AddComponent<TenguCharacterStats>();
+                    break;
+                case "Kitsune (Assassin)":
+                    stats = character.AddComponent<KitsuneCharacterStats>();
+                    break;
+            }
+
+            stats.CharacterSprite = characterPortrait;
+
             AssignWeapons(character, roomPlayer, i);
             NetworkServer.Spawn(character, conn);
 

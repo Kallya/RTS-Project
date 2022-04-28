@@ -7,7 +7,8 @@ using Mirror;
 public class Shotgun : MonoBehaviour, IWeapon
 {
     public Sprite EquipSprite { get => _equipSprite; }
-    public int Damage { get; } = 5;
+    public int Damage { get; } = 5; // dmg per bullet
+    public int EnergyCost { get; } = 20;
     public float Range { get; } = 5f;
 
     [SerializeField] private Sprite _equipSprite;

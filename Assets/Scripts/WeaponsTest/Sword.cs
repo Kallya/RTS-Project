@@ -6,6 +6,7 @@ public class Sword : MonoBehaviour, IWeapon
 {
     public Sprite EquipSprite { get => _equipSprite; }
     public int Damage { get; } = 30;
+    public int EnergyCost { get; } = 0;
     public float Range { get; } = 1f;
 
     [SerializeField] private Sprite _equipSprite;

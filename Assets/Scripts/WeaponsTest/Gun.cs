@@ -6,6 +6,7 @@ using Mirror;
 public class Gun : MonoBehaviour, IWeapon
 {
     public Sprite EquipSprite { get => _equipSprite; }
+    public int EnergyCost { get; } = 5;
     public int Damage { get; } = 10;
     public float Range { get; } = 10f;
 

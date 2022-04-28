@@ -7,7 +7,7 @@ public class DamageableObject : NetworkBehaviour
 {
     private DamageableObjectStats _damageableStats;
 
-    private void Awake()
+    private void Start()
     {
         _damageableStats = GetComponent<DamageableObjectStats>();
     }
