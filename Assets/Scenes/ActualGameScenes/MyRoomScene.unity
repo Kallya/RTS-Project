@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4465,11 +4465,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0dd59ba2be73a4188834455ba51b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponPrefabs:
-  - {fileID: 6875914063717594160, guid: 69b1b8efe96d85143bae7e8509b40cf3, type: 3}
-  - {fileID: 1349795854991798569, guid: 3bb3a98b7ba7bd24bb988d16af7ec05b, type: 3}
-  - {fileID: 5098919466254685191, guid: a335ab4cffb537642a59fb024cb4352c, type: 3}
-  - {fileID: 2008777910894106191, guid: 9c577deec9ba5f14ab8d3693d6e790c6, type: 3}
+  equipmentPrefabs:
+  - {fileID: 393532987804524562, guid: bc5b7c0664c99d947ba6f3f7964c5cdc, type: 3}
+  - {fileID: 8610137056002866901, guid: 69ad1b35fbce9914f8441f5cb8b1fba3, type: 3}
+  - {fileID: 2644212909809561011, guid: bbc4da6c0b0f5404dbc65015e125905c, type: 3}
+  - {fileID: 2644212909809561011, guid: bbc4da6c0b0f5404dbc65015e125905c, type: 3}
 --- !u!1 &8922276471233131057
 GameObject:
   m_ObjectHideFlags: 0

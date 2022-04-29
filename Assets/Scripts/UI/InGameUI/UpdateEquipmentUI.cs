@@ -42,7 +42,7 @@ public class UpdateEquipmentUI : MonoBehaviour
         for (int i = 0; i < _equipmentSlots.Count; i++)
         {
             string weaponName = currWeapons.EquipmentToAdd[i];
-            _equipmentSlots[i].sprite = Weapons.Instance.WeaponReferences[weaponName]
+            _equipmentSlots[i].sprite = Equipment.Instance.EquipmentReferences[weaponName]
                 .GetComponent<IEquipment>()
                 .EquipSprite;
         }

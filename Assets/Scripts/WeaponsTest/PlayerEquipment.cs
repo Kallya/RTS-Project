@@ -29,21 +29,21 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void SetupEquipment()
     {
-        foreach (string weaponName in EquipmentToAdd)
+        foreach (string equipName in EquipmentToAdd)
         {
-            GameObject weaponPrefab = Weapons.Instance.WeaponReferences[weaponName];
-            GameObject weapon = Instantiate(weaponPrefab, transform);
-            _availableEquipmentInterfaces.Add(weapon, weapon.GetComponent<IWeapon>());
+            GameObject equipPrefab = Equipment.Instance.EquipmentReferences[equipName];
+            GameObject equippable = Instantiate(equipPrefab, transform);
+            _availableEquipmentInterfaces.Add(equippable, equippable.GetComponent<IEquipment>());
         }
 
         foreach (KeyValuePair<GameObject, IEquipment> w in _availableEquipmentInterfaces)
         {
-            // disable all weapons initially
+            // disable all equipment initially
             w.Key.SetActive(false);
 
             // listen for when weapon breaks/can't be used anymore
-            if (w.Value is ILimitedUseWeapon weapon)
-                weapon.OnLimitReached += LimitReached;
+            if (w.Value is ILimitedUseEquippable equippable)
+                equippable.OnLimitReached += LimitReached;
         }
 
         _availableEquipment = new List<GameObject>(_availableEquipmentInterfaces.Keys);
@@ -101,15 +101,15 @@ public class PlayerEquipment : NetworkBehaviour
         _activeEquipSlot = equipSlot;
     }
 
-    private void LimitReached(GameObject weapon)
+    private void LimitReached(GameObject equippable)
     {
-        ILimitedUseWeapon w = (ILimitedUseWeapon)_availableEquipmentInterfaces[weapon];
+        ILimitedUseEquippable equippedInterface = (ILimitedUseEquippable)_availableEquipmentInterfaces[equippable];
         // unsubscribe from weapon as it is unattached
-        w.OnLimitReached -= LimitReached;
+        equippedInterface.OnLimitReached -= LimitReached;
 
         // null weapon slots so controls don't change
-        _availableEquipmentInterfaces[weapon] = null;
-        _availableEquipment[_availableEquipment.IndexOf(weapon)] = null;
+        _availableEquipmentInterfaces[equippable] = null;
+        _availableEquipment[_availableEquipment.IndexOf(equippable)] = null;
 
         // Switch back automatically after losing a weapon?
         // SwitchWeapon(1);
