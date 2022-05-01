@@ -388,7 +388,7 @@ Transform:
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &124512585
 MonoBehaviour:
@@ -3012,7 +3012,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1027683442
 GameObject:
@@ -4296,6 +4296,8 @@ GameObject:
   - component: {fileID: 1550017096}
   - component: {fileID: 1550017098}
   - component: {fileID: 1550017097}
+  - component: {fileID: 1550017099}
+  - component: {fileID: 1550017100}
   m_Layer: 5
   m_Name: QueuedCommandsDisplay
   m_TagString: Untagged
@@ -4360,6 +4362,45 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550017095}
   m_CullTransparentMesh: 1
+--- !u!114 &1550017099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550017095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7af541861ae677a4b845660c420ccdbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commandHUDPrefab: {fileID: 6469895094507861143, guid: 81393378a34fd85479cc36138ffee5d6, type: 3}
+--- !u!114 &1550017100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550017095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 7
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1559094692
 GameObject:
   m_ObjectHideFlags: 0
@@ -6075,7 +6116,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1891110510272518944, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1891110510272518944, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: m_LocalPosition.x

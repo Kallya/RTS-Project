@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeToggleCommand : ICommand
+public class ChangeToggleCommand : IQueueableCommand
 {
+    public string Name { get; } = "Toggle";
     public event System.Action<ICommand> OnCompletion;
 
     private PlayerCommandInput _playerInput;

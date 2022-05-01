@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackCommand : ICommand
+public class AttackCommand : IQueueableCommand
 {
+    public string Name { get; } = "Attack";
     public event System.Action<ICommand> OnCompletion;
 
     private IWeapon _weapon;

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MoveCommand : ICommand
+public class MoveCommand : IQueueableCommand
 {
+    public string Name { get; } = "Move";
     public event System.Action<ICommand> OnCompletion;
 
     private NavMeshAgent _playerNavMeshAgent;

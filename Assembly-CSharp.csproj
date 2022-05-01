@@ -46,12 +46,14 @@
      <Compile Include="Assets\Scripts\UI\PreGameLobby\AddNewCharacterButtonManager.cs" />
      <Compile Include="Assets\Scripts\Networking\MyNetworkRoomPlayer.cs" />
      <Compile Include="Assets\Scripts\CommandPatternMovement\Command.cs" />
+     <Compile Include="Assets\Scripts\UI\InGameUI\CommandsDisplayHUDSetup.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\Barrier.cs" />
      <Compile Include="Assets\Scripts\Stats\KabukiCharacterStats.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\CharacterPortraits.cs" />
      <Compile Include="Assets\Scripts\UI\PreGameLobby\CharacterConfig.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\SwitchWeaponCommand.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\Wire.cs" />
+     <Compile Include="Assets\Scripts\UI\InGameUI\CommandHUD.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\TargetCommand.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\Shield.cs" />
      <Compile Include="Assets\Scripts\MouseClickMovement\PlayerMouseInput.cs" />

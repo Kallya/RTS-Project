@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActivateCommand : ICommand
+public class ActivateCommand : IQueueableCommand
 {
+    public string Name { get; } = "Activate Utility";
     public event System.Action<ICommand> OnCompletion;
 
     private IUtility _utility;

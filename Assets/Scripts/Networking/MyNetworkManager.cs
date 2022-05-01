@@ -54,6 +54,7 @@ public class MyNetworkManager : NetworkRoomManager
         NetworkClient.UnregisterHandler<SetLocalCharactersMessage>();
 
         TeamMiniHUDSetup.Instance.Setup();
+        CommandsDisplayHUDSetup.Instance.Setup();
     }
 
     private void OnSetScoreboardMessage(SetScoreboardMessage msg)
