@@ -6,7 +6,8 @@ using UnityEngine;
 public class CommandProcessor : MonoBehaviour
 {
     public event System.Action<IQueueableCommand> OnCommandQueued;
-    public event System.Action OnCommandDequeued;
+    public event System.Action OnCommandCompleted;
+    public event System.Action OnCommandUndone;
     // private List<ICommand> _commands = new List<ICommand>();
     private List<IQueueableCommand> _queuedCommands = new List<IQueueableCommand>();
 
@@ -31,14 +32,17 @@ public class CommandProcessor : MonoBehaviour
             return;
 
         _queuedCommands.RemoveAt(_queuedCommands.Count - 1);
-        OnCommandDequeued?.Invoke();
+        OnCommandUndone?.Invoke();
     }
 
     private void Completion(ICommand command)
     {
         command.OnCompletion -= Completion;
-        _queuedCommands.RemoveAt(0);
-        OnCommandDequeued?.Invoke();
+
+        if (_queuedCommands.Count != 0)
+            _queuedCommands.RemoveAt(0);
+
+        OnCommandCompleted?.Invoke();
 
         ExecuteNextCommand();
     }

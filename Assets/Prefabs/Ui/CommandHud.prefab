@@ -385,7 +385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterIndex: 0
   _contentContainer: {fileID: 2570514800176243143}
-  _cmdTextPrefab: {fileID: 8125601954112583459, guid: 992b04fe4d2f70e4a924ff3a0d67b908, type: 3}
+  _cmdTextPrefab: {fileID: 948556870482689254, guid: 992b04fe4d2f70e4a924ff3a0d67b908, type: 3}
   _characterIdentifier: {fileID: 5983366990798530101}
 --- !u!1 &5359136090357606394
 GameObject:
@@ -424,7 +424,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: 0, y: 10}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &1246207490513472696
 CanvasRenderer:
@@ -889,7 +889,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_SizeDelta: {x: -40, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &1365763231399618541
 CanvasRenderer:
