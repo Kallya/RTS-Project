@@ -20,6 +20,9 @@ public class MyNetworkManager : NetworkRoomManager
     public RectTransform PlayerStatePrefab;
 
     [SerializeField] private GameObject _emptyPlayerPrefab;
+    [SerializeField] private GameObject _kabukiCharacterPrefab;
+    [SerializeField] private GameObject _tenguCharacterPrefab;
+    [SerializeField] private GameObject _kitsuneCharacterPrefab;
     private int _totalCharacterNum = 0;
     private int _currSpawnedCharacterNum = 0;
 
@@ -144,28 +147,24 @@ public class MyNetworkManager : NetworkRoomManager
         for (int i = 0; i < charactersToSpawn; i++)
         {
             Vector3 startPos = GetRandomStartPos(0, 50);
-            GameObject character = Instantiate(playerPrefab, startPos, Quaternion.identity);
-            character.name = conn.connectionId.ToString();
 
-            // add character stats dependent on type
             string characterType = roomPlayer.GetComponent<MyNetworkRoomPlayer>().CharacterTypes[i];
-            Sprite characterPortrait = CharacterPortraits.Instance.PortraitReferences[characterType];
-            CharacterStats stats = null;
-
+            GameObject character = null;
+            
             switch (characterType)
             {
                 case "Kabuki (Tank)":
-                    stats = character.AddComponent<KabukiCharacterStats>();
+                    character = Instantiate(_kabukiCharacterPrefab, startPos, Quaternion.identity);
                     break;
                 case "Tengu (All-Rounder)":
-                    stats = character.AddComponent<TenguCharacterStats>();
+                    character = Instantiate(_tenguCharacterPrefab, startPos, Quaternion.identity);
                     break;
                 case "Kitsune (Assassin)":
-                    stats = character.AddComponent<KitsuneCharacterStats>();
+                    character = Instantiate(_kitsuneCharacterPrefab, startPos, Quaternion.identity);
                     break;
             }
-
-            stats.CharacterSprite = characterPortrait;
+ 
+            character.name = conn.connectionId.ToString();
 
             AssignWeapons(character, roomPlayer, i);
             NetworkServer.Spawn(character, conn);
