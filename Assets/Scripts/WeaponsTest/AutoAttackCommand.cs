@@ -34,8 +34,6 @@ public class AutoAttackCommand : ICommand
                 // enemy and in front of character
                 if (coll.tag == "Enemy" && Vector3.Dot(_playerTransform.forward, collDir) > 0)
                 {
-                    //Vector3 newDir = Vector3.RotateTowards(_playerTransform.forward, collDir, (Mathf.PI/2) * Time.deltaTime, 0f);
-                    //_playerTransform.rotation = Quaternion.LookRotation(newDir);
                     _playerTransform.LookAt(coll.transform);
                     _weapon.Attack();
                     break;

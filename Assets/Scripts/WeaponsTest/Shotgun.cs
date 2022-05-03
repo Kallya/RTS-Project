@@ -30,6 +30,6 @@ public class Shotgun : MonoBehaviour, IWeapon
     private void InstantiateBullets()
     {
         foreach (Transform shotPoint in _shotPoints)
-            ObjectSpawner.Instance.CmdSpawnNetworkObject(1, shotPoint.position, transform.rotation * _bullet.rotation, NetworkClient.connection as NetworkConnectionToClient);
+            ObjectSpawner.Instance.CmdSpawnNetworkObject(_bullet.gameObject, shotPoint.position, transform.rotation * _bullet.rotation, NetworkClient.connection as NetworkConnectionToClient);
     }
 }

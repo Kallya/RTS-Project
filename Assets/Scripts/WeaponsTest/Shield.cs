@@ -11,11 +11,11 @@ public class Shield : MonoBehaviour, IUtility, ILimitedUseEquippable
 
     public void Activate()
     {
-        
+        // functionality in shield as damageable object
     }
 
     private void OnDestroy()
     {
-        OnLimitReached.Invoke(gameObject);
+        OnLimitReached?.Invoke(gameObject);
     }
 }

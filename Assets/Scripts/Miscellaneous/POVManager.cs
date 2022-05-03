@@ -119,6 +119,7 @@ public class POVManager : NetworkBehaviour
         OnPOVChanged?.Invoke(_vc.Follow);
     }
 
+    // add minimap sprite to character identifying allies and enemies
     private void AddMinimapSprite(GameObject character, bool isEnemy)
     {
         GameObject minimapSprite;

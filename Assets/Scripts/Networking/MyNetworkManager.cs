@@ -192,13 +192,13 @@ public class MyNetworkManager : NetworkRoomManager
                 teamSizes.Add(player.CharacterNum);
             }
 
-            SetScoreboardMessage msg = new SetScoreboardMessage()
+            SetScoreboardMessage scoreboardMsg = new SetScoreboardMessage()
             {
                 ConnectionIds=connectionIds.ToArray(),
                 PlayerNames=playerNames.ToArray(),
                 TeamSizes=teamSizes.ToArray()
             };
-            NetworkServer.SendToReady(msg);
+            NetworkServer.SendToReady(scoreboardMsg);
         }
 
         return true;

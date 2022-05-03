@@ -53,6 +53,7 @@ public class PlayerEquipment : NetworkBehaviour
     {
         SetupEquipment();
         
+        // ensure weapon is only switched once
         if (netIdentity.hasAuthority == true)
             CmdSwitchEquipment(1);
     }
@@ -110,6 +111,8 @@ public class PlayerEquipment : NetworkBehaviour
         // null weapon slots so controls don't change
         _availableEquipmentInterfaces[equippable] = null;
         _availableEquipment[_availableEquipment.IndexOf(equippable)] = null;
+
+        Destroy(equippable);
 
         // Switch back automatically after losing a weapon?
         // SwitchWeapon(1);

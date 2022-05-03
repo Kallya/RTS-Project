@@ -18,6 +18,11 @@ public static class Stats
 
         statToChange.Value -= value;
     }
+
+    public static void SetStat (Stat statToChange, int value)
+    {
+        statToChange.Value = value;
+    }
 }
 
 public class Stat
