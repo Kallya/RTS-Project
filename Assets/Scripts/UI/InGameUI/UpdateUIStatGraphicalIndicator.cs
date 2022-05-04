@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UpdateUIStatGraphicalIndicator : UpdateStatGraphicalIndicator
 {
-    private void Start()
+    public override void SubscribeToStatChange()
     {
         PlayerInfoUIManager.Instance.OnAnyStatChanged += AnyStatChanged;
     }

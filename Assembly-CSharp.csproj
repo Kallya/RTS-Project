@@ -39,7 +39,6 @@
      <Compile Include="Assets\Scripts\WeaponsTest\Shotgun.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\MoveCommandCompletionObserver.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\UIPlayerControls.cs" />
-     <Compile Include="Assets\Scripts\UI\InGameUI\UpdateStatBar.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\Initialise.cs" />
      <Compile Include="Assets\Scripts\SampleScene\PlayerInput.cs" />
      <Compile Include="Assets\ParrelSync\Examples\CustomArgumentExample.cs" />

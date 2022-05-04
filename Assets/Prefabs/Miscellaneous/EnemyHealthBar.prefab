@@ -209,4 +209,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b99fe33c27726f4ca4a95b8feadcda8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _statBarSprite: {fileID: 4310985134396218190}
+  _thisStatName: Health
