@@ -18,6 +18,7 @@ public struct SetScoreboardMessage : NetworkMessage
 public class MyNetworkManager : NetworkRoomManager
 {  
     public RectTransform PlayerStatePrefab;
+    public List<GameObject> SpawnedCharacters = new List<GameObject>();
 
     [SerializeField] private GameObject _emptyPlayerPrefab;
     [SerializeField] private GameObject _kabukiCharacterPrefab;
@@ -58,6 +59,7 @@ public class MyNetworkManager : NetworkRoomManager
 
         TeamMiniHUDSetup.Instance.Setup();
         CommandsDisplayHUDSetup.Instance.Setup();
+        CharacterStatModifier.Instance.Setup();
     }
 
     private void OnSetScoreboardMessage(SetScoreboardMessage msg)
@@ -168,6 +170,8 @@ public class MyNetworkManager : NetworkRoomManager
 
             AssignWeapons(character, roomPlayer, i);
             NetworkServer.Spawn(character, conn);
+
+            SpawnedCharacters.Add(character);
 
             _currSpawnedCharacterNum += 1;
         }

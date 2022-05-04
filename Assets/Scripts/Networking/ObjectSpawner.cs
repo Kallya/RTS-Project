@@ -6,22 +6,25 @@ using Mirror;
 public class ObjectSpawner : NetworkBehaviour
 {
     public static ObjectSpawner Instance { get; private set; }
+
+    private Dictionary<string, int> spawnPrefabsDict = new Dictionary<string, int>();
     
     private void Awake()
     {
         Instance = this;
     }
 
+    private void Start()
+    {
+        for (int i = 0; i < MyNetworkManager.singleton.spawnPrefabs.Count; i++)
+            spawnPrefabsDict.Add(MyNetworkManager.singleton.spawnPrefabs[i].name, i);
+    }
+
     // spawning twice on client?
     [Command(requiresAuthority=false)]
-    /// <param name="spawnPrefab">object to spawn registered in NetworkManager spawnable prefabs</param>
-    /// <param name="pos">position to spawn at in 3d space</param>
-    /// <param name="rotation">object rotation at spawn</param>
-    /// <param name="targetConn">client connection to server</param>
-    public void CmdSpawnNetworkObject(GameObject spawnPrefab/*int spawnPrefabIndex*/, Vector3 pos, Quaternion rotation, NetworkConnectionToClient targetConn=null)
+    public void CmdSpawnNetworkObject(string spawnPrefabName, Vector3 pos, Quaternion rotation, NetworkConnectionToClient targetConn=null)
     {   
-        // GameObject go = Instantiate(MyNetworkManager.singleton.spawnPrefabs[spawnPrefabIndex], pos, rotation);
-        GameObject go = Instantiate(spawnPrefab, pos, rotation);
+        GameObject go = Instantiate(MyNetworkManager.singleton.spawnPrefabs[spawnPrefabsDict[spawnPrefabName]], pos, rotation);
         NetworkServer.Spawn(go, targetConn);
     }
 }

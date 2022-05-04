@@ -28,8 +28,6 @@ public class DamageableObject : NetworkBehaviour
         Destroy(gameObject);
     }
 
-    // Security wise stats should be updated on the server only and synchronised from there
-    // but I don't know how to synchronised my Stat object values so yeah
     public void TakeDamage(int dmg)
     {
         int finalDmg = dmg;
@@ -37,12 +35,13 @@ public class DamageableObject : NetworkBehaviour
         if (_damageableStats is CharacterStats charStats)
             finalDmg = dmg - charStats.Defence.Value;
 
-        Stats.DecreaseStat(_damageableStats.Health, finalDmg);
+        CharacterStatModifier.Instance.CmdDecreaseCharacterStat(netId, "Health", finalDmg);
+        //Stats.DecreaseStat(_damageableStats.Health, finalDmg);
 
         // change health on clients
-        RpcTakeDamage(finalDmg);
+        //RpcTakeDamage(finalDmg);
     }
-
+/*
     [ClientRpc]
     private void RpcTakeDamage(int dmg)
     {
@@ -51,6 +50,7 @@ public class DamageableObject : NetworkBehaviour
 
         Stats.DecreaseStat(_damageableStats.Health, dmg);
     }
+*/
 
     private void OnCollisionEnter(Collision other)
     {

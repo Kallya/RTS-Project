@@ -22,10 +22,13 @@ public class Sword : MonoBehaviour, IWeapon
 
     // fix fix fix
 
-    public void Attack()
+    public bool Attack()
     {
         if (_canAttack == true)
         {
+            return true;
         }
+        else
+            return false;
     }
 }

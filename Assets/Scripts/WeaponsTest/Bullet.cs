@@ -40,5 +40,5 @@ public class Bullet : NetworkBehaviour, IWeapon
     }
 
     // Bullet does not have an attack
-    public void Attack() {}
+    public bool Attack() { return true; }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IEquipment
 {
+    int EnergyCost { get; }
     Sprite EquipSprite { get; }
 }
 
@@ -20,7 +21,6 @@ public interface IUtility : IEquipment
 public interface IWeapon : IEquipment
 {
     int Damage { get; }
-    int EnergyCost { get; }
     float Range { get; }
-    void Attack();
+    bool Attack(); // true if attack went through, false if it didn't
 }

@@ -6,6 +6,7 @@ using Mirror;
 public class Wire : MonoBehaviour, IUtility, ILimitedUseEquippable
 {
     public Sprite EquipSprite { get => _equipSprite; }
+    public int EnergyCost { get; } = 30;
     public event System.Action<GameObject> OnLimitReached;
 
     [SerializeField] private Sprite _equipSprite;
@@ -13,7 +14,7 @@ public class Wire : MonoBehaviour, IUtility, ILimitedUseEquippable
     
     public void Activate()
     {
-        ObjectSpawner.Instance.CmdSpawnNetworkObject(_wireObject, transform.position, Quaternion.identity, NetworkClient.connection as NetworkConnectionToClient);
+        ObjectSpawner.Instance.CmdSpawnNetworkObject(_wireObject.name, transform.position, Quaternion.identity, NetworkClient.connection as NetworkConnectionToClient);
         
         OnLimitReached?.Invoke(gameObject);
     }

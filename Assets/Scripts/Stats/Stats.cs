@@ -18,11 +18,6 @@ public static class Stats
 
         statToChange.Value -= value;
     }
-
-    public static void SetStat (Stat statToChange, int value)
-    {
-        statToChange.Value = value;
-    }
 }
 
 public class Stat
@@ -47,5 +42,19 @@ public class Stat
         Name = name;
         BaseValue = baseValue;
         Value = baseValue;
+    }
+}
+
+public static class StatSerialiser
+{
+    public static void WriteStat(this NetworkWriter writer, Stat value)
+    {
+        writer.WriteInt(value.Value);
+        writer.WriteString(value.Name);
+    }
+
+    public static Stat ReadStat(this NetworkReader reader)
+    {
+        return new Stat(reader.ReadString(), reader.ReadInt());
     }
 }

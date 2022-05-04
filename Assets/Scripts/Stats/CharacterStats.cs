@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 // base class for the stats of the three different character types
 public abstract class CharacterStats : DamageableObjectStats
 {
     public Sprite CharacterSprite;
     public Stat[] Stats;
+
 
     public override Stat Health { get; } = new Stat("Health", 100);
     public Stat Energy { get; } = new Stat("Energy", 100);

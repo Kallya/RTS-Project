@@ -18,18 +18,21 @@ public class Shotgun : MonoBehaviour, IWeapon
     private static float s_fireRate = 0.6f;
     private float _lastShotTime = -s_fireRate;
 
-    public void Attack()
+    public bool Attack()
     {
         if (Time.time >= _lastShotTime + s_fireRate)
         {
             InstantiateBullets();
             _lastShotTime = Time.time;
+            return true;
         }
+        else
+            return false;
     }
 
     private void InstantiateBullets()
     {
         foreach (Transform shotPoint in _shotPoints)
-            ObjectSpawner.Instance.CmdSpawnNetworkObject(_bullet.gameObject, shotPoint.position, transform.rotation * _bullet.rotation, NetworkClient.connection as NetworkConnectionToClient);
+            ObjectSpawner.Instance.CmdSpawnNetworkObject(_bullet.name, shotPoint.position, transform.rotation * _bullet.rotation, NetworkClient.connection as NetworkConnectionToClient);
     }
 }
