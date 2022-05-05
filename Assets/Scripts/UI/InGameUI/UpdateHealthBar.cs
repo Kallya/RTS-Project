@@ -6,6 +6,6 @@ public class UpdateHealthBar : UpdateStatGraphicalIndicator
 {
     public override void SubscribeToStatChange()
     {
-        transform.parent.GetComponent<CharacterStats>().Health.OnStatChanged += AnyStatChanged;
+        transform.root.GetComponent<CharacterStats>().Health.OnStatChanged += AnyStatChanged;
     }
 }

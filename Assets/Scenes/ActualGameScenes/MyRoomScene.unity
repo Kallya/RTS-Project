@@ -3501,7 +3501,7 @@ GameObject:
   - component: {fileID: 872920729093947838}
   - component: {fileID: 8859828709264618674}
   m_Layer: 0
-  m_Name: WeaponReferences
+  m_Name: EquipmentReferences
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4423,6 +4423,8 @@ MonoBehaviour:
   - {fileID: 8610137056002866901, guid: 69ad1b35fbce9914f8441f5cb8b1fba3, type: 3}
   - {fileID: 2644212909809561011, guid: bbc4da6c0b0f5404dbc65015e125905c, type: 3}
   - {fileID: 3431023826545752714, guid: 3498d0bbb7caa1a43b534603d1167315, type: 3}
+  - {fileID: 2514815985106136415, guid: 1a96047a7748bb4429169aa811223cbe, type: 3}
+  - {fileID: 110282066379786360, guid: dc4c4f2bc6af500488f5749cb38145f5, type: 3}
 --- !u!1 &8922276471233131057
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,13 +5,8 @@ using UnityEngine.UI;
 
 public class UpdateStatGraphicalIndicator : MonoBehaviour
 {
-    private Slider _indicator;
+    [SerializeField] private Slider _indicator;
     [SerializeField] private string _thisStatName;
-
-    private void Awake()
-    {
-        _indicator = GetComponent<Slider>();
-    }
 
     private void Start()
     {

@@ -8,13 +8,11 @@ public class AttackCommand : IQueueableCommand
     public string Name { get; } = "Attack";
     public event System.Action<ICommand> OnCompletion;
 
-    private GameObject _character;
     private IWeapon _weapon;
     private uint _characterNetId;
 
     public AttackCommand(GameObject character)
     {
-        _character = character;
         _weapon = (IWeapon)character.GetComponent<PlayerEquipment>().ActiveEquipment;
         _characterNetId = character.GetComponent<NetworkIdentity>().netId;
     }

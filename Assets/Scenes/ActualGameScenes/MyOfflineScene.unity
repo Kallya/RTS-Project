@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -285,6 +285,8 @@ MonoBehaviour:
   - {fileID: 4916475433826641137, guid: e14c45a483bb6494da1b92a13e9d91f1, type: 3}
   - {fileID: 3282792878715917489, guid: c3bab57e26027da47898cebdcea53a2b, type: 3}
   - {fileID: 1777493448415348215, guid: cb256fa40bbe56d4c9b40694b15bf7b6, type: 3}
+  - {fileID: 8446767419978970211, guid: cfe12760ca14ad2408611a67914ef962, type: 3}
+  - {fileID: 3991150207746550425, guid: 8ef48ba80d9ebe04b8316c3a8f2f2eb4, type: 3}
   showRoomGUI: 0
   minPlayers: 1
   roomPlayerPrefab: {fileID: 7527436089385443803, guid: 298586b00865c144eabc863464dfbcad, type: 3}
@@ -294,6 +296,7 @@ MonoBehaviour:
   roomSlots: []
   clientIndex: 0
   PlayerStatePrefab: {fileID: 8158913752314004282, guid: 5febf9062aa7410449d516dd5362d0a2, type: 3}
+  SpawnedCharacters: []
   _emptyPlayerPrefab: {fileID: 8189309856033541704, guid: 7e1088cb3817a344299fd3f5f7956b2a, type: 3}
   _kabukiCharacterPrefab: {fileID: 3282792878715917489, guid: c3bab57e26027da47898cebdcea53a2b, type: 3}
   _tenguCharacterPrefab: {fileID: 1777493448415348215, guid: cb256fa40bbe56d4c9b40694b15bf7b6, type: 3}

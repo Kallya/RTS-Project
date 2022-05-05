@@ -15,7 +15,7 @@ public class PlayerCommandInput : NetworkBehaviour
 
     private CommandProcessor _commandProcessor;
     private MouseClickInput _mouseInput;
-    private PlayerEquipment _playerWeapons;
+    private PlayerEquipment _playerEquipment;
     private RaycastHit _objectHit;
 
     // consider depending on how it feels to play
@@ -30,7 +30,7 @@ public class PlayerCommandInput : NetworkBehaviour
     {
         _commandProcessor = GetComponent<CommandProcessor>();
         _mouseInput = GetComponent<MouseClickInput>();
-        _playerWeapons = GetComponent<PlayerEquipment>();
+        _playerEquipment = GetComponent<PlayerEquipment>();
     }
 
     // Update is called once per frame
@@ -61,15 +61,17 @@ public class PlayerCommandInput : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.C))
                 _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsCloaked"));
 
-            if (Input.GetKey(KeyCode.F))
+            if (Input.GetKey(KeyCode.F) && _playerEquipment.ActiveEquipment != null)
             {
-                if (_playerWeapons.ActiveEquipment is IWeapon)
+                if (_playerEquipment.ActiveEquipment != null)
                 {
-                    _commandProcessor.ExecuteCommand(new RotateToMouseCommand(gameObject));
-                    _commandProcessor.QueueCommand(new AttackCommand(gameObject));
+                    if (_playerEquipment.ActiveEquipment is IWeapon)
+                        _commandProcessor.QueueCommand(new AttackCommand(gameObject));
+                    else
+                        _commandProcessor.QueueCommand(new ActivateCommand(gameObject));
                 }
-                else if (_playerWeapons.ActiveEquipment is IUtility)
-                    _commandProcessor.ExecuteCommand(new ActivateCommand(gameObject));
+                else
+                    Debug.Log("You are not holding anything that is useable!");
             }
 
             if (Input.GetKeyDown(KeyCode.Q))
@@ -103,8 +105,16 @@ public class PlayerCommandInput : NetworkBehaviour
 
             if (Input.GetKey(KeyCode.F))
             {
-                _commandProcessor.ExecuteCommand(new RotateToMouseCommand(gameObject));
-                _commandProcessor.ExecuteCommand(new AttackCommand(gameObject));
+                if (_playerEquipment.ActiveEquipment != null)
+                {
+                    _commandProcessor.ExecuteCommand(new RotateToMouseCommand(gameObject));
+                    if (_playerEquipment.ActiveEquipment is IWeapon)
+                        _commandProcessor.ExecuteCommand(new AttackCommand(gameObject));
+                    else
+                        _commandProcessor.ExecuteCommand(new ActivateCommand(gameObject));
+                }
+                else
+                    Debug.Log("You are not holding anything that is useable!");
             }
 
             if (Input.GetKeyDown(KeyCode.Q))
@@ -142,7 +152,7 @@ public class PlayerCommandInput : NetworkBehaviour
 
         if (IsAutoAttacking)
         {
-            if (_playerWeapons.ActiveEquipment is IWeapon)
+            if (_playerEquipment.ActiveEquipment is IWeapon)
                 _commandProcessor.ExecuteCommand(new AutoAttackCommand(gameObject));
         }
 

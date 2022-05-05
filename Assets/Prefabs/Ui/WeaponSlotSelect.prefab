@@ -588,6 +588,10 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Shotgun
       m_Image: {fileID: 0}
+    - m_Text: Barrier
+      m_Image: {fileID: 0}
+    - m_Text: Wire
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

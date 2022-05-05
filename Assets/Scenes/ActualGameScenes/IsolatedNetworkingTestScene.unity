@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1887,7 +1887,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -75.21, y: -9.779999}
+  m_AnchoredPosition: {x: -75.21002, y: -9.780029}
   m_SizeDelta: {x: 150, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &838597911
@@ -3249,7 +3249,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1165579169}
   - component: {fileID: 1165579171}
-  - component: {fileID: 1165579170}
   m_Layer: 5
   m_Name: EnergyGUIStatIndicator
   m_TagString: Untagged
@@ -3278,19 +3277,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1165579170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1165579168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89171031f4cd2f54291280f814a08796, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _thisStatName: Energy
 --- !u!114 &1165579171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3495,7 +3481,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1192451489}
   m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: -5, y: 8.071068, z: -5}
+  m_LocalPosition: {x: 479.5157, y: 31.306389, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4584,7 +4570,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1709681428}
   - component: {fileID: 1709681429}
-  - component: {fileID: 1709681430}
   m_Layer: 5
   m_Name: HealthGUIStatIndicator
   m_TagString: Untagged
@@ -4664,19 +4649,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1709681430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709681427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89171031f4cd2f54291280f814a08796, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _thisStatName: Health
 --- !u!1 &1720357082
 GameObject:
   m_ObjectHideFlags: 0
@@ -4831,6 +4803,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1721574170}
+  - component: {fileID: 1721574171}
   m_Layer: 5
   m_Name: Energy
   m_TagString: Untagged
@@ -4860,6 +4833,20 @@ RectTransform:
   m_AnchoredPosition: {x: 3, y: 20}
   m_SizeDelta: {x: 401.2034, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1721574171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721574169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89171031f4cd2f54291280f814a08796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _indicator: {fileID: 1165579171}
+  _thisStatName: Energy
 --- !u!1 &1726463433
 GameObject:
   m_ObjectHideFlags: 0
@@ -6114,6 +6101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6972534610728111942}
+  - component: {fileID: 2887341645519667986}
   m_Layer: 5
   m_Name: Health
   m_TagString: Untagged
@@ -6121,6 +6109,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2887341645519667986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2887341645519667985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89171031f4cd2f54291280f814a08796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _indicator: {fileID: 1709681429}
+  _thisStatName: Health
 --- !u!1001 &4923013561790492717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6128,6 +6130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1891110510272518920, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1891110510272518921, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: _energyBar
       value: 
@@ -6137,17 +6143,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1985454311446186317, guid: e362e2ca9dbf0ab40850535cb4202004, type: 3}
     - target: {fileID: 1891110510272518921, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
+      propertyPath: _statBarCanvas
+      value: 
+      objectReference: {fileID: 5882391041745047785, guid: 53deaed9e53064d409633fbd84357512, type: 3}
+    - target: {fileID: 1891110510272518921, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: _friendlySprite
       value: 
       objectReference: {fileID: 78634268816347847, guid: cba814f10c5cc4d43a493bbb14529cc8, type: 3}
     - target: {fileID: 1891110510272518921, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: _allyHealthBarSprite
       value: 
-      objectReference: {fileID: 4722335043211546712, guid: 4330aa9d42be4ed468f5ba2a9be8a703, type: 3}
+      objectReference: {fileID: 640732980068926731, guid: 09210b53018c2b14aa9c6059a60ef2c1, type: 3}
     - target: {fileID: 1891110510272518921, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: _enemyHealthBarSprite
       value: 
-      objectReference: {fileID: 6218963537029209981, guid: 8eb5db38979f6e14e9fca3ddaf118e61, type: 3}
+      objectReference: {fileID: 8349384312511361133, guid: c4bdbe6fd542bc049a29306caf1d6050, type: 3}
     - target: {fileID: 1891110510272518921, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: _rangeIndicatorSprite
       value: 
@@ -6168,21 +6178,25 @@ PrefabInstance:
       propertyPath: m_CameraDistance
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 1891110510272518922, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
+      propertyPath: m_TargetMovementOnly
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1891110510272518944, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1891110510272518944, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: 479.5157
       objectReference: {fileID: 0}
     - target: {fileID: 1891110510272518944, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.071068
+      value: 31.306389
       objectReference: {fileID: 0}
     - target: {fileID: 1891110510272518944, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 1891110510272518944, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
       propertyPath: m_LocalRotation.w

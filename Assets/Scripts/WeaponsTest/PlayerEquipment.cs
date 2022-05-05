@@ -41,7 +41,7 @@ public class PlayerEquipment : NetworkBehaviour
             // disable all equipment initially
             w.Key.SetActive(false);
 
-            // listen for when weapon breaks/can't be used anymore
+            // listen for when equipment breaks/can't be used anymore
             if (w.Value is ILimitedUseEquippable equippable)
                 equippable.OnLimitReached += LimitReached;
         }
@@ -60,7 +60,7 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void SetEquipmentActives(int oldSlot, int newSlot)
     {
-        // check if weapons have been set (hook first called when field is declared)
+        // check if equipment has been set (hook first called when field is declared)
         if (_availableEquipment == null)
             return;
         
@@ -92,8 +92,12 @@ public class PlayerEquipment : NetworkBehaviour
     [Command]
     public void CmdSwitchEquipment(int equipSlot)
     {
-        // check if weapon slot exists
+        // check if equip slot exists
         if (equipSlot < 1 || equipSlot > _availableEquipment.Count)
+            return;
+
+        // prevent switching to non-existent equipment
+        if (_availableEquipment[equipSlot-1] == null)
             return;
 
         if (equipSlot == _activeEquipSlot)
@@ -112,10 +116,12 @@ public class PlayerEquipment : NetworkBehaviour
         _availableEquipmentInterfaces[equippable] = null;
         _availableEquipment[_availableEquipment.IndexOf(equippable)] = null;
 
+        ActiveEquipment = null;
+
         Destroy(equippable);
 
         // Switch back automatically after losing a weapon?
-        // SwitchWeapon(1);
+        // CmdSwitchEquipment(1);
     }
 
     private void SetRangeIndicator(float range)

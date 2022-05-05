@@ -13,7 +13,7 @@ public class Barrier : MonoBehaviour, IUtility, ILimitedUseEquippable
     
     public void Activate()
     {
-        Vector3 spawnPos = transform.parent.transform.position + transform.parent.transform.forward*5f;
+        Vector3 spawnPos = transform.parent.position + transform.parent.forward*5f;
         ObjectSpawner.Instance.CmdSpawnNetworkObject(_barrierObject.name, spawnPos, Quaternion.identity, NetworkClient.connection as NetworkConnectionToClient);
         
         OnLimitReached?.Invoke(gameObject);

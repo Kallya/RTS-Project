@@ -20,7 +20,7 @@ public class POVManager : NetworkBehaviour
     [SerializeField] private GameObject _rangeIndicatorSprite;
     [SerializeField] private GameObject _allyHealthBarSprite;
     [SerializeField] private GameObject _enemyHealthBarSprite;
-    [SerializeField] private GameObject _energyBar;
+    [SerializeField] private GameObject _statBarCanvas;
     private static string _minimapSpriteName = "MinimapSprite";
     private static int _cloakedLayer = 7;
     private static int _minimapLayer = 6;
@@ -52,15 +52,13 @@ public class POVManager : NetworkBehaviour
                 ActiveCharacters.Add(character);
                 AddMinimapSprite(character, false);
                 AddRangeIndicator(character);
-                AddHealthBar(character, false);
-                AddEnergyBar(character);
+                AddCharacterStatBars(character, false);
             }
             else
             {
                 character.tag = "Enemy"; // differentiate enemy characters
                 AddMinimapSprite(character, true);
-                AddHealthBar(character, true);
-                AddEnergyBar(character);
+                AddCharacterStatBars(character, true);
             }
         }
         
@@ -142,17 +140,14 @@ public class POVManager : NetworkBehaviour
         character.GetComponent<PlayerEquipment>().RangeIndicatorSprite = indicator;
     }
 
-    private void AddHealthBar(GameObject character, bool isEnemy)
+    private void AddCharacterStatBars(GameObject character, bool isEnemy)
     {
+        GameObject statBarCanvas = Instantiate(_statBarCanvas, character.transform);
+        
         if (isEnemy == true)
-            Instantiate(_enemyHealthBarSprite, character.transform);
+            Instantiate(_enemyHealthBarSprite, statBarCanvas.transform);
         else
-            Instantiate(_allyHealthBarSprite, character.transform);
-    }
-
-    private void AddEnergyBar(GameObject character)
-    {
-        Instantiate(_energyBar, character.transform);
+            Instantiate(_allyHealthBarSprite, statBarCanvas.transform);
     }
 
     private void OnCloaked(NetworkConnection conn, CloakMessage msg)

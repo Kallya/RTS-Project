@@ -6,6 +6,6 @@ public class UpdateEnergyBar : UpdateStatGraphicalIndicator
 {
     public override void SubscribeToStatChange()
     {
-        transform.parent.GetComponent<CharacterStats>().Energy.OnStatChanged += AnyStatChanged;
+        transform.root.GetComponent<CharacterStats>().Energy.OnStatChanged += AnyStatChanged;
     }
 }

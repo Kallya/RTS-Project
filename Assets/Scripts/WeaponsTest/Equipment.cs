@@ -14,8 +14,6 @@ public class Equipment : MonoBehaviour
         Instance = this;
         
         foreach (GameObject equippable in equipmentPrefabs)
-        {
             EquipmentReferences.Add(equippable.name, equippable);
-        }
     }
 }
