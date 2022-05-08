@@ -5,8 +5,7 @@ using UnityEngine.AI;
 
 public class MoveCommandCompletionObserver : MonoBehaviour
 {
-    public delegate void DestinationReached();
-    public event DestinationReached OnDestinationReached;
+    public event System.Action OnDestinationReached;
 
     private NavMeshAgent _navMeshAgent;
 
@@ -19,7 +18,7 @@ public class MoveCommandCompletionObserver : MonoBehaviour
     {
         if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
         {
-            OnDestinationReached();
+            OnDestinationReached?.Invoke();
         }
     }
 }

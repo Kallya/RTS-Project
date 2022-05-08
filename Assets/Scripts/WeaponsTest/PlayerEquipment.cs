@@ -21,10 +21,12 @@ public class PlayerEquipment : NetworkBehaviour
         }
     }
 
+    // all equipment parented to right hand
+    [SerializeField] private Transform _rightHand;
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
     private List<GameObject> _availableEquipment;    
     // initialise equipSlot to 2 to prevent indexing error for first change
-    [SyncVar(hook=nameof(SetEquipmentActives))] private int _activeEquipSlot = 2;
+    [SyncVar(hook=nameof(SetEquipmentActives))] private int _activeEquipSlot = 3;
     private GameObject _rangeIndicatorSprite;
 
     private void SetupEquipment()
@@ -32,14 +34,15 @@ public class PlayerEquipment : NetworkBehaviour
         foreach (string equipName in EquipmentToAdd)
         {
             GameObject equipPrefab = Equipment.Instance.EquipmentReferences[equipName];
-            GameObject equippable = Instantiate(equipPrefab, transform);
+            GameObject equippable = Instantiate(equipPrefab, _rightHand);
+            equippable.SetActive(false);
             _availableEquipmentInterfaces.Add(equippable, equippable.GetComponent<IEquipment>());
         }
 
         foreach (KeyValuePair<GameObject, IEquipment> w in _availableEquipmentInterfaces)
         {
             // disable all equipment initially
-            w.Key.SetActive(false);
+            // w.Key.SetActive(false);
 
             // listen for when equipment breaks/can't be used anymore
             if (w.Value is ILimitedUseEquippable equippable)
@@ -64,7 +67,6 @@ public class PlayerEquipment : NetworkBehaviour
         if (_availableEquipment == null)
             return;
         
-        // index is slot number minus 1
         GameObject newEquip = _availableEquipment[newSlot-1];
 
         _availableEquipment[oldSlot-1]?.SetActive(false);

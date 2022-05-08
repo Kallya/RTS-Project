@@ -25,7 +25,6 @@ public class PlayerCommandInput : NetworkBehaviour
         IsQueueingCommands = false;
     }
 */
-
     private void Awake()
     {
         _commandProcessor = GetComponent<CommandProcessor>();

@@ -282,9 +282,9 @@ MonoBehaviour:
   - {fileID: 201341641173214757, guid: 65d736c3a6589004eb0501d788e24c15, type: 3}
   - {fileID: 8706318059285128934, guid: dc2a8a4180f87134d9d4c8deee62e184, type: 3}
   - {fileID: 8189309856033541704, guid: 7e1088cb3817a344299fd3f5f7956b2a, type: 3}
-  - {fileID: 4916475433826641137, guid: e14c45a483bb6494da1b92a13e9d91f1, type: 3}
-  - {fileID: 3282792878715917489, guid: c3bab57e26027da47898cebdcea53a2b, type: 3}
-  - {fileID: 1777493448415348215, guid: cb256fa40bbe56d4c9b40694b15bf7b6, type: 3}
+  - {fileID: 7220089457025635560, guid: bb1e45809a266c44f87683b8ffaf1ce2, type: 3}
+  - {fileID: 7602016903439396318, guid: 2901d8b281ec07c419250939bc5c043a, type: 3}
+  - {fileID: 3397082754345129346, guid: b1a2196043335b84190685aef65a2360, type: 3}
   - {fileID: 8446767419978970211, guid: cfe12760ca14ad2408611a67914ef962, type: 3}
   - {fileID: 3991150207746550425, guid: 8ef48ba80d9ebe04b8316c3a8f2f2eb4, type: 3}
   showRoomGUI: 0
@@ -298,9 +298,9 @@ MonoBehaviour:
   PlayerStatePrefab: {fileID: 8158913752314004282, guid: 5febf9062aa7410449d516dd5362d0a2, type: 3}
   SpawnedCharacters: []
   _emptyPlayerPrefab: {fileID: 8189309856033541704, guid: 7e1088cb3817a344299fd3f5f7956b2a, type: 3}
-  _kabukiCharacterPrefab: {fileID: 3282792878715917489, guid: c3bab57e26027da47898cebdcea53a2b, type: 3}
-  _tenguCharacterPrefab: {fileID: 1777493448415348215, guid: cb256fa40bbe56d4c9b40694b15bf7b6, type: 3}
-  _kitsuneCharacterPrefab: {fileID: 4916475433826641137, guid: e14c45a483bb6494da1b92a13e9d91f1, type: 3}
+  _kabukiCharacterPrefab: {fileID: 1716312508792313601, guid: 8cd8c96cf0729c9479d759ca8f823420, type: 3}
+  _tenguCharacterPrefab: {fileID: 3397082754345129346, guid: b1a2196043335b84190685aef65a2360, type: 3}
+  _kitsuneCharacterPrefab: {fileID: 7220089457025635560, guid: bb1e45809a266c44f87683b8ffaf1ce2, type: 3}
 --- !u!4 &187443668
 Transform:
   m_ObjectHideFlags: 0
