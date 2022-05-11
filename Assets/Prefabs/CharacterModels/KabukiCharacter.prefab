@@ -19,6 +19,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KabukiCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 1716312508792313601, guid: 8cd8c96cf0729c9479d759ca8f823420, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 2061031860713049531, guid: 8cd8c96cf0729c9479d759ca8f823420, type: 3}
       propertyPath: m_RootOrder
       value: 0

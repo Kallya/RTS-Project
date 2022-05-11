@@ -9,7 +9,7 @@ public class Bullet : NetworkBehaviour, IWeapon
     public Sprite EquipSprite { get => _equipSprite; }
     // is it possible to dynamically reference from gun?
     public int Damage { get => _damage; }
-    public int EnergyCost { get => _energyCost; }
+    public int EnergyCost { get => _energyCost; } // also useless
     public float Range { get => _range; }
 
     private Sprite _equipSprite;
@@ -17,8 +17,8 @@ public class Bullet : NetworkBehaviour, IWeapon
     [SerializeField] private int _damage = 10; 
     [SerializeField] private float _speed = 20f;
     [SerializeField] private float _range = 10f;
-    [SerializeField] private int _energyCost = 10;
-    private Vector3 s_initPos;
+    private int _energyCost;
+    private static Vector3 s_initPos;
 
     private void Awake()
     {
@@ -30,12 +30,14 @@ public class Bullet : NetworkBehaviour, IWeapon
         if (Vector3.Distance(transform.position, s_initPos) >= _range)
             Destroy(gameObject); // should I pool the bullets instead?
 
-        transform.Translate(transform.forward * _speed * Time.deltaTime);
+        Debug.Log(transform.eulerAngles);
+
+        transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (netIdentity.isServer)
+        if (isServer)
             Destroy(gameObject);
     }
 

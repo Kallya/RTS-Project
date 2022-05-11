@@ -7,6 +7,9 @@ using TMPro;
 
 public class Clock : MonoBehaviour
 {
+    public static Clock Instance { get; private set; }
+    public event System.Action OnFinishGame;
+
     private static double _timeAllowed = 180;
     private bool _crunchTimeEnabled = false;
     private double _initTime;
@@ -15,6 +18,8 @@ public class Clock : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         _initTime = NetworkTime.time;
     }
 
@@ -22,8 +27,8 @@ public class Clock : MonoBehaviour
     {
         double remainingTime = _timeAllowed - NetworkTime.time + _initTime;
 
-        // if (remainingTime < 0)
-            // change to end game scene
+        if (remainingTime < 0)
+            OnFinishGame?.Invoke();
 
         int remainingMin = (int)(remainingTime / 60);
         int remainingSec = (int)remainingTime % 60;

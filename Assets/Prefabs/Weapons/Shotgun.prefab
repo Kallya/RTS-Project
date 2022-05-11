@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _equipSprite: {fileID: 21300000, guid: 286d75043ac5e794e9c13092b1289b5e, type: 3}
-  _bullet: {fileID: 8806384156893893762, guid: 9692caf24c9ae774da0b8289f1c841af, type: 3}
+  _bullet: {fileID: 5567124555560922522, guid: 8377be8a242e04c4d961ebeef8bbe094, type: 3}
   _shotPoints:
   - {fileID: 6842172400286278228}
   - {fileID: 3659294918146220120}

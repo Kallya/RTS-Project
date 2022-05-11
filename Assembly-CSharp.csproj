@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\UI\InGameUI\TeamMiniHUDSetup.cs" />
      <Compile Include="Assets\Scripts\UI\PreGameLobby\LeaveLobby.cs" />
      <Compile Include="Assets\Scripts\Stats\KitsuneCharacterStats.cs" />
+     <Compile Include="Assets\Scripts\UI\InGameUI\BillboardCanvas.cs" />
      <Compile Include="Assets\Scripts\SampleScene\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\PlayerInfoUIManager.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\ActivateCommand.cs" />
@@ -111,7 +112,7 @@
      <Compile Include="Assets\Scripts\WeaponsTest\EquipmentInterfaces.cs" />
      <Compile Include="Assets\Scripts\WeaponsTest\PlayerEquipment.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\RotateToMouseCommand.cs" />
-     <Compile Include="Assets\Scripts\UI\InGameUI\BillboardCanvas.cs" />
+     <Compile Include="Assets\Scripts\WeaponsTest\WireEffect.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\ScriptTemplates\51-Mirror__Network Authenticator-NewNetworkAuthenticator.cs.txt" />

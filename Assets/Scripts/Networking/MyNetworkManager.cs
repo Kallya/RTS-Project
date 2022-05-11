@@ -8,6 +8,7 @@ public struct StartPreGameMessage : NetworkMessage {}
 // empty message to tell clients when to call SetLocalCharacters
 // to ensure all characters (allied and enemy) are setup
 public struct SetLocalCharactersMessage : NetworkMessage {}
+
 public struct SetScoreboardMessage : NetworkMessage
 {
     public int[] ConnectionIds;
@@ -67,6 +68,8 @@ public class MyNetworkManager : NetworkRoomManager
         ScoreManager.Instance.gameObject.SetActive(false);
         ScoreManager.Instance.SetScoreboard(msg.ConnectionIds, msg.PlayerNames, msg.TeamSizes);
         NetworkClient.UnregisterHandler<SetScoreboardMessage>();
+
+        ScoreManager.Instance.OnGameFinish += GameFinish;
     }
 
     public override void OnRoomServerPlayersReady()
@@ -83,7 +86,19 @@ public class MyNetworkManager : NetworkRoomManager
     private void OnAllLockIn()
     {
         NetworkServer.UnregisterHandler<CharacterConfigurationMessage>();
+
         ServerChangeScene(GameplayScene);
+    }
+
+    private void GameFinish(Score[] winningScores)
+    {
+        ScoreManager.Instance.OnGameFinish -= GameFinish;
+
+        if (winningScores.Length > 1)
+            Debug.Log("Draw");
+
+        foreach (Score score in winningScores)
+            Debug.Log($"{score.PlayerName}: Score {score.ScoreCount}, CharactersRemaining {score.CharactersRemaining}");
     }
 
     public void OnNetworkLockIn(NetworkConnection conn, CharacterConfigurationMessage msg)
