@@ -8,9 +8,10 @@ public class PlayerInfoUIManager : MonoBehaviour
     public static PlayerInfoUIManager Instance { get; private set; }
     public event System.Action<Stat> OnAnyStatChanged;
     public event System.Action<int, int> OnEquipSlotChanged;
-    public CharacterStats CurrPlayerStats { get; private set; }
-    public PlayerEquipment CurrPlayerWeapons { get; private set; }
+    public CharacterStats CurrCharacterStats { get; private set; }
+    public CharacterEquipment CurrCharacterEquipment { get; private set; }
     public GameObject CurrCharacter { get; private set; }
+    public CommandProcessor CurrCmdProcessor { get; private set; }
 
     private void Awake()
     {
@@ -27,25 +28,26 @@ public class PlayerInfoUIManager : MonoBehaviour
         CurrCharacter = currCharacter.gameObject;
 
         // unsubscribe from previous character's stat/equipment changes
-        if (CurrPlayerStats != null)
+        if (CurrCharacterStats != null)
         {
-            foreach (Stat stat in CurrPlayerStats.Stats)
+            foreach (Stat stat in CurrCharacterStats.Stats)
                 stat.OnStatChanged -= StatChanged;
         }
         
-        if (CurrPlayerWeapons != null)
-            CurrPlayerWeapons.OnEquipChanged -= WeaponChanged;
+        if (CurrCharacterEquipment!= null)
+            CurrCharacterEquipment.OnEquipChanged -= WeaponChanged;
 
         // subscribe to current character's stat/equipment changes
-        CurrPlayerStats = currCharacter.GetComponent<CharacterStats>();
-        CurrPlayerWeapons = currCharacter.GetComponent<PlayerEquipment>();
+        CurrCharacterStats = currCharacter.GetComponent<CharacterStats>();
+        CurrCharacterEquipment = currCharacter.GetComponent<CharacterEquipment>();
+        CurrCmdProcessor = currCharacter.GetComponent<CommandProcessor>();
 
-        foreach (Stat stat in CurrPlayerStats.Stats)
+        foreach (Stat stat in CurrCharacterStats.Stats)
             stat.OnStatChanged += StatChanged;
 
-        CurrPlayerWeapons.OnEquipChanged += WeaponChanged;
+        CurrCharacterEquipment.OnEquipChanged += WeaponChanged;
         
-        CurrPlayerStats.InitialiseStats();
+        CurrCharacterStats.InitialiseStats();
     }
 
     private void WeaponChanged(int oldSlot, int newSlot)

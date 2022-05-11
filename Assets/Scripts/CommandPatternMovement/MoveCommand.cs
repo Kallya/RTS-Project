@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class MoveCommand : IQueueableCommand
 {
     public string Name { get; } = "Move";
-    public event System.Action<ICommand> OnCompletion;
+    public event System.Action<IQueueableCommand> OnCompletion;
 
     private NavMeshAgent _playerNavMeshAgent;
     private Vector3 _destination;

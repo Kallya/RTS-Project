@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class ChangePOVCommand : ICommand
 {
-    public event System.Action<ICommand> OnCompletion;
-
     private int _nextCharacter;
 
-    public ChangePOVCommand(GameObject player, int nextCharacter)
+    public ChangePOVCommand(int nextCharacter)
     {
         _nextCharacter = nextCharacter;
     }
 
     public void Execute()
     {
-        POVManager.Instance.ChangePOV(_nextCharacter);    
-        OnCompletion?.Invoke(this);
+        POVManager.Instance.ChangePOV(_nextCharacter);
     }
 }

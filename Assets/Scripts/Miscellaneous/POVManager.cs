@@ -11,7 +11,7 @@ public class POVManager : NetworkBehaviour
     public event System.Action<Transform> OnPOVChanged;
     public List<GameObject> ActiveCharacters = new List<GameObject>();
 
-    private List<PlayerCommandInput> _playerInputs = new List<PlayerCommandInput>();
+    private List<CharacterCommandInput> _playerInputs = new List<CharacterCommandInput>();
     private Dictionary<GameObject, PlayerSpriteReferences> _spriteReferences = new Dictionary<GameObject, PlayerSpriteReferences>();
     private CinemachineVirtualCamera _vc;
     private CinemachineFramingTransposer _vcBody;
@@ -65,7 +65,7 @@ public class POVManager : NetworkBehaviour
         // Get all ally characters' input controllers
         foreach (GameObject character in ActiveCharacters)
         {
-            _playerInputs.Add(character.GetComponent<PlayerCommandInput>());
+            _playerInputs.Add(character.GetComponent<CharacterCommandInput>());
             character.GetComponent<DamageableCharacter>().OnDestroyed += Destroyed; // trigger for auto pov change
         }
 
@@ -104,7 +104,7 @@ public class POVManager : NetworkBehaviour
 
         if (_vc.Follow != null)
         {
-            _vc.Follow.GetComponent<PlayerCommandInput>().enabled = false;
+            _vc.Follow.GetComponent<CharacterCommandInput>().enabled = false;
             _vc.Follow.GetComponent<PlayerSpriteReferences>().RangeIndicatorSprite.SetActive(false);
         }
 
@@ -137,7 +137,7 @@ public class POVManager : NetworkBehaviour
         indicator.SetActive(false);
         _spriteReferences[character].RangeIndicatorSprite = indicator;
 
-        character.GetComponent<PlayerEquipment>().RangeIndicatorSprite = indicator;
+        character.GetComponent<CharacterEquipment>().RangeIndicatorSprite = indicator;
     }
 
     private void AddCharacterStatBars(GameObject character, bool isEnemy)

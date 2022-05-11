@@ -14,7 +14,7 @@ public class CloakButton : MonoBehaviour
     {
         GameObject currCharacter = PlayerInfoUIManager.Instance.CurrCharacter;
 
-        PlayerCommandInput currInput = currCharacter.GetComponent<PlayerCommandInput>();
+        CharacterCommandInput currInput = currCharacter.GetComponent<CharacterCommandInput>();
         currInput.IsCloaked = !currInput.IsCloaked;
 
         CloakMessage msg = new CloakMessage()

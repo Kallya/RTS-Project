@@ -30,8 +30,6 @@ public class Bullet : NetworkBehaviour, IWeapon
         if (Vector3.Distance(transform.position, s_initPos) >= _range)
             Destroy(gameObject); // should I pool the bullets instead?
 
-        Debug.Log(transform.eulerAngles);
-
         transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }
 

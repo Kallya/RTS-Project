@@ -5,20 +5,20 @@ using UnityEngine;
 public class SwitchWeaponCommand : IQueueableCommand
 {
     public string Name { get; } = "Switch Weapon";
-    public event System.Action<ICommand> OnCompletion;
+    public event System.Action<IQueueableCommand> OnCompletion;
 
-    private PlayerEquipment _playerWeapons;
+    private CharacterEquipment _characterEquipment;
     private int _weaponSlot;
 
-    public SwitchWeaponCommand(GameObject player, int weaponSlot)
+    public SwitchWeaponCommand(CharacterEquipment characterEquipment, int weaponSlot)
     {
-        _playerWeapons = player.GetComponent<PlayerEquipment>();
+        _characterEquipment = characterEquipment;
         _weaponSlot = weaponSlot;
     }
 
     public void Execute()
     {
-        _playerWeapons.CmdSwitchEquipment(_weaponSlot);
+        _characterEquipment.CmdSwitchEquipment(_weaponSlot);
 
         OnCompletion?.Invoke(this);
     }

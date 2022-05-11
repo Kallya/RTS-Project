@@ -4,24 +4,19 @@ using UnityEngine;
 
 public class AutoAttackCommand : ICommand
 {
-    public event System.Action<ICommand> OnCompletion;
-
     private IWeapon _weapon;
     private Transform _playerTransform;
 
     public AutoAttackCommand(GameObject player)
     {
-        _weapon = (IWeapon)player.GetComponent<PlayerEquipment>().ActiveEquipment;
+        _weapon = (IWeapon)player.GetComponent<CharacterEquipment>().ActiveEquipment;
         _playerTransform = player.transform;
     }
 
     public void Execute()
     {
         if (_weapon == null)
-        {
-            OnCompletion?.Invoke(this);
             return;
-        }
 
         Collider[] collInRange = Physics.OverlapSphere(_playerTransform.position, _weapon.Range);
         
@@ -40,7 +35,5 @@ public class AutoAttackCommand : ICommand
                 }
             }
         }
-
-        OnCompletion?.Invoke(this);
     }
 }

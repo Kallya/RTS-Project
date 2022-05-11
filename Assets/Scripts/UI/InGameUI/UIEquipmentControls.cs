@@ -6,9 +6,7 @@ public class UIEquipmentControls : MonoBehaviour
 {
     public void OnEquipBtnClick(int slotNumber)
     {
-        GameObject currCharacter = PlayerInfoUIManager.Instance.CurrCharacter;
-
-        CommandProcessor currCmdProcessor = currCharacter.GetComponent<CommandProcessor>();
-        currCmdProcessor.ExecuteCommand(new SwitchWeaponCommand(currCharacter, slotNumber));
+        CommandProcessor currCmdProcessor = PlayerInfoUIManager.Instance.CurrCmdProcessor;
+        currCmdProcessor.ExecuteCommand(new SwitchWeaponCommand(PlayerInfoUIManager.Instance.CurrCharacterEquipment, slotNumber));
     }
 }

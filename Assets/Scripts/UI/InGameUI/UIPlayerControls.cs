@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIPlayerControls : MonoBehaviour
 {
-    private PlayerCommandInput _playerInput;
+    private CharacterCommandInput _playerInput;
     private CommandProcessor _playerCmdProcessor;
 
     private void Start()
@@ -37,7 +37,7 @@ public class UIPlayerControls : MonoBehaviour
 
     private void POVChanged(Transform currPlayer)
     {
-        _playerInput = currPlayer.GetComponent<PlayerCommandInput>();
+        _playerInput = currPlayer.GetComponent<CharacterCommandInput>();
         _playerCmdProcessor = currPlayer.GetComponent<CommandProcessor>();
     }
 

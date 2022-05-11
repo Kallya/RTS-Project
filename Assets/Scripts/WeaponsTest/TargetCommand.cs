@@ -5,23 +5,20 @@ using UnityEngine.AI;
 
 public class TargetCommand : ICommand
 {
-    public event System.Action<ICommand> OnCompletion;
-
-    private GameObject _player;
+    private GameObject _character;
     private float _weaponRange = 2f;
-    private NavMeshAgent _playerNavMeshAgent;
+    private NavMeshAgent _characterNavMeshAgent;
     private Transform _target;
 
-    public TargetCommand(GameObject player, Transform target)
+    public TargetCommand(GameObject character, Transform target, CharacterEquipment characterEquipment)
     {
-        _player = player;
+        _character = character;
         _target = target;
 
-        IEquipment playerEquip = player.GetComponent<PlayerEquipment>().ActiveEquipment;
-        if (playerEquip is IWeapon weapon)
+        if (characterEquipment.ActiveEquipment is IWeapon weapon)
             _weaponRange = weapon.Range;
 
-        _playerNavMeshAgent = player.GetComponent<NavMeshAgent>();
+        _characterNavMeshAgent = character.GetComponent<NavMeshAgent>();
     }
 
 // how to switch off target?
@@ -29,17 +26,15 @@ public class TargetCommand : ICommand
     {
         if (_target != null)
             MoveToNextPosition();
-
-        OnCompletion?.Invoke(this);
     }
 
     private void MoveToNextPosition()
     {
-        if (Vector3.Distance(_player.transform.position, _target.position) <= _weaponRange-0.5)
-            _playerNavMeshAgent.isStopped = true;
+        if (Vector3.Distance(_character.transform.position, _target.position) <= _weaponRange-0.5)
+            _characterNavMeshAgent.isStopped = true;
         else
-            _playerNavMeshAgent.isStopped = false;
+            _characterNavMeshAgent.isStopped = false;
 
-        _playerNavMeshAgent.destination = _target.position;
+        _characterNavMeshAgent.destination = _target.position;
     }
 }

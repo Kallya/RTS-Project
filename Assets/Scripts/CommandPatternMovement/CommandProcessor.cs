@@ -35,7 +35,7 @@ public class CommandProcessor : MonoBehaviour
         OnCommandUndone?.Invoke();
     }
 
-    private void Completion(ICommand command)
+    private void Completion(IQueueableCommand command)
     {
         command.OnCompletion -= Completion;
 

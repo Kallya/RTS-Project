@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class RotateToMouseCommand : ICommand
 {
-    public event System.Action<ICommand> OnCompletion;
+    private Transform _characterTransform;
 
-    private Transform _playerTransform;
-
-    public RotateToMouseCommand (GameObject player)
+    public RotateToMouseCommand(Transform character)
     {
-        _playerTransform = player.transform;
+        _characterTransform = character;
     }
 
     public void Execute()
@@ -19,8 +17,6 @@ public class RotateToMouseCommand : ICommand
         RaycastHit hit;
         
         if (Physics.Raycast(ray, out hit))
-            _playerTransform.LookAt(new Vector3(hit.point.x, _playerTransform.position.y, hit.point.z));
-
-        OnCompletion?.Invoke(this);
+            _characterTransform.LookAt(new Vector3(hit.point.x, _characterTransform.position.y, hit.point.z));
     }
 }
