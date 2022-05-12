@@ -8,7 +8,6 @@ public class CloakCommand : IQueueableCommand
     public string Name { get; } = "Cloak Character";
     public event System.Action<IQueueableCommand> OnCompletion;
 
-    private static int _cloakCostInterval = 3; // time interval for energy cost using cloak in sec
     private static int _cloakCost = 1; // energy lost per interval
     private uint _characterNetId;
     private bool _isCloaked;
@@ -21,11 +20,13 @@ public class CloakCommand : IQueueableCommand
 
     public void Execute()
     {
-        
-    }
+        CloakMessage msg = new CloakMessage() {
+            CharacterNetId=_characterNetId,
+            IsCloaked=_isCloaked
+        };
 
-    private bool CanCloak()
-    {
-        return CharacterStatModifier.Instance.CanDecreaseStat(_characterNetId, "Energy", _cloakCost);
+        NetworkClient.Send(msg);
+        
+        OnCompletion?.Invoke(this);
     }
 }

@@ -17,6 +17,8 @@ public class CharacterCommandInput : NetworkBehaviour
     private MouseClickInput _mouseInput;
     private CharacterEquipment _characterEquipment;
     private RaycastHit _objectHit;
+    private static int _cloakInterval = 3; // interval between cloak cost reduction
+    private double _lastCloakCostTime;
 
     // consider depending on how it feels to play
 /*
@@ -58,7 +60,7 @@ public class CharacterCommandInput : NetworkBehaviour
                 _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsAutoAttacking"));
 
             if (Input.GetKeyDown(KeyCode.C))
-                _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsCloaked"));
+                ChangeCloak();
 
             if (Input.GetKey(KeyCode.F))
             {
@@ -95,7 +97,7 @@ public class CharacterCommandInput : NetworkBehaviour
                 _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsAutoAttacking"));
 
             if (Input.GetKeyDown(KeyCode.C))
-                _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsCloaked"));
+                ChangeCloak();
 
             if (Input.GetKey(KeyCode.F))
             {
@@ -154,5 +156,20 @@ public class CharacterCommandInput : NetworkBehaviour
             if (_objectHit.transform == null)
                 _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsTargeting"));
         }
+
+        if (IsCloaked && NetworkTime.time - _lastCloakCostTime >= 3)
+        {
+            _commandProcessor.ExecuteCommand(new MaintainCloakCommand(this, netId));
+            _lastCloakCostTime = NetworkTime.time;
+        }
+    
+    }
+
+    public void ChangeCloak()
+    {
+        _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsCloaked"));
+        _commandProcessor.ExecuteCommand(new CloakCommand(IsCloaked, netId));
+        
+        _lastCloakCostTime = NetworkTime.time;
     }
 }

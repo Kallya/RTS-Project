@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
+// manager holds references for other ui elements to use too
 public class PlayerInfoUIManager : MonoBehaviour
 {
     public static PlayerInfoUIManager Instance { get; private set; }
@@ -12,6 +14,9 @@ public class PlayerInfoUIManager : MonoBehaviour
     public CharacterEquipment CurrCharacterEquipment { get; private set; }
     public GameObject CurrCharacter { get; private set; }
     public CommandProcessor CurrCmdProcessor { get; private set; }
+    public CharacterCommandInput CurrCmdInput { get; private set; }
+    
+    [SerializeField] private Image _characterPortrait;
 
     private void Awake()
     {
@@ -37,17 +42,19 @@ public class PlayerInfoUIManager : MonoBehaviour
         if (CurrCharacterEquipment!= null)
             CurrCharacterEquipment.OnEquipChanged -= WeaponChanged;
 
-        // subscribe to current character's stat/equipment changes
         CurrCharacterStats = currCharacter.GetComponent<CharacterStats>();
         CurrCharacterEquipment = currCharacter.GetComponent<CharacterEquipment>();
         CurrCmdProcessor = currCharacter.GetComponent<CommandProcessor>();
+        CurrCmdInput = currCharacter.GetComponent<CharacterCommandInput>();
 
+        // subscribe to current character's stat/equipment changes
         foreach (Stat stat in CurrCharacterStats.Stats)
             stat.OnStatChanged += StatChanged;
 
         CurrCharacterEquipment.OnEquipChanged += WeaponChanged;
-        
         CurrCharacterStats.InitialiseStats();
+
+        _characterPortrait.sprite = CurrCharacterStats.CharacterSprite;
     }
 
     private void WeaponChanged(int oldSlot, int newSlot)

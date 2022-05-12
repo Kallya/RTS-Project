@@ -26,8 +26,6 @@ public class ScoreManager : NetworkBehaviour
         {
             // set position on scoreboard
             RectTransform scoreRow = Instantiate(_teamInfoRowPrefab, _infoBoard);
-            scoreRow.offsetMin = new Vector2(0f, 66 - i*50);
-            scoreRow.offsetMax = new Vector2(0f, 66 - (i+1)*50);
 
             // setup for ui to update when score updates
             ScoreTextReferences textComponents = scoreRow.GetComponent<ScoreTextReferences>();

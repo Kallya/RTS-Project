@@ -39,6 +39,9 @@ public class DamageableCharacter : DamageableObject
     [ClientRpc]
     private void RpcDestroyObject(int attackerConnId, int thisConnId)
     {
+        if (isServer)
+            return;
+            
         DestroyCharacterSetup(attackerConnId, thisConnId);
     }
 

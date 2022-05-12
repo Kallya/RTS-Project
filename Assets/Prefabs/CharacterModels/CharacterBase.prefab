@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterBase
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: ddb1b523c4ff3914c8118285ff21b8b5, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 9defbcfd57bcc0b4db2f2801694c6e60, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddb1b523c4ff3914c8118285ff21b8b5, type: 3}
 --- !u!1 &1716312508792313601 stripped
@@ -67,6 +71,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -2530251679569251172, guid: ddb1b523c4ff3914c8118285ff21b8b5, type: 3}
   m_PrefabInstance: {fileID: 1950332364537014864}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &1444504650397523557
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716312508792313601}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &-9166895121447378965
 MonoBehaviour:
   m_ObjectHideFlags: 0

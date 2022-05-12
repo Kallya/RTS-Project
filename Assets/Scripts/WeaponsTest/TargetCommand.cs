@@ -33,7 +33,7 @@ public class TargetCommand : ICommand
         if (Vector3.Distance(_character.transform.position, _target.position) <= _weaponRange-0.5)
             _characterNavMeshAgent.isStopped = true;
         else
-            _characterNavMeshAgent.isStopped = false;
+            _characterNavMeshAgent.isStopped = false; // if isStopped was set to true after reaching target, this will start movement again
 
         _characterNavMeshAgent.destination = _target.position;
     }
