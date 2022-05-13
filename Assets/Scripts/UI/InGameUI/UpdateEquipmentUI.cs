@@ -5,44 +5,46 @@ using UnityEngine.UI;
 
 public class UpdateEquipmentUI : MonoBehaviour
 {
-    [SerializeField] private List<Image> _equipmentSlots;
+    // both lists must be in order of slots from 1 to 4
+    [SerializeField] private List<Image> _equipmentSlotImgs; // imgs to set weapon sprites
+    [SerializeField] private List<Image> _equipmentSlotBtns; // buttons to change colour indicating active weapon
 
     private void Start()
     {
         PlayerInfoUIManager.Instance.OnEquipSlotChanged += EquipSlotChanged;
-        POVManager.Instance.OnPOVChanged += POVChanged;
+        PlayerInfoUIManager.Instance.OnPOVChanged += POVChanged;
     }
 
     private void EquipSlotChanged(int oldSlot, int newSlot)
     {
         SetSlotColour(oldSlot, Color.white);
-        SetSlotColour(newSlot, Color.yellow);
+        SetSlotColour(newSlot, Color.green);
     }
 
-    private void POVChanged(Transform currCharacter)
+    private void POVChanged()
     {
         CharacterEquipment currEquipment = PlayerInfoUIManager.Instance.CurrCharacterEquipment;
         
         SetEquipmentSprites(currEquipment);
         
         // reset colour on all slots
-        foreach (Image slot in _equipmentSlots)
+        foreach (Image slot in _equipmentSlotBtns)
             slot.color = Color.white;
 
-        SetSlotColour(currEquipment.ActiveEquipSlot, Color.yellow);
+        SetSlotColour(currEquipment.ActiveEquipSlot, Color.green);
     }
 
     private void SetSlotColour(int slot, Color colour)
     {
-        _equipmentSlots[slot-1].color = colour;
+        _equipmentSlotBtns[slot-1].color = colour;
     }
 
     private void SetEquipmentSprites(CharacterEquipment currEquipment)
     {
-        for (int i = 0; i < _equipmentSlots.Count; i++)
+        for (int i = 0; i < _equipmentSlotImgs.Count; i++)
         {
             string weaponName = currEquipment.EquipmentToAdd[i];
-            _equipmentSlots[i].sprite = Equipment.Instance.EquipmentReferences[weaponName]
+            _equipmentSlotImgs[i].sprite = Equipment.Instance.EquipmentReferences[weaponName]
                 .GetComponent<IEquipment>()
                 .EquipSprite;
         }

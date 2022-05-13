@@ -6,16 +6,21 @@ public class AutoAttackCommand : ICommand
 {
     private IWeapon _weapon;
     private Transform _playerTransform;
+    private uint _characterNetId;
 
-    public AutoAttackCommand(GameObject player)
+    public AutoAttackCommand(GameObject player, uint characterNetId)
     {
         _weapon = (IWeapon)player.GetComponent<CharacterEquipment>().ActiveEquipment;
+        _characterNetId = characterNetId;
         _playerTransform = player.transform;
     }
 
     public void Execute()
     {
         if (_weapon == null)
+            return;
+        
+        if (!CanAttack())
             return;
 
         Collider[] collInRange = Physics.OverlapSphere(_playerTransform.position, _weapon.Range);
@@ -30,10 +35,18 @@ public class AutoAttackCommand : ICommand
                 if (coll.tag == "Enemy" && Vector3.Dot(_playerTransform.forward, collDir) > 0)
                 {
                     _playerTransform.LookAt(coll.transform);
-                    _weapon.Attack();
+
+                    if (_weapon.Attack())
+                        CharacterStatModifier.Instance.DecreaseCharacterStat(_characterNetId, "Energy", _weapon.EnergyCost);
+                        
                     break;
                 }
             }
         }
+    }
+
+    private bool CanAttack()
+    {
+        return CharacterStatModifier.Instance.CanDecreaseStat(_characterNetId, "Energy", _weapon.EnergyCost);
     }
 }

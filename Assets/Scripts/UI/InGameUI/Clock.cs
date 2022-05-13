@@ -27,7 +27,7 @@ public class Clock : MonoBehaviour
     {
         double remainingTime = _timeAllowed - NetworkTime.time + _initTime;
 
-        if (remainingTime < 0)
+        if (remainingTime <= 0)
             OnFinishGame?.Invoke();
 
         int remainingMin = (int)(remainingTime / 60);

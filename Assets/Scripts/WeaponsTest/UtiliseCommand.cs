@@ -20,20 +20,20 @@ public class UtiliseCommand : IQueueableCommand
 
     public void Execute()
     {
-        if (CanActivate())
+        if (!CanActivate())
+            return;
+
+        if (_equipment is IWeapon weapon)
         {
-            if (_equipment is IWeapon weapon)
-            {
-                // only decrease energy if weapon actually fired
-                // due to fixed fire rates
-                if (weapon.Attack())
-                    CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _equipment.EnergyCost);
-            }
-            else if (_equipment is IUtility utility)
-            {
-                utility.Activate();
+            // only decrease energy if weapon actually fired
+            // due to fixed fire rates
+            if (weapon.Attack())
                 CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _equipment.EnergyCost);
-            }
+        }
+        else if (_equipment is IUtility utility)
+        {
+            utility.Activate();
+            CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _equipment.EnergyCost);
         }
 
         OnCompletion?.Invoke(this);

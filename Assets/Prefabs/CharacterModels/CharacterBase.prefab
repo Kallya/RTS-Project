@@ -59,6 +59,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 9defbcfd57bcc0b4db2f2801694c6e60, type: 2}
+    - target: {fileID: 5866666021909216657, guid: ddb1b523c4ff3914c8118285ff21b8b5, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddb1b523c4ff3914c8118285ff21b8b5, type: 3}
 --- !u!1 &1716312508792313601 stripped
@@ -162,6 +166,21 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 8cd8c96cf0729c9479d759ca8f823420
   hasSpawned: 0
+--- !u!114 &2357308331129761942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716312508792313601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dace76a30068e1c4aaaf0ac11da54b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rifleNames:
+  - Assault Rifle
+  - Shotgun
 --- !u!195 &3502814688978446536
 NavMeshAgent:
   m_ObjectHideFlags: 0

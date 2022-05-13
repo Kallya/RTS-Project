@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public class MaintainCloakCommand : ICommand
 {
@@ -20,6 +21,8 @@ public class MaintainCloakCommand : ICommand
             CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _cloakCost);
         else
             _characterCmdInput.ChangeCloak();
+
+        _characterCmdInput.LastCloakCostTime = NetworkTime.time;
     }
 
     private bool CanCloak()

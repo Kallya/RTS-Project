@@ -8,6 +8,7 @@ using Mirror;
 public class PlayerInfoUIManager : MonoBehaviour
 {
     public static PlayerInfoUIManager Instance { get; private set; }
+    public event System.Action OnPOVChanged;
     public event System.Action<Stat> OnAnyStatChanged;
     public event System.Action<int, int> OnEquipSlotChanged;
     public CharacterStats CurrCharacterStats { get; private set; }
@@ -55,6 +56,8 @@ public class PlayerInfoUIManager : MonoBehaviour
         CurrCharacterStats.InitialiseStats();
 
         _characterPortrait.sprite = CurrCharacterStats.CharacterSprite;
+
+        OnPOVChanged?.Invoke();
     }
 
     private void WeaponChanged(int oldSlot, int newSlot)

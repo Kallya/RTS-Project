@@ -5,29 +5,43 @@ using UnityEngine.UI;
 
 public class UIPlayerControls : MonoBehaviour
 {
-    private CharacterCommandInput _playerInput;
-    private CommandProcessor _playerCmdProcessor;
+    [SerializeField] private Image _autoAtkBtnImg;
+    [SerializeField] private Image _queueBtnImg;
 
     private void Start()
     {
-        POVManager.Instance.OnPOVChanged += POVChanged;
+        PlayerInfoUIManager.Instance.OnPOVChanged += POVChanged;
     }
 
-    public void OnQueueBtnClick(Image queueBtnImg)
+    private void POVChanged()
     {
-        _playerCmdProcessor.ExecuteCommand(new ChangeToggleCommand(_playerInput, "IsQueueingCommands"));
-        SetBtnColour(queueBtnImg, _playerInput.IsQueueingCommands);
+        SetBtnColour(_queueBtnImg, PlayerInfoUIManager.Instance.CurrCmdInput.IsQueueingCommands);
+        SetBtnColour(_autoAtkBtnImg, PlayerInfoUIManager.Instance.CurrCmdInput.IsAutoAttacking);
     }
 
-    public void OnAutoAttackBtnClick(Image autoAtkBtnImg)
+    public void OnQueueBtnClick()
     {
-        _playerCmdProcessor.ExecuteCommand(new ChangeToggleCommand(_playerInput, "IsAutoAttacking"));
-        SetBtnColour(autoAtkBtnImg, _playerInput.IsAutoAttacking);
+        PlayerInfoUIManager.Instance.CurrCmdProcessor.ExecuteCommand(new ChangeToggleCommand(
+            PlayerInfoUIManager.Instance.CurrCmdInput, 
+            "IsQueueingCommands"
+        ));
+
+        SetBtnColour(_queueBtnImg, PlayerInfoUIManager.Instance.CurrCmdInput.IsQueueingCommands);
+    }
+
+    public void OnAutoAttackBtnClick()
+    {
+        PlayerInfoUIManager.Instance.CurrCmdProcessor.ExecuteCommand(new ChangeToggleCommand(
+            PlayerInfoUIManager.Instance.CurrCmdInput, 
+            "IsAutoAttacking"
+        ));
+
+        SetBtnColour(_autoAtkBtnImg, PlayerInfoUIManager.Instance.CurrCmdInput.IsAutoAttacking);
     }
 
     public void OnUndoBtnClick()
     {
-        _playerCmdProcessor.Undo();
+        PlayerInfoUIManager.Instance.CurrCmdProcessor.Undo();
     }
 
     public void OnBailBtnClick()
@@ -35,15 +49,9 @@ public class UIPlayerControls : MonoBehaviour
         Debug.Log("Bail");
     }
 
-    private void POVChanged(Transform currPlayer)
+    private void SetBtnColour(Image btnImg, bool toggleState)
     {
-        _playerInput = currPlayer.GetComponent<CharacterCommandInput>();
-        _playerCmdProcessor = currPlayer.GetComponent<CommandProcessor>();
-    }
-
-    private void SetBtnColour(Image btnImg, bool toggle)
-    {
-        if (toggle == true)
+        if (toggleState == true)
             btnImg.color = Color.green;
         else
             btnImg.color = Color.white;

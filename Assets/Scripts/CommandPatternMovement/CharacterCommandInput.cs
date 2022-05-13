@@ -12,13 +12,13 @@ public class CharacterCommandInput : NetworkBehaviour
     public bool IsAutoAttacking { get; set; } = false;
     public bool IsCloaked { get; set; } = false;
     public bool IsTargeting { get; set; } = false;
+    public double LastCloakCostTime { get; set; }
 
     private CommandProcessor _commandProcessor;
     private MouseClickInput _mouseInput;
     private CharacterEquipment _characterEquipment;
     private RaycastHit _objectHit;
     private static int _cloakInterval = 3; // interval between cloak cost reduction
-    private double _lastCloakCostTime;
 
     // consider depending on how it feels to play
 /*
@@ -146,7 +146,7 @@ public class CharacterCommandInput : NetworkBehaviour
         if (IsAutoAttacking)
         {
             if (_characterEquipment.ActiveEquipment is IWeapon)
-                _commandProcessor.ExecuteCommand(new AutoAttackCommand(gameObject));
+                _commandProcessor.ExecuteCommand(new AutoAttackCommand(gameObject, netId));
         }
 
         if (IsTargeting)
@@ -157,19 +157,22 @@ public class CharacterCommandInput : NetworkBehaviour
                 _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsTargeting"));
         }
 
-        if (IsCloaked && NetworkTime.time - _lastCloakCostTime >= 3)
-        {
+        if (IsCloaked && NetworkTime.time - LastCloakCostTime >= _cloakInterval)
             _commandProcessor.ExecuteCommand(new MaintainCloakCommand(this, netId));
-            _lastCloakCostTime = NetworkTime.time;
-        }
     
     }
 
     public void ChangeCloak()
     {
-        _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsCloaked"));
-        _commandProcessor.ExecuteCommand(new CloakCommand(IsCloaked, netId));
-        
-        _lastCloakCostTime = NetworkTime.time;
+        if (IsQueueingCommands)
+        {
+            _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsCloaked"));
+            _commandProcessor.QueueCommand(new CloakCommand(this, IsCloaked, netId));
+        }
+        else
+        {
+            _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsCloaked"));
+            _commandProcessor.ExecuteCommand(new CloakCommand(this, IsCloaked, netId));
+        }
     }
 }

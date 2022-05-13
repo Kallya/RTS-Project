@@ -110,20 +110,40 @@ public class CharacterEquipment : NetworkBehaviour
 
     private void LimitReached(GameObject equippable)
     {
+        int equipIndex = _availableEquipment.IndexOf(equippable);
+
+        CmdDisableEquippable(equipIndex);
+    }
+
+    [Command]
+    private void CmdDisableEquippable(int equipIndex)
+    {
+        DisableEquippable(equipIndex);
+        RpcDisableEquippable(equipIndex);
+    }
+
+    [ClientRpc]
+    private void RpcDisableEquippable(int equipIndex)
+    {
+        if (isServer)
+            return;
+        
+        DisableEquippable(equipIndex);
+    }
+
+    private void DisableEquippable(int equipIndex)
+    {
+        GameObject equippable = _availableEquipment[equipIndex];
         ILimitedUseEquippable equippedInterface = (ILimitedUseEquippable)_availableEquipmentInterfaces[equippable];
         // unsubscribe from weapon as it is unattached
         equippedInterface.OnLimitReached -= LimitReached;
 
         // null weapon slots so controls don't change
         _availableEquipmentInterfaces[equippable] = null;
-        _availableEquipment[_availableEquipment.IndexOf(equippable)] = null;
-
+        _availableEquipment[equipIndex] = null;
         ActiveEquipment = null;
 
         Destroy(equippable);
-
-        // Switch back automatically after losing a weapon?
-        // CmdSwitchEquipment(1);
     }
 
     private void SetRangeIndicator(float range)

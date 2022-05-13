@@ -110,7 +110,7 @@ public class POVManager : NetworkBehaviour
 
         _playerInputs[characterIndex].enabled = true;
         _vc.Follow = ActiveCharacters[characterIndex].transform;
-        _vcBody.m_TrackedObjectOffset = Vector3.zero;   // center cam on new character
+        _vcBody.m_TrackedObjectOffset = Vector3.zero; // center cam on new character
 
         _spriteReferences[ActiveCharacters[characterIndex]].RangeIndicatorSprite.SetActive(true);
         

@@ -83,13 +83,12 @@ public class ScoreManager : NetworkBehaviour
             _playerScores[killerConnId].ScoreCount += 1;
     }
 
-    [Server]
     private void FinishGame()
     {
         Clock.Instance.OnFinishGame -= FinishGame;
 
         Score[] scores = _playerScores.Values.ToArray();
-        List<Score> winners = new List<Score>();
+        List<Score> winners = new List<Score>() { scores[0] };
 
         // go through comparing scores and adding to list of winners
         // cause there could be multiple players with same score
