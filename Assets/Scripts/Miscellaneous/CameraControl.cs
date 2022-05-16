@@ -7,7 +7,7 @@ public class CameraControl : MonoBehaviour
 {
     private CinemachineVirtualCamera _virtualCam;
     private CinemachineFramingTransposer _virtualCamBody;
-    // private static float s_rotSensitivity = 1500f;
+    private static Quaternion s_initRot;
     private static float s_zoomSensitivity = 500f;
     private static float s_moveSensitivity = 30f;
     private static float s_minZoom = 10f;
@@ -29,31 +29,46 @@ public class CameraControl : MonoBehaviour
             return;
 
         if (Input.mouseScrollDelta.y != 0)
-            AdjustCamZoom(s_zoomSensitivity, s_minZoom, s_maxZoom);
+            AdjustCamZoom();
 
         Vector3 mousePos = Input.mousePosition;
 
         if (mousePos.x <= 0 || mousePos.x >= Screen.width || mousePos.y <= 0 || mousePos.y >= Screen.height)
-            MoveCamToMouse(s_moveSensitivity, s_screenCenter);
+            MoveCamToMouse();
 
         if (Input.GetKeyDown(KeyCode.Space))
             CenterCamOnPlayer();
     }
 
-    private void MoveCamToMouse(float moveSensitivity, Vector3 screenCenter)
+    private void MoveCamToMouse()
     {
-        Vector3 mouseDir = Vector3.Normalize(Input.mousePosition - screenCenter);
-        float rotation = _virtualCam.Follow.eulerAngles.y - 45f;
-        Vector3 camMoveVec = Quaternion.Euler(0f, 0f, rotation) * mouseDir * moveSensitivity * Time.deltaTime;
+        Vector3 mouseDir = Vector3.Normalize(Input.mousePosition - s_screenCenter); // direction of mouse from center of screen
+        float rotation = _virtualCam.Follow.eulerAngles.y - 45f; // adjustment for camera's viewing angle relative to current y rotation
+        Vector3 camMoveVec = Quaternion.Euler(0f, 0f, rotation) * mouseDir * s_moveSensitivity * Time.deltaTime;
 
         _virtualCamBody.m_TrackedObjectOffset.x += camMoveVec.x;
         _virtualCamBody.m_TrackedObjectOffset.z += camMoveVec.y;
     }
 
-    private void AdjustCamZoom(float zoomSensitivity, float minZoom, float maxZoom)
+    // removes relative nature of tracked object offset
+    // preventing camera from rotating when the player does (somewhat nauseating to watch)
+    // how to do?
+    private void AdjustTrackedObjectOffset(Quaternion currRot)
     {
-        float camDist = _virtualCamBody.m_CameraDistance + -Input.mouseScrollDelta.y * zoomSensitivity * Time.deltaTime;
-        _virtualCamBody.m_CameraDistance = Mathf.Clamp(camDist, minZoom, maxZoom);
+        if (s_initRot == currRot)
+            return;
+        
+        float adjustmentRot = -currRot.eulerAngles.y;
+        Vector3 adjustedOffset = Quaternion.Euler(0f, 0f, adjustmentRot) * _virtualCamBody.m_TrackedObjectOffset;
+
+        _virtualCamBody.m_TrackedObjectOffset.x = adjustedOffset.x;
+        _virtualCamBody.m_TrackedObjectOffset.z = adjustedOffset.y;
+    }
+
+    private void AdjustCamZoom()
+    {
+        float camDist = _virtualCamBody.m_CameraDistance + -Input.mouseScrollDelta.y * s_zoomSensitivity * Time.deltaTime;
+        _virtualCamBody.m_CameraDistance = Mathf.Clamp(camDist, s_minZoom, s_maxZoom);
     }
 
     private void CenterCamOnPlayer()

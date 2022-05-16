@@ -11,6 +11,7 @@ public class PlayerInfoUIManager : MonoBehaviour
     public event System.Action OnPOVChanged;
     public event System.Action<Stat> OnAnyStatChanged;
     public event System.Action<int, int> OnEquipSlotChanged;
+    public event System.Action<string> OnToggleChanged;
     public CharacterStats CurrCharacterStats { get; private set; }
     public CharacterEquipment CurrCharacterEquipment { get; private set; }
     public GameObject CurrCharacter { get; private set; }
@@ -39,14 +40,20 @@ public class PlayerInfoUIManager : MonoBehaviour
             foreach (Stat stat in CurrCharacterStats.Stats)
                 stat.OnStatChanged -= StatChanged;
         }
+
+        if (CurrCmdProcessor != null)
+            CurrCmdProcessor.OnQueueableCommandExecuted -= QueueableCommandExecuted;
         
-        if (CurrCharacterEquipment!= null)
+        if (CurrCharacterEquipment != null)
             CurrCharacterEquipment.OnEquipChanged -= WeaponChanged;
 
         CurrCharacterStats = currCharacter.GetComponent<CharacterStats>();
         CurrCharacterEquipment = currCharacter.GetComponent<CharacterEquipment>();
         CurrCmdProcessor = currCharacter.GetComponent<CommandProcessor>();
         CurrCmdInput = currCharacter.GetComponent<CharacterCommandInput>();
+
+        // subscribe to execution of queued commands to detect toggles
+        CurrCmdProcessor.OnQueueableCommandExecuted += QueueableCommandExecuted;
 
         // subscribe to current character's stat/equipment changes
         foreach (Stat stat in CurrCharacterStats.Stats)
@@ -58,6 +65,19 @@ public class PlayerInfoUIManager : MonoBehaviour
         _characterPortrait.sprite = CurrCharacterStats.CharacterSprite;
 
         OnPOVChanged?.Invoke();
+    }
+
+    private void QueueableCommandExecuted(IQueueableCommand command)
+    {
+        command.OnCompletion += Completion;
+    }
+
+    private void Completion(IQueueableCommand command)
+    {
+        command.OnCompletion -= Completion;
+        
+        if (command is ChangeToggleCommand toggleCmd)
+            OnToggleChanged?.Invoke(toggleCmd.ToggleName);
     }
 
     private void WeaponChanged(int oldSlot, int newSlot)

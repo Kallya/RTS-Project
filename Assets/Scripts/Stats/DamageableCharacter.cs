@@ -53,6 +53,6 @@ public class DamageableCharacter : DamageableObject
         if (coll.gameObject.TryGetComponent<NetworkIdentity>(out NetworkIdentity id))
             return id.connectionToClient.connectionId;
         else
-            return coll.transform.parent.GetComponent<NetworkIdentity>().connectionToClient.connectionId;
+            return coll.transform.root.GetComponent<NetworkIdentity>().connectionToClient.connectionId;
     }
 }

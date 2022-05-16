@@ -40,7 +40,6 @@ public class CommandHUD : MonoBehaviour
     private void CommandCompleted()
     {
         TMP_Text text = _contentContainer.GetChild(0).GetComponent<TMP_Text>();
-        Debug.Log(text.text);
 
         Destroy(_contentContainer.GetChild(0).gameObject);
     }

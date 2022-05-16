@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using UnityEngine;
 
@@ -14,9 +15,6 @@ namespace Mirror
 
     // Handles requests to unspawn objects on the client
     public delegate void UnSpawnDelegate(GameObject spawned);
-
-    // invoke type for Cmd/Rpc
-    public enum MirrorInvokeType { Command, ClientRpc }
 
     // channels are const ints instead of an enum so people can add their own
     // channels (can't extend an enum otherwise).
@@ -75,11 +73,31 @@ namespace Mirror
 
         // is a 2D point in screen? (from ummorpg)
         // (if width = 1024, then indices from 0..1023 are valid (=1024 indices)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsPointInScreen(Vector2 point) =>
             0 <= point.x && point.x < Screen.width &&
             0 <= point.y && point.y < Screen.height;
 
+        // pretty print bytes as KB/MB/GB/etc. from DOTSNET
+        // long to support > 2GB
+        // divides by floats to return "2.5MB" etc.
+        public static string PrettyBytes(long bytes)
+        {
+            // bytes
+            if (bytes < 1024)
+                return $"{bytes} B";
+            // kilobytes
+            else if (bytes < 1024L * 1024L)
+                return $"{(bytes / 1024f):F2} KB";
+            // megabytes
+            else if (bytes < 1024 * 1024L * 1024L)
+                return $"{(bytes / (1024f * 1024f)):F2} MB";
+            // gigabytes
+            return $"{(bytes / (1024f * 1024f * 1024f)):F2} GB";
+        }
+
         // universal .spawned function
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static NetworkIdentity GetSpawnedInServerOrClient(uint netId)
         {
             // server / host mode: use the one from server.

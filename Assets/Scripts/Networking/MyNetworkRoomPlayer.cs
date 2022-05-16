@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
 public class MyNetworkRoomPlayer : NetworkRoomPlayer
@@ -11,6 +12,8 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
     public LobbyPlayerTextRefs uiTextRefs { get; private set; }
 
     private RectTransform _playerStateUI;
+    private Image _playerStateUIImg;
+    [SerializeField] private RectTransform _playerStatePrefab;
 
     public override void OnStartLocalPlayer()
     {
@@ -22,9 +25,15 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
     public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)
     {
         if (newReadyState == true)
+        {
             uiTextRefs.PlayerStatus.text = "Ready";
+            _playerStateUIImg.color = Color.green;
+        }
         else
+        {
             uiTextRefs.PlayerStatus.text = "Not Ready";
+            _playerStateUIImg.color = Color.red;
+        }
 
     }
 
@@ -36,16 +45,11 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
 
     private void SetRoomPlayerUI(string oldPlayerName, string newPlayerName)
     {
-        if (newPlayerName == null)
-            return; 
-
         Transform playerStatePanel = GameObject.Find("LobbyGUI").transform.Find("Panel");
-        MyNetworkManager room = MyNetworkManager.singleton as MyNetworkManager;
 
-        _playerStateUI = Instantiate(room.PlayerStatePrefab, playerStatePanel);
-        _playerStateUI.offsetMin = new Vector2(0f, 510 - index*170);
-        _playerStateUI.offsetMax = new Vector2(0f, -index*170);
+        _playerStateUI = Instantiate(_playerStatePrefab, playerStatePanel);
         
+        _playerStateUIImg = _playerStateUI.GetComponent<Image>();
         uiTextRefs = _playerStateUI.GetComponent<LobbyPlayerTextRefs>();
         uiTextRefs.PlayerName.text = PlayerName;
     }

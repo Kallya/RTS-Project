@@ -7,41 +7,54 @@ public class UIPlayerControls : MonoBehaviour
 {
     [SerializeField] private Image _autoAtkBtnImg;
     [SerializeField] private Image _queueBtnImg;
+    private PlayerInfoUIManager _playerInfoUIManager;
 
     private void Start()
     {
-        PlayerInfoUIManager.Instance.OnPOVChanged += POVChanged;
+        _playerInfoUIManager = PlayerInfoUIManager.Instance;
+
+        _playerInfoUIManager.OnPOVChanged += POVChanged;
+        _playerInfoUIManager.OnToggleChanged += ToggleChanged;
+    }
+
+    private void ToggleChanged(string toggleName)
+    {
+        switch (toggleName)
+        {
+            case "IsQueueingCommands":
+                SetBtnColour(_queueBtnImg, _playerInfoUIManager.CurrCmdInput.IsQueueingCommands);
+                break;
+            case "IsAutoAttacking":
+                SetBtnColour(_autoAtkBtnImg, _playerInfoUIManager.CurrCmdInput.IsAutoAttacking);
+                break;
+        }
     }
 
     private void POVChanged()
     {
-        SetBtnColour(_queueBtnImg, PlayerInfoUIManager.Instance.CurrCmdInput.IsQueueingCommands);
-        SetBtnColour(_autoAtkBtnImg, PlayerInfoUIManager.Instance.CurrCmdInput.IsAutoAttacking);
+        SetBtnColour(_queueBtnImg, _playerInfoUIManager.CurrCmdInput.IsQueueingCommands);
+        SetBtnColour(_autoAtkBtnImg, _playerInfoUIManager.CurrCmdInput.IsAutoAttacking);
     }
 
     public void OnQueueBtnClick()
     {
-        PlayerInfoUIManager.Instance.CurrCmdProcessor.ExecuteCommand(new ChangeToggleCommand(
-            PlayerInfoUIManager.Instance.CurrCmdInput, 
+        _playerInfoUIManager.CurrCmdProcessor.ExecuteCommand(new ChangeToggleCommand(
+            _playerInfoUIManager.CurrCmdInput, 
             "IsQueueingCommands"
         ));
-
-        SetBtnColour(_queueBtnImg, PlayerInfoUIManager.Instance.CurrCmdInput.IsQueueingCommands);
     }
 
     public void OnAutoAttackBtnClick()
     {
-        PlayerInfoUIManager.Instance.CurrCmdProcessor.ExecuteCommand(new ChangeToggleCommand(
-            PlayerInfoUIManager.Instance.CurrCmdInput, 
+        _playerInfoUIManager.CurrCmdProcessor.ExecuteCommand(new ChangeToggleCommand(
+            _playerInfoUIManager.CurrCmdInput, 
             "IsAutoAttacking"
         ));
-
-        SetBtnColour(_autoAtkBtnImg, PlayerInfoUIManager.Instance.CurrCmdInput.IsAutoAttacking);
     }
 
     public void OnUndoBtnClick()
     {
-        PlayerInfoUIManager.Instance.CurrCmdProcessor.Undo();
+        _playerInfoUIManager.CurrCmdProcessor.Undo();
     }
 
     public void OnBailBtnClick()

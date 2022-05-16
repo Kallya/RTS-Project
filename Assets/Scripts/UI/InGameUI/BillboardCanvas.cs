@@ -10,7 +10,7 @@ public class BillboardCanvas : MonoBehaviour
     {
         _initRot = transform.rotation;
     }
-    private void Update()
+    private void LateUpdate()
     {
         transform.rotation = _initRot;
     }

@@ -62,13 +62,33 @@ public class CharacterStatModifier : NetworkBehaviour
         return statToModify;
     }
 
-    public void DecreaseCharacterStat(uint characterNetId, string stat, int value)
+    private void SetCharacterStat(uint characterNetId, string stat, int value)
+    {
+        Stat statToSet = GetCharacterStat(characterNetId, stat);
+        Stats.SetStat(statToSet, value);
+    }
+
+    [Command(requiresAuthority=false)]
+    public void CmdSetCharacterStat(uint characterNetId, string stat, int value)
+    {
+        SetCharacterStat(characterNetId, stat, value);
+        RpcSetCharacterStat(characterNetId, stat, value);
+    }
+
+    private void RpcSetCharacterStat(uint characterNetId, string stat, int value)
+    {
+        if (isServer)
+            return;
+        
+        SetCharacterStat(characterNetId, stat, value);
+    }
+
+    private void DecreaseCharacterStat(uint characterNetId, string stat, int value)
     {
         Stat statToDecrease = GetCharacterStat(characterNetId, stat);
         Stats.DecreaseStat(statToDecrease, value);
     }
 
-    // return true or false based on if stat value changed or not
     [Command(requiresAuthority=false)]
     public void CmdDecreaseCharacterStat(uint characterNetId, string stat, int value)
     {
@@ -95,7 +115,7 @@ public class CharacterStatModifier : NetworkBehaviour
             return true;
     }
 
-    public void IncreaseCharacterStat(uint characterNetId, string stat, int value)
+    private void IncreaseCharacterStat(uint characterNetId, string stat, int value)
     {
         Stat statToIncrease = GetCharacterStat(characterNetId, stat);
         Stats.IncreaseStat(statToIncrease, value);

@@ -35,13 +35,12 @@ public class DamageableObject : NetworkBehaviour
         if (_damageableStats is CharacterStats charStats)
             finalDmg = dmg - charStats.Defence.Value;
 
-        CharacterStatModifier.Instance.CmdDecreaseCharacterStat(netId, "Health", finalDmg);
-        //Stats.DecreaseStat(_damageableStats.Health, finalDmg);
+        Stats.DecreaseStat(_damageableStats.Health, finalDmg);
 
         // change health on clients
-        //RpcTakeDamage(finalDmg);
+        RpcTakeDamage(finalDmg);
     }
-/*
+
     [ClientRpc]
     private void RpcTakeDamage(int dmg)
     {
@@ -50,7 +49,7 @@ public class DamageableObject : NetworkBehaviour
 
         Stats.DecreaseStat(_damageableStats.Health, dmg);
     }
-*/
+
 
     private void OnCollisionEnter(Collision other)
     {

@@ -11,12 +11,12 @@ public class RotateToMouseCommand : ICommand
         _characterTransform = character;
     }
 
+    // not accurate
     public void Execute()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
         
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
             _characterTransform.LookAt(new Vector3(hit.point.x, _characterTransform.position.y, hit.point.z));
     }
 }

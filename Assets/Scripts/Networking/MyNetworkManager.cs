@@ -18,7 +18,6 @@ public struct SetScoreboardMessage : NetworkMessage
 
 public class MyNetworkManager : NetworkRoomManager
 {  
-    public RectTransform PlayerStatePrefab;
     public List<GameObject> SpawnedCharacters = new List<GameObject>();
 
     [SerializeField] private GameObject _emptyPlayerPrefab;
@@ -141,14 +140,14 @@ public class MyNetworkManager : NetworkRoomManager
         OnAllLockIn();
     }
 
-    public override GameObject OnRoomServerCreateRoomPlayer(NetworkConnection conn)
+    public override GameObject OnRoomServerCreateRoomPlayer(NetworkConnectionToClient conn)
     {
         GameObject roomPlayer = Instantiate(roomPlayerPrefab.gameObject, Vector3.zero, Quaternion.identity);
 
         return roomPlayer;
     }
 
-    public override GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer)
+    public override GameObject OnRoomServerCreateGamePlayer(NetworkConnectionToClient conn, GameObject roomPlayer)
     {
         // spawn empty gameobject to act as player gameobject (does not interact with game itself)
         GameObject player = Instantiate(_emptyPlayerPrefab, Vector3.zero, Quaternion.identity);
@@ -156,7 +155,7 @@ public class MyNetworkManager : NetworkRoomManager
         return player;
     }
     
-    public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
+    public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnectionToClient conn, GameObject roomPlayer, GameObject gamePlayer)
     {
         int charactersToSpawn = roomPlayer.GetComponent<MyNetworkRoomPlayer>().CharacterNum;
         

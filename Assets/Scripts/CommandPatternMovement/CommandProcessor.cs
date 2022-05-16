@@ -6,6 +6,7 @@ using UnityEngine;
 public class CommandProcessor : MonoBehaviour
 {
     public event System.Action<IQueueableCommand> OnCommandQueued;
+    public event System.Action<IQueueableCommand> OnQueueableCommandExecuted;
     public event System.Action OnCommandCompleted;
     public event System.Action OnCommandUndone;
     // private List<ICommand> _commands = new List<ICommand>();
@@ -13,7 +14,9 @@ public class CommandProcessor : MonoBehaviour
 
     public void ExecuteCommand(ICommand command)
     {
-        // _commands.Add(command);
+        if (command is IQueueableCommand queueableCommand)
+            OnQueueableCommandExecuted?.Invoke(queueableCommand);
+
         command.Execute();
     }
 
@@ -40,9 +43,10 @@ public class CommandProcessor : MonoBehaviour
         command.OnCompletion -= Completion;
 
         if (_queuedCommands.Count != 0)
+        {
             _queuedCommands.RemoveAt(0);
-
-        OnCommandCompleted?.Invoke();
+            OnCommandCompleted?.Invoke(); // command only completed if it wasn't undone
+        }
 
         ExecuteNextCommand();
     }
@@ -54,7 +58,7 @@ public class CommandProcessor : MonoBehaviour
 
         IQueueableCommand nextCommand = _queuedCommands[0];
         nextCommand.OnCompletion += Completion;
-        nextCommand.Execute();
+        ExecuteCommand(nextCommand);
     }
 
 }

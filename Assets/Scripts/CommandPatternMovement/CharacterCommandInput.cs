@@ -64,7 +64,8 @@ public class CharacterCommandInput : NetworkBehaviour
 
             if (Input.GetKey(KeyCode.F))
             {
-                if (_characterEquipment.ActiveEquipment != null)
+                // only utilities are able to be queued (e.g. queueing a single gunshot or sword hit without aim seems useless)
+                if (_characterEquipment.ActiveEquipment != null && _characterEquipment.ActiveEquipment is IUtility)
                     _commandProcessor.QueueCommand(new UtiliseCommand(_characterEquipment, netId));
                 else
                     Debug.Log("You are not holding anything that is useable!");
@@ -151,7 +152,7 @@ public class CharacterCommandInput : NetworkBehaviour
 
         if (IsTargeting)
         {
-            _commandProcessor.ExecuteCommand(new TargetCommand(gameObject, _objectHit.transform, _characterEquipment));
+            _commandProcessor.ExecuteCommand(new TargetCommand(gameObject, _objectHit.transform, _characterEquipment, _commandProcessor));
 
             if (_objectHit.transform == null)
                 _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsTargeting"));

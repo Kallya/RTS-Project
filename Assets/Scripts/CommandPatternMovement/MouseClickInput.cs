@@ -7,9 +7,7 @@ public class MouseClickInput : MonoBehaviour
     public static RaycastHit GetObjectHit()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        
-        Physics.Raycast(ray, out hit);
+        Physics.Raycast(ray, out RaycastHit hit);
 
         return hit;
     }

@@ -6,22 +6,22 @@ public class ChangeToggleCommand : IQueueableCommand
 {
     public string Name { get; } = "Toggle";
     public event System.Action<IQueueableCommand> OnCompletion;
+    public string ToggleName { get; private set; }
 
     private CharacterCommandInput _characterInput;
-    private string _toggleName;
 
     public ChangeToggleCommand(CharacterCommandInput characterInput, string toggleName)
     {
         _characterInput = characterInput;
-        _toggleName = toggleName;
+        ToggleName = toggleName;
     }
 
     public void Execute()
     {
         // use reflection properties to flip toggle booleans by string
-        System.Reflection.PropertyInfo toggleInfo = _characterInput.GetType().GetProperty(_toggleName);
+        System.Reflection.PropertyInfo toggleInfo = _characterInput.GetType().GetProperty(ToggleName);
         bool toggleValue = (bool)toggleInfo.GetValue(_characterInput, null);
-        _characterInput.GetType().GetProperty(_toggleName).SetValue(_characterInput, !toggleValue);
+        _characterInput.GetType().GetProperty(ToggleName).SetValue(_characterInput, !toggleValue);
 
         OnCompletion?.Invoke(this);
     }

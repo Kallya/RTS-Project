@@ -24,15 +24,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393532987804524562}
-  m_LocalRotation: {x: 0.7064338, y: -0.7064338, z: 0.030843643, w: 0.030843643}
-  m_LocalPosition: {x: 0, y: 0.09, z: 0.04}
+  m_LocalRotation: {x: 0.6437239, y: -0.7553428, z: 0.0107017355, w: 0.122320674}
+  m_LocalPosition: {x: 0.03, y: 0.09, z: 0.04}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 9110262467120384500}
   - {fileID: 4636797298989936688}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 175, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 170, y: 10, z: 100}
 --- !u!114 &8201716772908440555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,9 +129,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7029948723529949830, guid: 1ee2e5069a64511439e92ee76e834e82, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5726189586903975674, guid: 1ee2e5069a64511439e92ee76e834e82, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1484000759336623469, guid: 1ee2e5069a64511439e92ee76e834e82, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 243041194690276544, guid: 1ee2e5069a64511439e92ee76e834e82, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 451344082945699629, guid: 1ee2e5069a64511439e92ee76e834e82, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 635547659545568360, guid: 1ee2e5069a64511439e92ee76e834e82, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1ee2e5069a64511439e92ee76e834e82, type: 3}
       propertyPath: m_Name
       value: assault_rifle
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1ee2e5069a64511439e92ee76e834e82, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572470494081719859, guid: 1ee2e5069a64511439e92ee76e834e82, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ee2e5069a64511439e92ee76e834e82, type: 3}

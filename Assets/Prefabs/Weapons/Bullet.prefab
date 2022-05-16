@@ -117,8 +117,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  _damage: 10
-  _speed: 20
+  _damage: 15
+  _speed: 40
   _range: 10
 --- !u!136 &5971729609467400889
 CapsuleCollider:

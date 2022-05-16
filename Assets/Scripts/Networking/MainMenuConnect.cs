@@ -16,14 +16,27 @@ public class MainMenuConnect : MonoBehaviour
     
     public void OnHostGameBtnClick()
     {
+        if (PlayerNameInput.text == "")
+        {
+            Debug.Log("Please enter your player name");
+            return;
+        }
+
         _manager.StartHost();
     }
 
     public void OnJoinGameBtnClick()
     {
+        if (PlayerNameInput.text == "")
+        {
+            Debug.Log("Please enter your player name");
+            return;
+        }
+
         _manager.StartClient();
     }
 
+    // might take this option out depending on if it's buggy or not
     public void OnStartServerBtnClick()
     {
         _manager.StartServer();

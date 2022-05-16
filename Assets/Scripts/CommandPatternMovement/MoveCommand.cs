@@ -35,6 +35,14 @@ public class MoveCommand : IQueueableCommand
     {
         _completionObserver.enabled = false;
         _completionObserver.OnDestinationReached -= DestinationReached;
+
         OnCompletion?.Invoke(this);
+    }
+
+    private void OnDestroy()
+    {
+        // stop character movement if undone during its execution
+        if (_completionObserver.enabled == false)
+            _playerNavMeshAgent.destination = _playerNavMeshAgent.transform.position;
     }
 }

@@ -12,26 +12,34 @@ public struct CloakMessage : NetworkMessage
 public class CloakButton : MonoBehaviour
 {
     private Image _cloakBtn;
+    private PlayerInfoUIManager _playerInfoUIManager;
 
     private void Awake()
     {
         _cloakBtn = GetComponent<Image>();
-        _cloakBtn.color = Color.white;
     }
-
+    
     private void Start()
     {
-        PlayerInfoUIManager.Instance.OnPOVChanged += POVChanged;
+        _playerInfoUIManager = PlayerInfoUIManager.Instance;
+        _playerInfoUIManager.OnPOVChanged += POVChanged;
+        _playerInfoUIManager.OnToggleChanged += ToggleChanged;
     }
 
     public void OnCloakBtnClick()
     {
-        PlayerInfoUIManager.Instance.CurrCmdInput.ChangeCloak();
+        _playerInfoUIManager.CurrCmdInput.ChangeCloak();
+    }
+
+    private void ToggleChanged(string toggleName)
+    {
+        if (toggleName == "IsCloaked")
+            SetColour(_playerInfoUIManager.CurrCmdInput.IsCloaked);
     }
 
     private void POVChanged()
     {
-        SetColour(PlayerInfoUIManager.Instance.CurrCmdInput.IsCloaked);
+        SetColour(_playerInfoUIManager.CurrCmdInput.IsCloaked);
     }
 
     private void SetColour(bool IsCloaked)
