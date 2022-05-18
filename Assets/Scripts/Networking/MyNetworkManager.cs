@@ -30,12 +30,7 @@ public class MyNetworkManager : NetworkRoomManager
     public override void OnRoomServerSceneChanged(string sceneName)
     {
         if (sceneName == RoomScene)
-        {
             NetworkServer.RegisterHandler<CharacterConfigurationMessage>(OnNetworkLockIn);
-
-            // disable UI because it's automatically enabled on spawn
-            // need to change cause no longer need to ref eventsystem
-        }   
     }
 
     public override void OnRoomStartClient()
@@ -59,7 +54,6 @@ public class MyNetworkManager : NetworkRoomManager
 
         TeamMiniHUDSetup.Instance.Setup();
         CommandsDisplayHUDSetup.Instance.Setup();
-        CharacterStatModifier.Instance.Setup();
     }
 
     private void OnSetScoreboardMessage(SetScoreboardMessage msg)
@@ -179,12 +173,9 @@ public class MyNetworkManager : NetworkRoomManager
                     character = Instantiate(_kitsuneCharacterPrefab, startPos, Quaternion.identity);
                     break;
             }
- 
-            character.name = conn.connectionId.ToString();
 
             AssignWeapons(character, roomPlayer, i);
             NetworkServer.Spawn(character, conn);
-
             SpawnedCharacters.Add(character);
 
             _currSpawnedCharacterNum += 1;
@@ -216,7 +207,12 @@ public class MyNetworkManager : NetworkRoomManager
                 PlayerNames=playerNames.ToArray(),
                 TeamSizes=teamSizes.ToArray()
             };
+
             NetworkServer.SendToReady(scoreboardMsg);
+
+            // setup server managers for game elements
+            CharacterStatModifier.Instance.Setup();
+            AudioManager.Instance.Setup();
         }
 
         return true;

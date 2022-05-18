@@ -24,6 +24,9 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
 
     public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)
     {
+        if (_playerStateUIImg == null)
+            return;
+
         if (newReadyState == true)
         {
             uiTextRefs.PlayerStatus.text = "Ready";

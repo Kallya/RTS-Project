@@ -11,7 +11,6 @@ public class Sword : MonoBehaviour, IWeapon
 
     [SerializeField] private Sprite _equipSprite;
     private Rigidbody _rb;
-    private bool _canAttack = true;
     private float _lastAttackTime = -s_attackRate;
     private static float s_attackRate = 1f;
     private static float s_collisionTimeAllowance = 2f; // time rb will detect collisions (essentially animation length)

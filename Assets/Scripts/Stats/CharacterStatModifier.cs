@@ -14,11 +14,9 @@ public class CharacterStatModifier : NetworkBehaviour
         Instance = this;
     }
 
+    [Server]
     public void Setup()
     {
-        if (!isServer)
-            return;
-
         MyNetworkManager netManager = MyNetworkManager.singleton as MyNetworkManager;
         foreach (GameObject character in netManager.SpawnedCharacters)
         {
@@ -29,13 +27,13 @@ public class CharacterStatModifier : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcAddCharacterStat(uint netId)
+    private void RpcAddCharacterStat(uint characterNetId)
     {
         if (isServer)
             return;
 
-        GameObject character = NetworkClient.spawned[netId].gameObject;
-        _characterStats.Add(netId, character.GetComponent<CharacterStats>());
+        GameObject character = NetworkClient.spawned[characterNetId].gameObject;
+        _characterStats.Add(characterNetId, character.GetComponent<CharacterStats>());
     }
 
     private Stat GetCharacterStat(uint characterNetId, string stat)
