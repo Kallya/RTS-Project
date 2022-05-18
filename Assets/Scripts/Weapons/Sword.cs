@@ -5,7 +5,7 @@ using UnityEngine;
 public class Sword : MonoBehaviour, IWeapon
 {
     public Sprite EquipSprite { get => _equipSprite; }
-    public int Damage { get; } = 30;
+    public int Damage { get; } = 50;
     public int EnergyCost { get; } = 0;
     public float Range { get; } = 1f;
 
@@ -33,6 +33,7 @@ public class Sword : MonoBehaviour, IWeapon
         if (Time.time >= _lastAttackTime + s_attackRate)
         {
             StartCoroutine(AttackTime());
+            _lastAttackTime = Time.time;
             return true;
         }
         else

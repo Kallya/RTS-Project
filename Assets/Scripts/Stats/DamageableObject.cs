@@ -5,21 +5,11 @@ using Mirror;
 
 public class DamageableObject : NetworkBehaviour
 {
-    private DamageableObjectStats _damageableStats;
+    protected DamageableObjectStats _damageableStats;
 
     private void Start()
     {
         _damageableStats = GetComponent<DamageableObjectStats>();
-    }
-
-    private void Update()
-    {
-        // only destroy on server (since destruction is then synchronised)
-        if (!isServer)
-            return;
-
-        if (_damageableStats.Health.Value <= 0)
-            DestroyObject();
     }
 
     // override to do other stuff on death (send notification?)
@@ -33,7 +23,12 @@ public class DamageableObject : NetworkBehaviour
         int finalDmg = dmg;
 
         if (_damageableStats is CharacterStats charStats)
-            finalDmg = dmg - charStats.Defence.Value;
+        {
+            if (IsCrit())
+                finalDmg *= 2;
+        
+            finalDmg -= charStats.Defence.Value;
+        }
 
         Stats.DecreaseStat(_damageableStats.Health, finalDmg);
 
@@ -58,5 +53,20 @@ public class DamageableObject : NetworkBehaviour
 
         if (other.gameObject.TryGetComponent<IWeapon>(out IWeapon weaponCollision))
             TakeDamage(weaponCollision.Damage);
+
+        if (_damageableStats.Health.Value <= 0)
+            DestroyObject();
+    }
+
+    // rng crit component (10% fixed chance)
+    private bool IsCrit()
+    {
+        System.Random rand = new System.Random();
+        int n = rand.Next(1, 11);
+
+        if (n == 1)
+            return true;
+        else
+            return false;
     }
 }

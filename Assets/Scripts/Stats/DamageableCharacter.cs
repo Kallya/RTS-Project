@@ -18,6 +18,9 @@ public class DamageableCharacter : DamageableObject
 
         if (coll.gameObject.TryGetComponent<IWeapon>(out IWeapon weaponCollision))
             TakeDamage(weaponCollision.Damage);
+
+        if (_damageableStats.Health.Value <= 0)
+            DestroyObject();
     }
 
     private void DestroyCharacterSetup(int attackerConnId, int thisConnId)
