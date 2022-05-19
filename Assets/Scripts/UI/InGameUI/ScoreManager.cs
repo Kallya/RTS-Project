@@ -75,12 +75,12 @@ public class ScoreManager : NetworkBehaviour
 
     public void UpdateScore(int killerConnId, int victimConnId)
     {
-        _playerScores[victimConnId].CharactersRemaining -= 1;
-
         // inequality not registering as intended on client
         // team kill doesn't increase score
         if (killerConnId != victimConnId)
             _playerScores[killerConnId].ScoreCount += 1;
+
+        _playerScores[victimConnId].CharactersRemaining -= 1;
     }
 
     private void FinishGame()

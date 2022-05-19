@@ -16,8 +16,6 @@ public class WireEffect : NetworkBehaviour
         if (coll.TryGetComponent<NetworkIdentity>(out NetworkIdentity collNetIdentity))
             if (collNetIdentity.connectionToClient.connectionId == connectionToClient.connectionId)
                 return;
-        else
-            return;
 
         if (coll.TryGetComponent<CharacterStats>(out CharacterStats charStats))
         {
@@ -36,8 +34,6 @@ public class WireEffect : NetworkBehaviour
         if (coll.TryGetComponent<NetworkIdentity>(out NetworkIdentity collNetIdentity))
             if (collNetIdentity.connectionToClient.connectionId == connectionToClient.connectionId)
                 return;
-        else
-            return;
 
         if (coll.TryGetComponent<CharacterStats>(out CharacterStats charStats))
         {

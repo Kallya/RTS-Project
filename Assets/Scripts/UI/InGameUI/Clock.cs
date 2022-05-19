@@ -9,9 +9,10 @@ public class Clock : MonoBehaviour
 {
     public static Clock Instance { get; private set; }
     public event System.Action OnFinishGame;
+    public event System.Action OnCrunchTime;
 
     private static double _timeAllowed = 180;
-    private bool _crunchTimeEnabled = false;
+    private bool _crunchTimeEnabled;
     private double _initTime;
     [SerializeField] private TMP_Text _clockText;
     [SerializeField] private Image _clockImage;
@@ -39,6 +40,7 @@ public class Clock : MonoBehaviour
         {
             _clockImage.color = Color.red;
             _crunchTimeEnabled = true;
+            OnCrunchTime?.Invoke();
         }
     }
 

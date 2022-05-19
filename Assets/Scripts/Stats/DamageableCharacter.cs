@@ -34,13 +34,13 @@ public class DamageableCharacter : DamageableObject
         int thisConnId = connectionToClient.connectionId;
 
         DestroyCharacterSetup(_lastCollConnId, thisConnId); // update on server
-        RpcDestroyObject(_lastCollConnId, thisConnId); // update on client
+        RpcDestroyCharacterSetup(_lastCollConnId, thisConnId); // update on client
 
         base.DestroyObject();
     }
 
     [ClientRpc]
-    private void RpcDestroyObject(int attackerConnId, int thisConnId)
+    private void RpcDestroyCharacterSetup(int attackerConnId, int thisConnId)
     {
         if (isServer)
             return;
@@ -57,5 +57,23 @@ public class DamageableCharacter : DamageableObject
             return id.connectionToClient.connectionId;
         else
             return coll.transform.root.GetComponent<NetworkIdentity>().connectionToClient.connectionId;
+    }
+
+    // functionality if destroyed via means other than loss of health
+    // ie. by bail out
+    private void OnDestroy()
+    {
+        if (!isServer)
+            return;
+
+        if (_damageableStats.Health.Value <= 0)
+            return;
+
+        int thisConnId = connectionToClient.connectionId;
+
+        DestroyCharacterSetup(thisConnId, thisConnId); // equivalent to self kill, no score rewarded
+        RpcDestroyCharacterSetup(thisConnId, thisConnId);
+
+        Destroy(gameObject);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using Mirror;
 
 // base class for the stats of the three different character types
@@ -9,19 +10,24 @@ public abstract class CharacterStats : DamageableObjectStats
     public Sprite CharacterSprite;
     public Stat[] Stats;
 
-
     public override Stat Health { get; } = new Stat("Health", 100);
     public Stat Energy { get; } = new Stat("Energy", 100);
     public abstract Stat Speed { get; }
     public abstract Stat Defence { get; }
 
+    private NavMeshAgent _navMeshAgent;
+
     private void Awake()
     {
         Stats = new Stat[] {Health, Energy, Speed, Defence};
+
+        _navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Start()
     {
+        Speed.OnStatChanged += SpeedChanged;
+
         InitialiseStats();
     }
 
@@ -30,5 +36,10 @@ public abstract class CharacterStats : DamageableObjectStats
     {
         foreach (Stat stat in Stats)
             stat.Value = stat.Value;
+    }
+
+    private void SpeedChanged(Stat speedStat)
+    {
+        _navMeshAgent.speed = speedStat.Value;
     }
 }

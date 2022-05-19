@@ -14,6 +14,8 @@ public class CharacterStatModifier : NetworkBehaviour
         Instance = this;
     }
 
+    // setup performed via server
+    // cause SpawnedCharacters is only updated on server
     [Server]
     public void Setup()
     {

@@ -25,22 +25,23 @@ public class AutoAttackCommand : ICommand
 
         Collider[] collInRange = Physics.OverlapSphere(_playerTransform.position, _weapon.Range);
         
-        if (collInRange.Length != 0)
+        if (collInRange.Length == 0)
+            return;
+
+        // check and shoot if enemies in front
+        foreach (Collider coll in collInRange)
         {
-            foreach (Collider coll in collInRange)
+            Vector3 collDir = coll.transform.position - _playerTransform.position;
+
+            // enemy and in front of character
+            if (coll.tag == "Enemy" && Vector3.Dot(_playerTransform.forward, collDir) > 0)
             {
-                Vector3 collDir = coll.transform.position - _playerTransform.position;
+                _playerTransform.LookAt(coll.transform);
 
-                // enemy and in front of character
-                if (coll.tag == "Enemy" && Vector3.Dot(_playerTransform.forward, collDir) > 0)
-                {
-                    _playerTransform.LookAt(coll.transform);
+                if (_weapon.Attack())
+                    CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _weapon.EnergyCost);
 
-                    if (_weapon.Attack())
-                        CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _weapon.EnergyCost);
-                        
-                    break;
-                }
+                break;
             }
         }
     }

@@ -10,18 +10,24 @@ public class AudioManager : NetworkBehaviour
     private Dictionary<uint, AudioSource> _characterAudioSources = new Dictionary<uint, AudioSource>();
     [SerializeField] private List<AudioClip> _audioClips = new List<AudioClip>(); // assign in inspector
     private Dictionary<string, AudioClip> _audioClipsDict = new Dictionary<string, AudioClip>();
+    private AudioSource _thisAudioSource;
+    [SerializeField] private AudioClip _crunchTimeTrack;
 
     private void Awake()
     {
         Instance = this;
-    }
 
-    [Server]
-    public void Setup()
-    {
+        _thisAudioSource = GetComponent<AudioSource>();
+
         foreach (AudioClip clip in _audioClips)
             _audioClipsDict.Add(clip.name, clip);
-        
+    }
+
+    // setup performed via server
+    // cause SpawnedCharacters is only updated on server
+    [Server]
+    public void Setup()
+    {   
         MyNetworkManager netManager = MyNetworkManager.singleton as MyNetworkManager;
         foreach (GameObject character in netManager.SpawnedCharacters)
         {
@@ -29,6 +35,18 @@ public class AudioManager : NetworkBehaviour
             _characterAudioSources.Add(characterNetId, character.GetComponent<AudioSource>());
             RpcAddAudioSource(characterNetId);
         }
+    }
+
+    private void Start()
+    {
+        MyNetworkManager netManager = MyNetworkManager.singleton as MyNetworkManager;
+        
+        Clock.Instance.OnCrunchTime += CrunchTime;
+    }
+
+    private void CrunchTime()
+    {
+        _thisAudioSource.clip = _crunchTimeTrack;
     }
     
 
@@ -56,6 +74,7 @@ public class AudioManager : NetworkBehaviour
         audioSource.Play();
     }
 
+    [ClientRpc]
     private void RpcPlayAudio(uint characterNetId, string clipName)
     {
         if (isServer)

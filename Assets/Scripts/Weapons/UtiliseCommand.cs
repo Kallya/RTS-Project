@@ -6,15 +6,15 @@ using Mirror;
 // for using either a weapon or utility
 public class UtiliseCommand : IQueueableCommand
 {
-    public string Name { get; } = "Use Equipment";
+    public string Name { get; } = "Use weapon";
     public event System.Action<IQueueableCommand> OnCompletion;
 
-    private IEquipment _equipment;
+    private IEquipment _weapon;
     private uint _characterNetId;
 
     public UtiliseCommand(CharacterEquipment playerEquipment, uint netId)
     {
-        _equipment = playerEquipment.ActiveEquipment;
+        _weapon = playerEquipment.ActiveEquipment;
         _characterNetId = netId;
     }
 
@@ -23,24 +23,46 @@ public class UtiliseCommand : IQueueableCommand
         if (!CanActivate())
             return;
 
-        if (_equipment is IWeapon weapon)
+        if (_weapon is IWeapon weapon)
         {
             // only decrease energy if weapon actually fired
-            // due to fixed fire rates
+            // due to fixed attack rates
             if (weapon.Attack())
-                CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _equipment.EnergyCost);
+            {
+                CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _weapon.EnergyCost);
+                PlayWeaponAudio(weapon);
+            }
         }
-        else if (_equipment is IUtility utility)
+        else if (_weapon is IUtility utility)
         {
             utility.Activate();
-            CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _equipment.EnergyCost);
+            PlayUtilityAudio(utility);
+            CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _weapon.EnergyCost);
         }
 
         OnCompletion?.Invoke(this);
     }
 
+    private void PlayWeaponAudio(IWeapon weapon)
+    {
+        if (weapon is AssaultRifle)
+            AudioManager.Instance.CmdPlayAudio(_characterNetId, "Assault Rifle Gunshot");
+        else if (weapon is Shotgun)
+            AudioManager.Instance.CmdPlayAudio(_characterNetId, "Shotgun Gunshot");
+        else if (weapon is Sword)
+            AudioManager.Instance.CmdPlayAudio(_characterNetId, "Sword Attack");
+    }
+
+    private void PlayUtilityAudio(IUtility utility)
+    {
+        if (utility is Barrier)
+            AudioManager.Instance.CmdPlayAudio(_characterNetId, "Barrier Spawn");
+        else if (utility is Wire)
+            AudioManager.Instance.CmdPlayAudio(_characterNetId, "Wire Spawn");
+    }
+
     private bool CanActivate()
     {
-        return CharacterStatModifier.Instance.CanDecreaseStat(_characterNetId, "Energy", _equipment.EnergyCost);
+        return CharacterStatModifier.Instance.CanDecreaseStat(_characterNetId, "Energy", _weapon.EnergyCost);
     }
 }

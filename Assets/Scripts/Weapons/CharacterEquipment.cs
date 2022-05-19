@@ -34,16 +34,13 @@ public class CharacterEquipment : NetworkBehaviour
         foreach (string equipName in EquipmentToAdd)
         {
             GameObject equipPrefab = Equipment.Instance.EquipmentReferences[equipName];
-            GameObject equippable = Instantiate(equipPrefab, _rightHand);
+            GameObject equippable = Instantiate(equipPrefab, _rightHand); // though if in hand, shooting weapons will lose accuracy when moving
             equippable.SetActive(false);
             _availableEquipmentInterfaces.Add(equippable, equippable.GetComponent<IEquipment>());
         }
 
         foreach (KeyValuePair<GameObject, IEquipment> w in _availableEquipmentInterfaces)
         {
-            // disable all equipment initially
-            // w.Key.SetActive(false);
-
             // listen for when equipment breaks/can't be used anymore
             if (w.Value is ILimitedUseEquippable equippable)
                 equippable.OnLimitReached += LimitReached;
@@ -81,11 +78,13 @@ public class CharacterEquipment : NetworkBehaviour
                 IWeapon weapon = ActiveEquipment as IWeapon;
                 SetRangeIndicator(weapon.Range);
             }
+            else
+                SetRangeIndicator(1f);
         }
         else
         {
             ActiveEquipment = null;
-            SetRangeIndicator(1);
+            SetRangeIndicator(1f);
         }
 
         OnEquipChanged?.Invoke(oldSlot, newSlot);
@@ -110,6 +109,9 @@ public class CharacterEquipment : NetworkBehaviour
 
     private void LimitReached(GameObject equippable)
     {
+        if (!isServer)
+            return;
+            
         int equipIndex = _availableEquipment.IndexOf(equippable);
 
         CmdDisableEquippable(equipIndex);

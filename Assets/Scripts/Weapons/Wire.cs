@@ -14,7 +14,11 @@ public class Wire : MonoBehaviour, IUtility, ILimitedUseEquippable
     
     public void Activate()
     {
-        ObjectSpawner.Instance.CmdSpawnNetworkObject(_wireObject.name, transform.position, Quaternion.identity, NetworkClient.connection as NetworkConnectionToClient);
+        ObjectSpawner.Instance.CmdSpawnNetworkObject(
+            _wireObject.name, 
+            transform.position, 
+            _wireObject.transform.rotation, 
+            NetworkClient.connection as NetworkConnectionToClient);
         
         OnLimitReached?.Invoke(gameObject);
     }
