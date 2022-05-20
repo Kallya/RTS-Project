@@ -10,11 +10,14 @@ public class POVManager : NetworkBehaviour
     public static POVManager Instance { get; private set; }
     public event System.Action<Transform> OnPOVChanged;
     public List<GameObject> ActiveCharacters = new List<GameObject>();
+    // references for camera controls
+    public CinemachineVirtualCamera CurrVirtualCam { get; private set; }
+    public CinemachineFramingTransposer CurrVirtualCamBody { get; private set; }
 
     private List<CharacterCommandInput> _playerInputs = new List<CharacterCommandInput>();
     private Dictionary<GameObject, PlayerSpriteReferences> _spriteReferences = new Dictionary<GameObject, PlayerSpriteReferences>();
-    private CinemachineVirtualCamera _vc;
-    private CinemachineFramingTransposer _vcBody;
+    private List<CinemachineVirtualCamera> _characterCams = new List<CinemachineVirtualCamera>();
+    [SerializeField] private GameObject _characterVirtualCamPrefab;
     [SerializeField] private GameObject _friendlySprite;
     [SerializeField] private GameObject _enemySprite;
     [SerializeField] private GameObject _rangeIndicatorSprite;
@@ -28,9 +31,6 @@ public class POVManager : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
-        
-        _vc = GetComponent<CinemachineVirtualCamera>();
-        _vcBody = _vc.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
 
     public override void OnStartServer()
@@ -49,6 +49,7 @@ public class POVManager : NetworkBehaviour
             // all of local client's characters have authority
             if (character.GetComponent<NetworkIdentity>().hasAuthority)
             {
+                AssignCamera(character); // create and assign individual camera to character for switching POVs
                 ActiveCharacters.Add(character);
                 AddMinimapSprite(character, false);
                 AddRangeIndicator(character);
@@ -69,13 +70,20 @@ public class POVManager : NetworkBehaviour
             character.GetComponent<DamageableCharacter>().OnDestroyed += Destroyed; // trigger for auto pov change
         }
 
+        //CurrVirtualCam = _characterCams[0];
+        //CurrVirtualCamBody = CurrVirtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+
         ChangePOV(1);
     }
 
-    // automatically switch to active character POV when current one dies
     private void Destroyed(GameObject character)
     {
-        if (character.transform != _vc.Follow)
+        // disable destroyed character's camera
+        _characterCams[ActiveCharacters.IndexOf(character)].gameObject.SetActive(false);
+
+        // ignore auto POV switch to active character
+        // if destroyed character isn't current character
+        if (character.transform != CurrVirtualCam.Follow)
             return; 
 
         for (int i = 0; i < ActiveCharacters.Count; i++)
@@ -102,19 +110,34 @@ public class POVManager : NetworkBehaviour
         if (ActiveCharacters[characterIndex] == null)
             return;
 
-        if (_vc.Follow != null)
+        float zoomDist = 30f; // default zoom value
+
+        if (CurrVirtualCam != null)
         {
-            _vc.Follow.GetComponent<CharacterCommandInput>().enabled = false;
-            _vc.Follow.GetComponent<PlayerSpriteReferences>().RangeIndicatorSprite.SetActive(false);
+            CurrVirtualCam.Follow.GetComponent<CharacterCommandInput>().enabled = false;
+            CurrVirtualCam.Follow.GetComponent<PlayerSpriteReferences>().RangeIndicatorSprite.SetActive(false);
+            zoomDist = CurrVirtualCamBody.m_CameraDistance;
         }
 
+        CurrVirtualCam = _characterCams[characterIndex];
+        CurrVirtualCamBody = CurrVirtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+
         _playerInputs[characterIndex].enabled = true;
-        _vc.Follow = ActiveCharacters[characterIndex].transform;
-        _vcBody.m_TrackedObjectOffset = Vector3.zero; // center cam on new character
+        CurrVirtualCamBody.m_TrackedObjectOffset = Vector3.zero; // center cam on new character
+        CurrVirtualCamBody.m_CameraDistance = zoomDist; // transfer zoom value
+        _characterCams[characterIndex].MoveToTopOfPrioritySubqueue(); // switch active camera
 
         _spriteReferences[ActiveCharacters[characterIndex]].RangeIndicatorSprite.SetActive(true);
         
-        OnPOVChanged?.Invoke(_vc.Follow);
+        OnPOVChanged?.Invoke(CurrVirtualCam.Follow);
+    }
+
+    private void AssignCamera(GameObject character)
+    {
+        GameObject cam = Instantiate(_characterVirtualCamPrefab);
+        CinemachineVirtualCamera camComponent = cam.GetComponent<CinemachineVirtualCamera>();
+        camComponent.Follow = character.transform;
+        _characterCams.Add(camComponent);
     }
 
     // add minimap sprite to character identifying allies and enemies

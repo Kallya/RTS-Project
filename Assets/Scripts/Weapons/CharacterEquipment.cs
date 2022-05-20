@@ -26,7 +26,7 @@ public class CharacterEquipment : NetworkBehaviour
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
     private List<GameObject> _availableEquipment;    
     // initialise equipSlot to 2 to prevent indexing error for first change
-    [SyncVar(hook=nameof(SetEquipmentActives))] private int _activeEquipSlot = 3;
+    [SyncVar(hook=nameof(SetEquipmentActives))] private int _activeEquipSlot = 2;
     private GameObject _rangeIndicatorSprite;
 
     private void SetupEquipment()
@@ -53,9 +53,8 @@ public class CharacterEquipment : NetworkBehaviour
     {
         SetupEquipment();
         
-        // ensure weapon is only switched once
-        if (isServer)
-            _activeEquipSlot = 1;
+        // call on all clients for initial setup
+        SetEquipmentActives(1, 1);
     }
 
     private void SetEquipmentActives(int oldSlot, int newSlot)
