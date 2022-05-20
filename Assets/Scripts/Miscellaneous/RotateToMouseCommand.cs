@@ -14,9 +14,11 @@ public class RotateToMouseCommand : ICommand
     // not accurate
     public void Execute()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        
-        if (Physics.Raycast(ray, out RaycastHit hit))
-            _characterTransform.LookAt(new Vector3(hit.point.x, _characterTransform.position.y, hit.point.z));
+        float camDist = Mathf.Sqrt(2*Mathf.Pow(Camera.main.transform.position.y, 2)); // distance of camera from map plane
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(
+            new Vector3(Input.mousePosition.x, Input.mousePosition.y, camDist)
+        );
+
+        _characterTransform.LookAt(new Vector3(mousePos.x, _characterTransform.position.y, mousePos.z));
     }
 }

@@ -73,15 +73,15 @@ public class POVManager : NetworkBehaviour
     }
 
     // automatically switch to active character POV when current one dies
-    private void Destroyed(GameObject go)
+    private void Destroyed(GameObject character)
     {
-        if (go.transform != _vc.Follow)
+        if (character.transform != _vc.Follow)
             return; 
 
         for (int i = 0; i < ActiveCharacters.Count; i++)
         {
-            GameObject character = ActiveCharacters[i];
-            if (character != null && character != go)
+            GameObject nextCharacter = ActiveCharacters[i];
+            if (character != null && nextCharacter != character)
             {
                 ChangePOV(i+1);
                 break;

@@ -13,6 +13,7 @@ public class CameraControl : MonoBehaviour
     private static float s_minZoom = 10f;
     private static float s_maxZoom = 50f;
     private static Vector3 s_screenCenter;
+    private Quaternion _lastRotation;
 
     private void Awake()
     {
@@ -20,6 +21,11 @@ public class CameraControl : MonoBehaviour
         _virtualCamBody = _virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
 
         s_screenCenter = new Vector3(Screen.width/2, Screen.height/2, 0f);
+    }
+
+    private void Start()
+    {
+        _lastRotation = _virtualCam.Follow.rotation;
     }
     
     private void Update()
@@ -40,6 +46,15 @@ public class CameraControl : MonoBehaviour
             CenterCamOnPlayer();
     }
 
+    private void LateUpdate()
+    {
+        if (_lastRotation != _virtualCam.Follow.rotation)
+        {
+            AdjustTrackedObjectOffset();
+            _lastRotation = _virtualCam.Follow.rotation;
+        }
+    }
+
     private void MoveCamToMouse()
     {
         Vector3 mouseDir = Vector3.Normalize(Input.mousePosition - s_screenCenter); // direction of mouse from center of screen
@@ -52,17 +67,12 @@ public class CameraControl : MonoBehaviour
 
     // removes relative nature of tracked object offset
     // preventing camera from rotating when the player does (somewhat nauseating to watch)
-    // how to do?
-    private void AdjustTrackedObjectOffset(Quaternion currRot)
-    {
-        if (s_initRot == currRot)
-            return;
-        
-        float adjustmentRot = -currRot.eulerAngles.y;
-        Vector3 adjustedOffset = Quaternion.Euler(0f, 0f, adjustmentRot) * _virtualCamBody.m_TrackedObjectOffset;
+    private void AdjustTrackedObjectOffset()
+    { 
+        float adjustmentRot = -_virtualCam.Follow.rotation.eulerAngles.y;
+        Vector3 adjustedOffset = Quaternion.Euler(0f, adjustmentRot, 0f) * _virtualCamBody.m_TrackedObjectOffset;
 
-        _virtualCamBody.m_TrackedObjectOffset.x = adjustedOffset.x;
-        _virtualCamBody.m_TrackedObjectOffset.z = adjustedOffset.y;
+        _virtualCamBody.m_TrackedObjectOffset = adjustedOffset;
     }
 
     private void AdjustCamZoom()
