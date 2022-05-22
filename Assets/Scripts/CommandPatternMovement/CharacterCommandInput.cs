@@ -8,6 +8,8 @@ using Mirror;
 [RequireComponent(typeof(MouseClickInput))]
 public class CharacterCommandInput : NetworkBehaviour
 {
+    public static bool InputsEnabled { get; set; } = false; // global scope
+
     public bool IsQueueingCommands { get; set; } = false;
     public bool IsAutoAttacking { get; set; } = false;
     public bool IsCloaked { get; set; } = false;
@@ -18,6 +20,7 @@ public class CharacterCommandInput : NetworkBehaviour
     private MouseClickInput _mouseInput;
     private CharacterEquipment _characterEquipment;
     private RaycastHit _objectHit;
+    private Transform _lastTarget;
     private static int _cloakInterval = 3; // interval between cloak cost reduction
 
     // consider depending on how it feels to play
@@ -37,10 +40,15 @@ public class CharacterCommandInput : NetworkBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // Don't allow the server to interact with game through inputs
+        // Don't allow sole server to interact with game through inputs
         if (isServerOnly)
             return;
-        // need to rethink this
+
+        // enable and disable inputs when transitioning between scenes
+        // to allow leeway for things to load
+        if (InputsEnabled == false)
+            return;
+        
         if (IsQueueingCommands)
         {
             if (Input.GetMouseButtonDown(1))

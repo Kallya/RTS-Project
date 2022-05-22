@@ -15,11 +15,18 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
     private Image _playerStateUIImg;
     [SerializeField] private RectTransform _playerStatePrefab;
 
+    // each client sets their own name through the server
+    // which is updated on other clients
     public override void OnStartLocalPlayer()
     {
         string playerName = MyNetworkManager.singleton.GetComponent<MainMenuConnect>().PlayerNameInput.text;
 
         CmdSetPlayerName(playerName);
+    }
+
+    public override void OnClientEnterRoom()
+    {
+        
     }
 
     public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)

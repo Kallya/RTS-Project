@@ -7,7 +7,6 @@ using System.Linq;
 public class ScoreManager : NetworkBehaviour
 {
     public static ScoreManager Instance { get; private set; }
-    public event System.Action<Score[]> OnGameFinish;
 
     private Dictionary<int, Score> _playerScores = new Dictionary<int, Score>();
     private Dictionary<string, ScoreTextReferences> _scoreTextRefs = new Dictionary<string, ScoreTextReferences>();
@@ -43,7 +42,7 @@ public class ScoreManager : NetworkBehaviour
         }
 
         InitialiseScores(); // reinitialise to update UI
-        Clock.Instance.OnFinishGame += FinishGame;
+        Clock.Instance.OnFinishGame += FinishGame; // subscribe for finish game by time
     }
 
     private void ScoreChanged(Score score)
@@ -87,23 +86,20 @@ public class ScoreManager : NetworkBehaviour
     {
         Clock.Instance.OnFinishGame -= FinishGame;
 
-        Score[] scores = _playerScores.Values.ToArray();
-        List<Score> winners = new List<Score>() { scores[0] };
+        Score[] finalScores = _playerScores.Values.ToArray();
+        System.Array.Sort(finalScores, (s1, s2) => s2.ScoreCount.CompareTo(s1.ScoreCount)); // sort scores from highest score to lowest
 
-        // go through comparing scores and adding to list of winners
-        // cause there could be multiple players with same score
-        for (int i = 1; i < scores.Length; i++)
-        {
-            if (scores[i].ScoreCount > winners[0].ScoreCount)
-            {
-                winners.Clear();
-                winners.Add(scores[i]);
-            }
-            else if (scores[i].ScoreCount == winners[0].ScoreCount)
-                winners.Add(scores[i]);
-        }
-
-        OnGameFinish?.Invoke(winners.ToArray());
+        // find connectionIds of winners
+        // dictionary shouldn't be accessed by value to get key, but how else?
+        int[] winnerIds = _playerScores.Keys.ToList()
+            .FindAll(id => _playerScores[id].ScoreCount == finalScores[0].ScoreCount).ToArray();
+        
+        FinishGameMessage msg = new FinishGameMessage() { 
+            FinalScores=finalScores,
+            WinnerIds=winnerIds
+        };
+        
+        NetworkServer.SendToReady(msg); // trigger endgame by msg to synchronise end
     }
 }
 
@@ -141,6 +137,8 @@ public class Score
     }
 }
 
+// custom serialiser for Score objects
+// so Scores can be sent over the network
 public static class ScoreSerialiser
 {
     public static void WriteScore(this NetworkWriter writer, Score value)
@@ -155,3 +153,4 @@ public static class ScoreSerialiser
         return new Score(reader.ReadString(), reader.ReadInt(), reader.ReadInt());
     }
 }
+

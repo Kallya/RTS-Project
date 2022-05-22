@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Playables;
+using Mirror;
 
-public class CharacterAnimationManager : MonoBehaviour
+public class CharacterAnimationManager : NetworkBehaviour
 {
     private NavMeshAgent _characterNavMeshAgent;
     private CharacterEquipment _characterEquipment;
     private Animator _characterAnimator;
     private CommandProcessor _characterCmdProcessor;
+    // cloak animation specific
+    [SerializeField] private PlayableDirector _cloakPlayableDirector;
 
     // indexes for rifle weapons
     // to determine whether a rifle is being held
@@ -86,6 +90,16 @@ public class CharacterAnimationManager : MonoBehaviour
         }
         else if (command is UtiliseCommand)
             _characterAnimator.SetTrigger("Utilised");
+        else if (command is CloakCommand)
+        {
+            Debug.Log(_cloakPlayableDirector);
+            bool nextState = !_cloakPlayableDirector.gameObject.activeSelf;
+            _cloakPlayableDirector.gameObject.SetActive(nextState);
+
+            if (nextState == true)
+                _cloakPlayableDirector.Play();
+        }
+            
     }
 
     private void Completion(IQueueableCommand command)

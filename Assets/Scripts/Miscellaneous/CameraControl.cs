@@ -22,7 +22,7 @@ public class CameraControl : MonoBehaviour
     private void Update()
     {
         // don't do anything if POV isn't set
-        if (_povManager.CurrVirtualCam == null)
+        if (_povManager.CurrVirtualCam == null || _povManager.CurrVirtualCam.Follow == null)
             return;
 
         if (Input.mouseScrollDelta.y != 0)

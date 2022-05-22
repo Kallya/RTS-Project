@@ -8,6 +8,11 @@ public struct StartPreGameMessage : NetworkMessage {}
 // empty message to tell clients when to call SetLocalCharacters
 // to ensure all characters (allied and enemy) are setup
 public struct SetLocalCharactersMessage : NetworkMessage {}
+public struct FinishGameMessage : NetworkMessage
+{
+    public Score[] FinalScores;
+    public int[] WinnerIds;
+}
 
 public struct SetScoreboardMessage : NetworkMessage
 {
@@ -40,7 +45,6 @@ public class MyNetworkManager : NetworkRoomManager
         NetworkClient.RegisterHandler<SetScoreboardMessage>(OnSetScoreboardMessage);
     }
 
-
     // synchronise character setup start on clients (not just server)
     private void OnStartPreGame(StartPreGameMessage msg)
     {
@@ -54,6 +58,10 @@ public class MyNetworkManager : NetworkRoomManager
 
         TeamMiniHUDSetup.Instance.Setup();
         CommandsDisplayHUDSetup.Instance.Setup();
+
+        CharacterCommandInput.InputsEnabled = true; // enable all inputs when everything's loaded
+        Clock.Instance.IsTicking = true; // start clock when everything's loaded
+        AudioManager.Instance.ToggleGameTrack(true); // start background music
     }
 
     private void OnSetScoreboardMessage(SetScoreboardMessage msg)
@@ -62,7 +70,9 @@ public class MyNetworkManager : NetworkRoomManager
         ScoreManager.Instance.SetScoreboard(msg.ConnectionIds, msg.PlayerNames, msg.TeamSizes);
         NetworkClient.UnregisterHandler<SetScoreboardMessage>();
 
-        ScoreManager.Instance.OnGameFinish += GameFinish;
+        // setup for endgame triggered in scoreboardmanager
+        EndgameManager.Instance.gameObject.SetActive(false);
+        NetworkClient.RegisterHandler<FinishGameMessage>(OnFinishGame);
     }
 
     public override void OnRoomServerPlayersReady()
@@ -83,15 +93,15 @@ public class MyNetworkManager : NetworkRoomManager
         ServerChangeScene(GameplayScene);
     }
 
-    private void GameFinish(Score[] winningScores)
+    private void OnFinishGame(FinishGameMessage msg)
     {
-        ScoreManager.Instance.OnGameFinish -= GameFinish;
+        NetworkClient.UnregisterHandler<FinishGameMessage>();
 
-        if (winningScores.Length > 1)
-            Debug.Log("Draw");
+        CharacterCommandInput.InputsEnabled = false; // disable all inputs (all clients)
+        Clock.Instance.IsTicking = false; // stop clock
+        AudioManager.Instance.ToggleGameTrack(false); // stop music
 
-        foreach (Score score in winningScores)
-            Debug.Log($"{score.PlayerName}: Score {score.ScoreCount}, CharactersRemaining {score.CharactersRemaining}");
+        EndgameManager.Instance.Setup(msg.FinalScores, msg.WinnerIds); // generate final scoreboard + outcome of game
     }
 
     public void OnNetworkLockIn(NetworkConnection conn, CharacterConfigurationMessage msg)
@@ -181,6 +191,7 @@ public class MyNetworkManager : NetworkRoomManager
             _currSpawnedCharacterNum += 1;
         }
 
+        // when all characters spawned
         if (_currSpawnedCharacterNum == _totalCharacterNum)
         {
             // reset counters for next lobby

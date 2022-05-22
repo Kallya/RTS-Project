@@ -44,6 +44,15 @@ public class AudioManager : NetworkBehaviour
         Clock.Instance.OnCrunchTime += CrunchTime;
     }
 
+    // stop or start background music
+    public void ToggleGameTrack(bool play)
+    {
+        if (play == true)
+            _thisAudioSource.Play();
+        else
+            _thisAudioSource.Stop();
+    }
+
     private void CrunchTime()
     {
         _thisAudioSource.clip = _crunchTimeTrack;

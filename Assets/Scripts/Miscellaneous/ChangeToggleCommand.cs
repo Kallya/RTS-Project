@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChangeToggleCommand : IQueueableCommand
 {
-    public string Name { get; } = "Toggle";
+    public string Name { get; private set; } = "Toggle";
     public event System.Action<IQueueableCommand> OnCompletion;
     public string ToggleName { get; private set; }
 
@@ -14,6 +14,9 @@ public class ChangeToggleCommand : IQueueableCommand
     {
         _characterInput = characterInput;
         ToggleName = toggleName;
+
+        // add toggle name to identify what is being toggled for queued cmd
+        Name += " " + toggleName.Substring(2, toggleName.Length - 2); 
     }
 
     public void Execute()

@@ -39,6 +39,6 @@ public class TargetCommand : ICommand
         else
             _characterNavMeshAgent.isStopped = false; // if isStopped was set to true after reaching target, this will start movement again
 
-        _characterCmdProcessor.ExecuteCommand(new MoveCommand(_character.gameObject, _target.position));
+        _characterCmdProcessor.ExecuteCommand(new MoveCommand(_character, _target.position));
     }
 }

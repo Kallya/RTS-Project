@@ -78,9 +78,6 @@ public class POVManager : NetworkBehaviour
 
     private void Destroyed(GameObject character)
     {
-        // disable destroyed character's camera
-        _characterCams[ActiveCharacters.IndexOf(character)].gameObject.SetActive(false);
-
         // ignore auto POV switch to active character
         // if destroyed character isn't current character
         if (character.transform != CurrVirtualCam.Follow)
@@ -124,8 +121,8 @@ public class POVManager : NetworkBehaviour
 
         _playerInputs[characterIndex].enabled = true;
         CurrVirtualCamBody.m_TrackedObjectOffset = Vector3.zero; // center cam on new character
-        CurrVirtualCamBody.m_CameraDistance = zoomDist; // transfer zoom value
-        _characterCams[characterIndex].MoveToTopOfPrioritySubqueue(); // switch active camera
+        CurrVirtualCamBody.m_CameraDistance = zoomDist; // transfer previous zoom value
+        CurrVirtualCam.MoveToTopOfPrioritySubqueue(); // switch active camera
 
         _spriteReferences[ActiveCharacters[characterIndex]].RangeIndicatorSprite.SetActive(true);
         

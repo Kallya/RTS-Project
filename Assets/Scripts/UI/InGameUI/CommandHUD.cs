@@ -39,8 +39,6 @@ public class CommandHUD : MonoBehaviour
     // Delete command at start of queue
     private void CommandCompleted()
     {
-        TMP_Text text = _contentContainer.GetChild(0).GetComponent<TMP_Text>();
-
         Destroy(_contentContainer.GetChild(0).gameObject);
     }
 

@@ -55,6 +55,7 @@ public class CharacterEquipment : NetworkBehaviour
         
         // call on all clients for initial setup
         SetEquipmentActives(1, 1);
+        _activeEquipSlot = 1;
     }
 
     private void SetEquipmentActives(int oldSlot, int newSlot)

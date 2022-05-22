@@ -8,10 +8,20 @@ using TMPro;
 public class Clock : MonoBehaviour
 {
     public static Clock Instance { get; private set; }
+    public bool IsTicking
+    {
+        get => _isTicking;
+        set
+        {
+            _isTicking = value;
+            _initTime = NetworkTime.time;
+        }
+    }
     public event System.Action OnFinishGame;
     public event System.Action OnCrunchTime;
 
-    private static double _timeAllowed = 180;
+    private static double _timeAllowed = 300; // five minutes game time
+    private bool _isTicking = false;
     private bool _crunchTimeEnabled;
     private double _initTime;
     [SerializeField] private TMP_Text _clockText;
@@ -26,6 +36,9 @@ public class Clock : MonoBehaviour
 
     private void Update()
     {
+        if (_isTicking == false)
+            return;
+
         double remainingTime = _timeAllowed - NetworkTime.time + _initTime;
 
         if (remainingTime <= 0)
