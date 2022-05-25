@@ -73,7 +73,5 @@ public class DamageableCharacter : DamageableObject
 
         DestroyCharacterSetup(thisConnId, thisConnId); // equivalent to self kill, no score rewarded
         RpcDestroyCharacterSetup(thisConnId, thisConnId);
-
-        Destroy(gameObject);
     }
 }

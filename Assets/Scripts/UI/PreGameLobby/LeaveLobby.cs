@@ -13,8 +13,6 @@ public class LeaveLobby : MonoBehaviour
             networkRoomManager.StopHost();
         }
         else
-        {
-            NetworkClient.localPlayer.GetComponent<NetworkIdentity>().connectionToServer.Disconnect();
-        }
+            MyNetworkManager.singleton.StopClient();
     }
 }

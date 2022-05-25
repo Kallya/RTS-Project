@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -353,7 +353,7 @@ MonoBehaviour:
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 8189309856033541704, guid: 7e1088cb3817a344299fd3f5f7956b2a, type: 3}
   autoCreatePlayer: 1
-  playerSpawnMethod: 0
+  playerSpawnMethod: 1
   spawnPrefabs:
   - {fileID: 8177797051199360568, guid: 9692caf24c9ae774da0b8289f1c841af, type: 3}
   - {fileID: 5046765952245462816, guid: 8377be8a242e04c4d961ebeef8bbe094, type: 3}
@@ -366,7 +366,7 @@ MonoBehaviour:
   minPlayers: 1
   roomPlayerPrefab: {fileID: 7527436089385443803, guid: 298586b00865c144eabc863464dfbcad, type: 3}
   RoomScene: Assets/Scenes/MyRoomScene.unity
-  GameplayScene: Assets/Scenes/IsolatedNetworkingTestScene.unity
+  GameplayScene: Assets/Scenes/Map1Scene.unity
   _allPlayersReady: 0
   roomSlots: []
   clientIndex: 0
@@ -375,6 +375,9 @@ MonoBehaviour:
   _kabukiCharacterPrefab: {fileID: 1121702167918904740, guid: 2f5d2bf28512cf04f9dd1d6386b05eaf, type: 3}
   _tenguCharacterPrefab: {fileID: 3007651786129718282, guid: f247d4dd81e3fae41a98057a6ec42758, type: 3}
   _kitsuneCharacterPrefab: {fileID: 9216140379995361956, guid: e700ad983f6fc1d40a0b08a665f9bbd1, type: 3}
+  _mapsSceneNames:
+  - Map1Scene
+  - Map2Scene
 --- !u!4 &187443668
 Transform:
   m_ObjectHideFlags: 0

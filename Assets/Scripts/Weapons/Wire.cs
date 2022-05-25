@@ -18,7 +18,8 @@ public class Wire : MonoBehaviour, IUtility, ILimitedUseEquippable
             _wireObject.name, 
             transform.position, 
             _wireObject.transform.rotation, 
-            NetworkClient.connection as NetworkConnectionToClient);
+            NetworkClient.connection as NetworkConnectionToClient
+        );
         
         OnLimitReached?.Invoke(gameObject);
     }

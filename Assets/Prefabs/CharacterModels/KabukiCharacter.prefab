@@ -258,7 +258,6 @@ GameObject:
   - component: {fileID: 349810179034308382}
   - component: {fileID: 5925305913259459940}
   - component: {fileID: -6989587411683126571}
-  - component: {fileID: 1901354965029116243}
   - component: {fileID: 160784303193112613}
   - component: {fileID: 2413604143439169290}
   - component: {fileID: -3640408603337630231}
@@ -341,18 +340,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1901354965029116243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1121702167918904740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06ae0cd592f5d3d47b0a23a80c0906ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &160784303193112613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,6 +455,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dace76a30068e1c4aaaf0ac11da54b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _cloakPlayableDirector: {fileID: 9197750001075190162}
   _rifleNames:
   - Assault Rifle

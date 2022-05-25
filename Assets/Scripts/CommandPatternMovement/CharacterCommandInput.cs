@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using Mirror;
 
-[RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(MouseClickInput))]
 public class CharacterCommandInput : NetworkBehaviour
 {
     public static bool InputsEnabled { get; set; } = false; // global scope
@@ -17,7 +15,6 @@ public class CharacterCommandInput : NetworkBehaviour
     public double LastCloakCostTime { get; set; }
 
     private CommandProcessor _commandProcessor;
-    private MouseClickInput _mouseInput;
     private CharacterEquipment _characterEquipment;
     private RaycastHit _objectHit;
     private Transform _lastTarget;
@@ -33,7 +30,6 @@ public class CharacterCommandInput : NetworkBehaviour
     private void Awake()
     {
         _commandProcessor = GetComponent<CommandProcessor>();
-        _mouseInput = GetComponent<MouseClickInput>();
         _characterEquipment = GetComponent<CharacterEquipment>();
     }
 
@@ -53,12 +49,18 @@ public class CharacterCommandInput : NetworkBehaviour
         {
             if (Input.GetMouseButtonDown(1))
             {
-                _objectHit = MouseClickInput.GetObjectHit();
-
-                if (_objectHit.transform.tag == "Ground")
-                    _commandProcessor.QueueCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
-                else if (_objectHit.transform.tag == "Enemy")
-                    _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsTargeting"));
+                _objectHit = MouseClickInput.GetObjectHit(Camera.main);
+                
+                if (_objectHit.transform != null)
+                {
+                    if (_objectHit.transform.tag == "Ground")
+                        _commandProcessor.QueueCommand(new MoveCommand(
+                            gameObject, 
+                            MouseClickInput.GetMovementPosition(transform, Camera.main
+                        )));
+                    else if (_objectHit.transform.tag == "Enemy")
+                        _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsTargeting"));
+                }
             }
                 
             if (Input.GetKeyDown(KeyCode.T)) 
@@ -95,11 +97,18 @@ public class CharacterCommandInput : NetworkBehaviour
         {
             if (Input.GetMouseButtonDown(1))
             {
-                _objectHit = MouseClickInput.GetObjectHit();
-                if (_objectHit.transform.tag == "Ground")
-                    _commandProcessor.ExecuteCommand(new MoveCommand(gameObject, _mouseInput.GetMovementPosition()));
-                else if (_objectHit.transform.tag == "Enemy")
-                    _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsTargeting"));
+                _objectHit = MouseClickInput.GetObjectHit(Camera.main);
+
+                if (_objectHit.transform != null)
+                {
+                    if (_objectHit.transform.tag == "Ground")
+                        _commandProcessor.ExecuteCommand(new MoveCommand(
+                            gameObject, 
+                            MouseClickInput.GetMovementPosition(transform, Camera.main
+                        )));
+                    else if (_objectHit.transform.tag == "Enemy")
+                        _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsTargeting"));
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.D))

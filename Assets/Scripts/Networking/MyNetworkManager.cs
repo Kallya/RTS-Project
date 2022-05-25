@@ -29,6 +29,7 @@ public class MyNetworkManager : NetworkRoomManager
     [SerializeField] private GameObject _kabukiCharacterPrefab;
     [SerializeField] private GameObject _tenguCharacterPrefab;
     [SerializeField] private GameObject _kitsuneCharacterPrefab;
+    [SerializeField] private List<string> _mapsSceneNames;
     private int _totalCharacterNum = 0;
     private int _currSpawnedCharacterNum = 0;
 
@@ -45,6 +46,13 @@ public class MyNetworkManager : NetworkRoomManager
         NetworkClient.RegisterHandler<SetScoreboardMessage>(OnSetScoreboardMessage);
     }
 
+    public override void OnRoomStopClient()
+    {
+        NetworkClient.UnregisterHandler<StartPreGameMessage>();
+        NetworkClient.UnregisterHandler<SetLocalCharactersMessage>();
+        NetworkClient.UnregisterHandler<SetScoreboardMessage>();
+    }
+
     // synchronise character setup start on clients (not just server)
     private void OnStartPreGame(StartPreGameMessage msg)
     {
@@ -53,26 +61,33 @@ public class MyNetworkManager : NetworkRoomManager
 
     private void OnSetLocalCharacters(SetLocalCharactersMessage msg)
     {
-        POVManager.Instance.SetLocalCharacters();
         NetworkClient.UnregisterHandler<SetLocalCharactersMessage>();
 
+        POVManager.Instance.SetLocalCharacters();
         TeamMiniHUDSetup.Instance.Setup();
         CommandsDisplayHUDSetup.Instance.Setup();
-
-        CharacterCommandInput.InputsEnabled = true; // enable all inputs when everything's loaded
-        Clock.Instance.IsTicking = true; // start clock when everything's loaded
-        AudioManager.Instance.ToggleGameTrack(true); // start background music
     }
 
     private void OnSetScoreboardMessage(SetScoreboardMessage msg)
     {
+        NetworkClient.UnregisterHandler<SetScoreboardMessage>();
+
         ScoreManager.Instance.gameObject.SetActive(false);
         ScoreManager.Instance.SetScoreboard(msg.ConnectionIds, msg.PlayerNames, msg.TeamSizes);
-        NetworkClient.UnregisterHandler<SetScoreboardMessage>();
 
         // setup for endgame triggered in scoreboardmanager
         EndgameManager.Instance.gameObject.SetActive(false);
         NetworkClient.RegisterHandler<FinishGameMessage>(OnFinishGame);
+    }
+
+    public override void OnRoomClientSceneChanged()
+    {
+        if (_mapsSceneNames.Contains(networkSceneName))
+        {
+            CharacterCommandInput.InputsEnabled = true; // enable all inputs when everything's loaded
+            Clock.Instance.IsTicking = true; // start clock when everything's loaded
+            AudioManager.Instance.ToggleGameTrack(true); // start background music
+        }
     }
 
     public override void OnRoomServerPlayersReady()
@@ -90,16 +105,19 @@ public class MyNetworkManager : NetworkRoomManager
     {
         NetworkServer.UnregisterHandler<CharacterConfigurationMessage>();
 
-        ServerChangeScene(GameplayScene);
+        // pick random map out of available ones (also rng element)
+        string gameplayScene = _mapsSceneNames[Random.Range(0, _mapsSceneNames.Count)];
+        ServerChangeScene(gameplayScene);
     }
 
+    // endgame setup for clients
     private void OnFinishGame(FinishGameMessage msg)
     {
         NetworkClient.UnregisterHandler<FinishGameMessage>();
 
-        CharacterCommandInput.InputsEnabled = false; // disable all inputs (all clients)
-        Clock.Instance.IsTicking = false; // stop clock
-        AudioManager.Instance.ToggleGameTrack(false); // stop music
+        CharacterCommandInput.InputsEnabled = false;
+        Clock.Instance.IsTicking = false;
+        AudioManager.Instance.ToggleGameTrack(false); // stop background music
 
         EndgameManager.Instance.Setup(msg.FinalScores, msg.WinnerIds); // generate final scoreboard + outcome of game
     }
@@ -123,7 +141,7 @@ public class MyNetworkManager : NetworkRoomManager
                 characterNum += 1;
         }
 
-        _totalCharacterNum += characterNum;
+        _totalCharacterNum += characterNum; // used to check when all characters have been spawned
 
         // set customisation for player's team
         MyNetworkRoomPlayer currRoomPlayer = conn.identity.gameObject.GetComponent<MyNetworkRoomPlayer>();
@@ -166,7 +184,7 @@ public class MyNetworkManager : NetworkRoomManager
         // Spawn all characters
         for (int i = 0; i < charactersToSpawn; i++)
         {
-            Vector3 startPos = GetRandomStartPos(0, 50);
+            Vector3 startPos = GetStartPosition().position;
 
             string characterType = roomPlayer.GetComponent<MyNetworkRoomPlayer>().CharacterTypes[i];
             GameObject character = null;
@@ -227,11 +245,6 @@ public class MyNetworkManager : NetworkRoomManager
         }
 
         return true;
-    }
-
-    private Vector3 GetRandomStartPos(int minVal, int maxVal)
-    {
-        return new Vector3(Random.Range(minVal, maxVal), 0f, Random.Range(minVal, maxVal));
     }
 
     private void AssignWeapons(GameObject character, GameObject roomPlayer, int playerIndex)

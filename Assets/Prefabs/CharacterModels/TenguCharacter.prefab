@@ -1199,7 +1199,6 @@ GameObject:
   - component: {fileID: 2519346116343162544}
   - component: {fileID: 8365065932939803850}
   - component: {fileID: -3829149915986614326}
-  - component: {fileID: -6399854841751878356}
   - component: {fileID: 158296163743582711}
   - component: {fileID: 4997555374632338827}
   - component: {fileID: -6738651803246079155}
@@ -1282,18 +1281,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &-6399854841751878356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3007651786129718282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06ae0cd592f5d3d47b0a23a80c0906ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &158296163743582711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1318,7 +1305,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3007651786129718282}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36e8edef9eb75084d80f472e4cb83ac8, type: 3}
   m_Name: 
@@ -1397,6 +1384,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dace76a30068e1c4aaaf0ac11da54b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _cloakPlayableDirector: {fileID: 9078293629170755618}
   _rifleNames:
   - Assault Rifle

@@ -26,7 +26,7 @@ public class CharacterEquipment : NetworkBehaviour
     private Dictionary<GameObject, IEquipment> _availableEquipmentInterfaces = new Dictionary<GameObject, IEquipment>();
     private List<GameObject> _availableEquipment;    
     // initialise equipSlot to 2 to prevent indexing error for first change
-    [SyncVar(hook=nameof(SetEquipmentActives))] private int _activeEquipSlot = 2;
+    [SyncVar(hook=nameof(SetEquipmentActives))] private int _activeEquipSlot = 1;
     private GameObject _rangeIndicatorSprite;
 
     private void SetupEquipment()
@@ -55,7 +55,6 @@ public class CharacterEquipment : NetworkBehaviour
         
         // call on all clients for initial setup
         SetEquipmentActives(1, 1);
-        _activeEquipSlot = 1;
     }
 
     private void SetEquipmentActives(int oldSlot, int newSlot)
@@ -109,11 +108,15 @@ public class CharacterEquipment : NetworkBehaviour
 
     private void LimitReached(GameObject equippable)
     {
-        if (!isServer)
-            return;
-            
+        ILimitedUseEquippable equippedInterface = (ILimitedUseEquippable) ActiveEquipment;
+        // unsubscribe from weapon as it is unattached
+        equippedInterface.OnLimitReached -= LimitReached;
+
         int equipIndex = _availableEquipment.IndexOf(equippable);
 
+        // immediately disable on owner client
+        // to prevent further unintended uses
+        DisableEquippable(equipIndex);
         CmdDisableEquippable(equipIndex);
     }
 
@@ -124,7 +127,7 @@ public class CharacterEquipment : NetworkBehaviour
         RpcDisableEquippable(equipIndex);
     }
 
-    [ClientRpc]
+    [ClientRpc(includeOwner=false)]
     private void RpcDisableEquippable(int equipIndex)
     {
         if (isServer)
@@ -136,11 +139,9 @@ public class CharacterEquipment : NetworkBehaviour
     private void DisableEquippable(int equipIndex)
     {
         GameObject equippable = _availableEquipment[equipIndex];
-        ILimitedUseEquippable equippedInterface = (ILimitedUseEquippable)_availableEquipmentInterfaces[equippable];
-        // unsubscribe from weapon as it is unattached
-        equippedInterface.OnLimitReached -= LimitReached;
 
-        // null weapon slots so controls don't change
+        // null weapon slots so gameobject references aren't accessed again
+        // while controls will remain the same
         _availableEquipmentInterfaces[equippable] = null;
         _availableEquipment[equipIndex] = null;
         ActiveEquipment = null;

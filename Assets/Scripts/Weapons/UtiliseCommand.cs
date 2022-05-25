@@ -9,12 +9,12 @@ public class UtiliseCommand : IQueueableCommand
     public string Name { get; } = "Use weapon";
     public event System.Action<IQueueableCommand> OnCompletion;
 
-    private IEquipment _weapon;
+    private IEquipment _equip;
     private uint _characterNetId;
 
     public UtiliseCommand(CharacterEquipment playerEquipment, uint netId)
     {
-        _weapon = playerEquipment.ActiveEquipment;
+        _equip = playerEquipment.ActiveEquipment;
         _characterNetId = netId;
     }
 
@@ -23,21 +23,21 @@ public class UtiliseCommand : IQueueableCommand
         if (!CanActivate())
             return;
 
-        if (_weapon is IWeapon weapon)
+        if (_equip is IWeapon weapon)
         {
             // only decrease energy if weapon actually fired
             // due to fixed attack rates
             if (weapon.Attack())
             {
-                CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _weapon.EnergyCost);
+                CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _equip.EnergyCost);
                 PlayWeaponAudio(weapon);
             }
         }
-        else if (_weapon is IUtility utility)
+        else if (_equip is IUtility utility)
         {
             utility.Activate();
             PlayUtilityAudio(utility);
-            CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _weapon.EnergyCost);
+            CharacterStatModifier.Instance.CmdDecreaseCharacterStat(_characterNetId, "Energy", _equip.EnergyCost);
         }
 
         OnCompletion?.Invoke(this);
@@ -63,6 +63,6 @@ public class UtiliseCommand : IQueueableCommand
 
     private bool CanActivate()
     {
-        return CharacterStatModifier.Instance.CanDecreaseStat(_characterNetId, "Energy", _weapon.EnergyCost);
+        return CharacterStatModifier.Instance.CanDecreaseStat(_characterNetId, "Energy", _equip.EnergyCost);
     }
 }

@@ -61,8 +61,7 @@ public class DamageableObject : NetworkBehaviour
     // rng crit component (10% fixed chance)
     private bool IsCrit()
     {
-        System.Random rand = new System.Random();
-        int n = rand.Next(1, 11);
+        int n = Random.Range(1, 11);
 
         if (n == 1)
             return true;
