@@ -102,10 +102,12 @@ public class CharacterCommandInput : NetworkBehaviour
                 if (_objectHit.transform != null)
                 {
                     if (_objectHit.transform.tag == "Ground")
-                        _commandProcessor.ExecuteCommand(new MoveCommand(
-                            gameObject, 
-                            MouseClickInput.GetMovementPosition(transform, Camera.main
-                        )));
+                        _commandProcessor.ExecuteCommand(
+                            new MoveCommand(
+                                gameObject, 
+                                MouseClickInput.GetMovementPosition(transform, Camera.main)
+                            )
+                        );
                     else if (_objectHit.transform.tag == "Enemy")
                         _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsTargeting"));
                 }
@@ -182,15 +184,17 @@ public class CharacterCommandInput : NetworkBehaviour
 
     public void ChangeCloak()
     {
+        ChangeToggleCommand toggleCmd = new ChangeToggleCommand(this, "IsCloaked");
+        CloakCommand cloakCmd = new CloakCommand(this, IsCloaked, netId);
         if (IsQueueingCommands)
         {
-            _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsCloaked"));
-            _commandProcessor.QueueCommand(new CloakCommand(this, IsCloaked, netId));
+            _commandProcessor.QueueCommand(toggleCmd);
+            _commandProcessor.QueueCommand(cloakCmd);
         }
         else
         {
-            _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsCloaked"));
-            _commandProcessor.ExecuteCommand(new CloakCommand(this, IsCloaked, netId));
+            _commandProcessor.ExecuteCommand(toggleCmd);
+            _commandProcessor.ExecuteCommand(cloakCmd);
         }
     }
 }

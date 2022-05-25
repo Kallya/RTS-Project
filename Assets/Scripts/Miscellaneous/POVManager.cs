@@ -17,6 +17,7 @@ public class POVManager : NetworkBehaviour
     private List<CharacterCommandInput> _playerInputs = new List<CharacterCommandInput>();
     private Dictionary<GameObject, PlayerSpriteReferences> _spriteReferences = new Dictionary<GameObject, PlayerSpriteReferences>();
     private List<CinemachineVirtualCamera> _characterCams = new List<CinemachineVirtualCamera>();
+    private List<CinemachineFramingTransposer> _characterCamBodies = new List<CinemachineFramingTransposer>();
     [SerializeField] private GameObject _characterVirtualCamPrefab;
     [SerializeField] private GameObject _friendlySprite;
     [SerializeField] private GameObject _enemySprite;
@@ -27,6 +28,8 @@ public class POVManager : NetworkBehaviour
     private static string _minimapSpriteName = "MinimapSprite";
     private static int _cloakedLayer = 7;
     private static int _minimapLayer = 6;
+    private static Color normalMinimapSpriteColour = new Color(0f, 1f, 0f, .5f);
+    private static Color selectedMinimapSpriteColour = Color.cyan;
 
     private void Awake()
     {
@@ -70,9 +73,6 @@ public class POVManager : NetworkBehaviour
             character.GetComponent<DamageableCharacter>().OnDestroyed += Destroyed; // trigger for auto pov change
         }
 
-        //CurrVirtualCam = _characterCams[0];
-        //CurrVirtualCamBody = CurrVirtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
-
         ChangePOV(1);
     }
 
@@ -111,13 +111,16 @@ public class POVManager : NetworkBehaviour
 
         if (CurrVirtualCam != null)
         {
-            CurrVirtualCam.Follow.GetComponent<CharacterCommandInput>().enabled = false;
-            CurrVirtualCam.Follow.GetComponent<PlayerSpriteReferences>().RangeIndicatorSprite.SetActive(false);
+            _playerInputs[characterIndex].enabled = false;
+            _spriteReferences[CurrVirtualCam.Follow.gameObject].RangeIndicatorSprite.SetActive(false);
+            _spriteReferences[CurrVirtualCam.Follow.gameObject].MinimapSpriteRenderer.color = normalMinimapSpriteColour;
+            // CurrVirtualCam.Follow.GetComponent<CharacterCommandInput>().enabled = false;
+            // CurrVirtualCam.Follow.GetComponent<PlayerSpriteReferences>().RangeIndicatorSprite.SetActive(false);
             zoomDist = CurrVirtualCamBody.m_CameraDistance;
         }
 
         CurrVirtualCam = _characterCams[characterIndex];
-        CurrVirtualCamBody = CurrVirtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        CurrVirtualCamBody = _characterCamBodies[characterIndex];
 
         _playerInputs[characterIndex].enabled = true;
         CurrVirtualCamBody.m_TrackedObjectOffset = Vector3.zero; // center cam on new character
@@ -125,6 +128,8 @@ public class POVManager : NetworkBehaviour
         CurrVirtualCam.MoveToTopOfPrioritySubqueue(); // switch active camera
 
         _spriteReferences[ActiveCharacters[characterIndex]].RangeIndicatorSprite.SetActive(true);
+        // differentiate current character from others to help locate on minimap
+        _spriteReferences[CurrVirtualCam.Follow.gameObject].MinimapSpriteRenderer.color = selectedMinimapSpriteColour;
         
         OnPOVChanged?.Invoke(CurrVirtualCam.Follow);
     }
@@ -135,6 +140,7 @@ public class POVManager : NetworkBehaviour
         CinemachineVirtualCamera camComponent = cam.GetComponent<CinemachineVirtualCamera>();
         camComponent.Follow = character.transform;
         _characterCams.Add(camComponent);
+        _characterCamBodies.Add(camComponent.GetCinemachineComponent<CinemachineFramingTransposer>());
     }
 
     // add minimap sprite to character identifying allies and enemies
@@ -149,6 +155,8 @@ public class POVManager : NetworkBehaviour
 
         minimapSprite.name = _minimapSpriteName;
         _spriteReferences[character].MinimapSprite = minimapSprite;
+        _spriteReferences[character].MinimapSpriteRenderer = minimapSprite.GetComponent<SpriteRenderer>();
+        _spriteReferences[character].MinimapSpriteRenderer.color = normalMinimapSpriteColour;
     }
 
     private void AddRangeIndicator(GameObject character)
