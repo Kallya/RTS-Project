@@ -5,7 +5,7 @@ using Mirror;
 
 public class SetReadyState : MonoBehaviour
 {
-    public void OnReadyBtnClick()
+    public void ReadyBtnClick()
     {
         MyNetworkRoomPlayer roomPlayer = NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>();
 

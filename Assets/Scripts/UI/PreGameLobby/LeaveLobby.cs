@@ -5,7 +5,7 @@ using Mirror;
 
 public class LeaveLobby : MonoBehaviour
 {
-    public void OnLeaveLobbyBtnClick()
+    public void LeaveLobbyBtnClick()
     {
         if (NetworkClient.isHostClient)
         {

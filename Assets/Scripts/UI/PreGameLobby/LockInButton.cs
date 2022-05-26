@@ -17,7 +17,7 @@ public struct CharacterConfigurationMessage : NetworkMessage
 
 public class LockInButton : MonoBehaviour
 {
-    public void OnLockIn()
+    public void LockIn()
     {
         // disable all buttons
         Button[] buttons = transform.parent.GetComponentsInChildren<Button>();
@@ -30,7 +30,6 @@ public class LockInButton : MonoBehaviour
         string[] characterTypes = characterConfigs.Item1;
 
         msg.CharacterTypes = characterTypes;
-        // this seems really inefficient, is there a better way?
         // for some reason can't assign additively, other msg fields are nulled
         switch (weaponConfigs.Length)
         {

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
-using Mirror;
 
 public class MainMenuConnect : MonoBehaviour
 {
     public TMP_InputField PlayerNameInput;
+
     private MyNetworkManager _manager;
 
     private void Awake()
@@ -14,7 +15,7 @@ public class MainMenuConnect : MonoBehaviour
         _manager = GetComponent<MyNetworkManager>();
     }
     
-    public void OnHostGameBtnClick()
+    public void HostGameBtnClick()
     {
         if (PlayerNameInput.text == "")
         {
@@ -25,7 +26,7 @@ public class MainMenuConnect : MonoBehaviour
         _manager.StartHost();
     }
 
-    public void OnJoinGameBtnClick()
+    public void JoinGameBtnClick()
     {
         if (PlayerNameInput.text == "")
         {
@@ -36,9 +37,11 @@ public class MainMenuConnect : MonoBehaviour
         _manager.StartClient();
     }
 
-    // might take this option out depending on if it's buggy or not
+/*
+    // buggy
     public void OnStartServerBtnClick()
     {
         _manager.StartServer();
     }
+*/
 }

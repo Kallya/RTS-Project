@@ -37,7 +37,7 @@ public class UIPlayerControls : MonoBehaviour
         SetBtnColour(_autoAtkBtnImg, _playerInfoUIManager.CurrCmdInput.IsAutoAttacking);
     }
 
-    public void OnQueueBtnClick()
+    public void QueueBtnClick()
     {
         _playerInfoUIManager.CurrCmdProcessor.ExecuteCommand(new ChangeToggleCommand(
             _playerInfoUIManager.CurrCmdInput, 
@@ -45,7 +45,7 @@ public class UIPlayerControls : MonoBehaviour
         ));
     }
 
-    public void OnAutoAttackBtnClick()
+    public void AutoAttackBtnClick()
     {
         _playerInfoUIManager.CurrCmdProcessor.ExecuteCommand(new ChangeToggleCommand(
             _playerInfoUIManager.CurrCmdInput, 
@@ -53,13 +53,13 @@ public class UIPlayerControls : MonoBehaviour
         ));
     }
 
-    public void OnUndoBtnClick()
+    public void UndoBtnClick()
     {
         _playerInfoUIManager.CurrCmdProcessor.Undo();
     }
 
     // character kills itself if not in certain range of enemies
-    public void OnBailBtnClick()
+    public void BailBtnClick()
     {
         GameObject currCharacter = _playerInfoUIManager.CurrCharacter;
 
