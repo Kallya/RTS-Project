@@ -20,8 +20,10 @@ public class UtiliseCommand : IQueueableCommand
 
     public void Execute()
     {
+        if (_equip == null)
+            return; // not holding anything useable msg
         if (!CanActivate())
-            return;
+            return; // not enough energy msg
 
         if (_equip is IWeapon weapon)
         {

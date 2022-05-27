@@ -24,6 +24,7 @@ public class CharacterAnimationManager : NetworkBehaviour
 
     [SerializeField] private List<string> _rifleNames; // assigned in inspector
     [SerializeField] private List<string> _swordNames; // different swords can be added here
+    private Vector3 _lastPos;
 
     private void Awake()
     {
@@ -31,6 +32,8 @@ public class CharacterAnimationManager : NetworkBehaviour
         _characterEquipment = GetComponent<CharacterEquipment>();
         _characterAnimator = GetComponent<Animator>();
         _characterCmdProcessor = GetComponent<CommandProcessor>();
+
+        _lastPos = transform.position;
     }
 
     private void Start()
@@ -52,6 +55,16 @@ public class CharacterAnimationManager : NetworkBehaviour
 
     private void Update()
     {
+        // polling check for movement
+        // (event based check (only setting when movecmd executed) had too many bugs)
+        if (transform.position != _lastPos)
+            _characterAnimator.SetBool("IsMoving", true);
+        else
+            _characterAnimator.SetBool("IsMoving", false);
+
+        _lastPos = transform.position;
+
+        // check for movement angle relative to angle character is facing
         // angle of movement direction relative to the character's front
         float movementAngleToFront = Vector3.SignedAngle(transform.forward, _characterNavMeshAgent.velocity, Vector3.up);
 
@@ -83,16 +96,10 @@ public class CharacterAnimationManager : NetworkBehaviour
 
     private void QueueableCommandExecuted(IQueueableCommand command)
     {
-        if (command is MoveCommand) 
-        {
-            command.OnCompletion += Completion;
-            _characterAnimator.SetBool("IsMoving", true);
-        }
-        else if (command is UtiliseCommand)
+        if (command is UtiliseCommand)
             _characterAnimator.SetTrigger("Utilised");
         else if (command is CloakCommand)
         {
-            Debug.Log(_cloakPlayableDirector);
             bool nextState = !_cloakPlayableDirector.gameObject.activeSelf;
             _cloakPlayableDirector.gameObject.SetActive(nextState);
 
@@ -105,9 +112,6 @@ public class CharacterAnimationManager : NetworkBehaviour
     private void Completion(IQueueableCommand command)
     {
         command.OnCompletion -= Completion;
-
-        if (command is MoveCommand)
-            _characterAnimator.SetBool("IsMoving", false);
     }
 
     private void EquipChanged(int oldSlot, int newSlot)

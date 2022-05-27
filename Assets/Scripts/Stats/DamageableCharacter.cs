@@ -71,7 +71,9 @@ public class DamageableCharacter : DamageableObject
 
         int thisConnId = connectionToClient.connectionId;
 
-        DestroyCharacterSetup(thisConnId, thisConnId); // equivalent to self kill, no score rewarded
+        // equivalent to self kill, no score rewarded
+        // so connId is the same
+        DestroyCharacterSetup(thisConnId, thisConnId);
         RpcDestroyCharacterSetup(thisConnId, thisConnId);
     }
 }

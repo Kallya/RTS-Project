@@ -42,6 +42,7 @@ public class AudioManager : NetworkBehaviour
         MyNetworkManager netManager = MyNetworkManager.singleton as MyNetworkManager;
         
         Clock.Instance.OnCrunchTime += CrunchTime;
+        PlayerSettings.Instance.OnAudioLevelChanged += AudioLevelChanged;
     }
 
     // stop or start background music
@@ -90,5 +91,20 @@ public class AudioManager : NetworkBehaviour
             return;
 
         PlayAudio(characterNetId, clipName);
+    }
+
+    // change audio levels when player changes audio settings
+    private void AudioLevelChanged(string settingName)
+    {
+        switch (settingName)
+        {
+            case "Background Music":
+                _thisAudioSource.volume = PlayerPrefs.GetFloat("Background Music");
+                break;
+            case "Game Sound":
+                foreach (AudioSource characterAudioSource in _characterAudioSources.Values)
+                    characterAudioSource.volume = PlayerPrefs.GetFloat("Game Sound");
+                break;
+        }
     }
 }

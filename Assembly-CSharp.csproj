@@ -61,6 +61,7 @@
      <Compile Include="Assets\Scripts\UI\InGameUI\BillboardCanvas.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\PlayerInfoUIManager.cs" />
      <Compile Include="Assets\Scripts\Networking\ObjectSpawner.cs" />
+     <Compile Include="Assets\Scripts\UI\PreGameLobby\MenuNavigator.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\EndgameManager.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\Clock.cs" />
      <Compile Include="Assets\Scripts\CommandPatternMovement\CharacterCommandInput.cs" />
@@ -83,6 +84,7 @@
      <Compile Include="Assets\Scripts\Weapons\Bullet.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\CloakButton.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\UpdateStatGraphicalIndicator.cs" />
+     <Compile Include="Assets\Scripts\UI\PreGameLobby\SettingsCanvas.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\PlayerSpriteReferences.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\CharacterHUDSetup.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\ToggleScoreboardCommand.cs" />
@@ -114,7 +116,6 @@
      <Compile Include="Assets\Scripts\Weapons\EquipmentInterfaces.cs" />
      <Compile Include="Assets\Scripts\Weapons\CharacterEquipment.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\RotateToMouseCommand.cs" />
-     <Compile Include="Assets\Scripts\UI\PreGameLobby\MainMenuNavigator.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

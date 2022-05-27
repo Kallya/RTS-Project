@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -284,7 +284,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 191705260}
         m_TargetAssemblyTypeName: SetReadyState, Assembly-CSharp
-        m_MethodName: OnReadyBtnClick
+        m_MethodName: ReadyBtnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1166,7 +1166,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 713193201}
         m_TargetAssemblyTypeName: LeaveLobby, Assembly-CSharp
-        m_MethodName: OnLeaveLobbyBtnClick
+        m_MethodName: LeaveLobbyBtnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1300,7 +1300,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 867601869}
         m_TargetAssemblyTypeName: LockInButton, Assembly-CSharp
-        m_MethodName: OnLockIn
+        m_MethodName: LockIn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

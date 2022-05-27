@@ -30,16 +30,19 @@ public class MoveCommand : IQueueableCommand
 
     private void MoveToNextPosition()
     {
-        _movePathLine.SetPosition(0, _playerNavMeshAgent.transform.position);
-
+        NavMeshPath path = new NavMeshPath();
+        _playerNavMeshAgent.CalculatePath(_destination, path); // calculate path in advance so full path is available to draw
         _playerNavMeshAgent.SetDestination(_destination);
-        DrawPath(_playerNavMeshAgent.path);
+
+        DrawPath(path);
     }
 
     private void DestinationReached()
     {
         _completionObserver.enabled = false;
         _completionObserver.OnDestinationReached -= DestinationReached;
+
+        _movePathLine.positionCount = 0; // remove path indicator
 
         OnCompletion?.Invoke(this);
     }
@@ -52,19 +55,15 @@ public class MoveCommand : IQueueableCommand
     }
 
     // draw character's movement path
-    private IEnumerator DrawPath(NavMeshPath path)
+    private void DrawPath(NavMeshPath path)
     {
-        yield return new WaitForEndOfFrame();
-
         // if character's destination is its current pos or null
         // path doesn't need to be drawn
         if (path.corners.Length < 2)
-            yield return null;
+            return;
 
         _movePathLine.positionCount = path.corners.Length;
 
         _movePathLine.SetPositions(path.corners); // set all vertices in path
-
-        yield return null;
     }
 }

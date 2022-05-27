@@ -1213,7 +1213,7 @@ GameObject:
   - component: {fileID: 2561064860559239045}
   - component: {fileID: 7161244874327764611}
   - component: {fileID: -548509958464238602}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TenguCharacter
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1578,8 +1578,8 @@ LineRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3007651786129718282}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 0
   m_LightProbeUsage: 0

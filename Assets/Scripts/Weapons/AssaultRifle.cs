@@ -32,6 +32,11 @@ public class AssaultRifle : MonoBehaviour, IWeapon
 
     private void InstantiateBullet()
     {
-        ObjectSpawner.Instance.CmdSpawnNetworkObject(_bullet.name, _shotPoint.position, transform.rotation * _bullet.rotation, NetworkClient.connection as NetworkConnectionToClient);
+        ObjectSpawner.Instance.CmdSpawnNetworkObject(
+            _bullet.name, 
+            _shotPoint.position, 
+            transform.rotation * _bullet.rotation, 
+            NetworkClient.connection as NetworkConnectionToClient
+        );
     }
 }

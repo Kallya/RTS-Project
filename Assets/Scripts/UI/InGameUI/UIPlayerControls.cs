@@ -80,7 +80,7 @@ public class UIPlayerControls : MonoBehaviour
     private void SetBtnColour(Image btnImg, bool toggleState)
     {
         if (toggleState == true)
-            btnImg.color = Color.green;
+            btnImg.color = Color.yellow;
         else
             btnImg.color = Color.white;
     }

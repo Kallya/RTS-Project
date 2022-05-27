@@ -2948,7 +2948,7 @@ GameObject:
   - component: {fileID: -6283038432026050722}
   - component: {fileID: -2688899952874056975}
   - component: {fileID: -8360830936265774380}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: KitsuneCharacter
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3313,8 +3313,8 @@ LineRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9216140379995361956}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 0
   m_LightProbeUsage: 0

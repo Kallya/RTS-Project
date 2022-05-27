@@ -65,7 +65,8 @@ public class CharacterEquipment : NetworkBehaviour
         
         GameObject newEquip = _availableEquipment[newSlot-1];
 
-        _availableEquipment[oldSlot-1]?.SetActive(false);
+        if (ActiveEquipment != null)
+            _availableEquipment[oldSlot-1]?.SetActive(false);
 
         if (newEquip != null)
         {
@@ -97,8 +98,8 @@ public class CharacterEquipment : NetworkBehaviour
             return;
 
         // prevent switching to non-existent equipment
-        if (_availableEquipment[equipSlot-1] == null)
-            return;
+        // if (_availableEquipment[equipSlot-1] == null)
+            // return;
 
         if (equipSlot == _activeEquipSlot)
             return;
@@ -116,37 +117,31 @@ public class CharacterEquipment : NetworkBehaviour
 
         // immediately disable on owner client
         // to prevent further unintended uses
-        DisableEquippable(equipIndex);
+        DestroyEquippable(equipIndex);
         CmdDisableEquippable(equipIndex);
     }
 
     [Command]
     private void CmdDisableEquippable(int equipIndex)
     {
-        DisableEquippable(equipIndex);
-        RpcDisableEquippable(equipIndex);
+        DestroyEquippable(equipIndex);
+        RpcDestroyEquippable(equipIndex);
     }
 
     [ClientRpc(includeOwner=false)]
-    private void RpcDisableEquippable(int equipIndex)
+    private void RpcDestroyEquippable(int equipIndex)
     {
         if (isServer)
             return;
-        
-        DisableEquippable(equipIndex);
+
+        DestroyEquippable(equipIndex);
     }
 
-    private void DisableEquippable(int equipIndex)
+    private void DestroyEquippable(int equipIndex)
     {
-        GameObject equippable = _availableEquipment[equipIndex];
-
-        // null weapon slots so gameobject references aren't accessed again
-        // while controls will remain the same
-        _availableEquipmentInterfaces[equippable] = null;
+        Destroy(_availableEquipment[equipIndex]);
         _availableEquipment[equipIndex] = null;
         ActiveEquipment = null;
-
-        Destroy(equippable);
     }
 
     private void SetRangeIndicator(float range)

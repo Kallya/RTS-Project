@@ -58,7 +58,7 @@ public class EndgameManager : MonoBehaviour
         gameObject.SetActive(true);            
     }
 
-    public void OnReturnHomeBtnClick()
+    public void ReturnHomeBtnClick()
     {
         if (NetworkClient.localPlayer.isServer)
             NetworkManager.singleton.StopHost();
