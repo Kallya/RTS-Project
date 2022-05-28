@@ -8,6 +8,7 @@ public struct StartPreGameMessage : NetworkMessage {}
 // empty message to tell clients when to call SetLocalCharacters
 // to ensure all characters (allied and enemy) are setup
 public struct SetLocalCharactersMessage : NetworkMessage {}
+public struct StartGameMessage : NetworkMessage {}
 public struct FinishGameMessage : NetworkMessage
 {
     public Score[] FinalScores;
@@ -29,7 +30,9 @@ public class MyNetworkManager : NetworkRoomManager
     [SerializeField] private GameObject _kabukiCharacterPrefab;
     [SerializeField] private GameObject _tenguCharacterPrefab;
     [SerializeField] private GameObject _kitsuneCharacterPrefab;
+    [SerializeField] private GameObject _loadInCanvas;
     [SerializeField] private List<string> _mapsSceneNames;
+    [SerializeField] private double _loadInTime = 10;
     private int _totalCharacterNum = 0;
     private int _currSpawnedCharacterNum = 0;
 
@@ -37,6 +40,13 @@ public class MyNetworkManager : NetworkRoomManager
     {
         if (sceneName == RoomScene)
             NetworkServer.RegisterHandler<CharacterConfigurationMessage>(OnNetworkLockIn);
+
+        if (_mapsSceneNames.Contains(sceneName))
+        {
+            GameObject loadInUI = Instantiate(_loadInCanvas);
+            NetworkServer.Spawn(loadInUI);
+            StartCoroutine(LoadIn(loadInUI));
+        }
     }
 
     public override void OnRoomStartClient()
@@ -44,6 +54,7 @@ public class MyNetworkManager : NetworkRoomManager
         NetworkClient.RegisterHandler<StartPreGameMessage>(OnStartPreGame);
         NetworkClient.RegisterHandler<SetLocalCharactersMessage>(OnSetLocalCharacters);
         NetworkClient.RegisterHandler<SetScoreboardMessage>(OnSetScoreboardMessage);
+        NetworkClient.RegisterHandler<StartGameMessage>(OnStartGame);
     }
 
     public override void OnRoomStopClient()
@@ -51,12 +62,22 @@ public class MyNetworkManager : NetworkRoomManager
         NetworkClient.UnregisterHandler<StartPreGameMessage>();
         NetworkClient.UnregisterHandler<SetLocalCharactersMessage>();
         NetworkClient.UnregisterHandler<SetScoreboardMessage>();
+        NetworkClient.UnregisterHandler<StartGameMessage>();
     }
 
     // synchronise character setup start on clients (not just server)
     private void OnStartPreGame(StartPreGameMessage msg)
     {
         UIObjectReferences.Instance.CharacterSetupUI.SetActive(true);
+    }
+
+    private void OnStartGame(StartGameMessage msg)
+    {
+        NetworkClient.UnregisterHandler<StartGameMessage>();
+
+        CharacterCommandInput.InputsEnabled = true;
+        Clock.Instance.IsTicking = true;
+        AudioManager.Instance.ToggleGameTrack(true); // start background music
     }
 
     private void OnSetLocalCharacters(SetLocalCharactersMessage msg)
@@ -75,25 +96,14 @@ public class MyNetworkManager : NetworkRoomManager
         ScoreManager.Instance.gameObject.SetActive(false);
         ScoreManager.Instance.SetScoreboard(msg.ConnectionIds, msg.PlayerNames, msg.TeamSizes);
 
-        // setup for endgame triggered in scoreboardmanager
+        // disable endgame ui after scoreboard set
         EndgameManager.Instance.gameObject.SetActive(false);
         NetworkClient.RegisterHandler<FinishGameMessage>(OnFinishGame);
     }
 
-    public override void OnRoomClientSceneChanged()
-    {
-        if (_mapsSceneNames.Contains(networkSceneName))
-        {
-            CharacterCommandInput.InputsEnabled = true; // enable all inputs when everything's loaded
-            Clock.Instance.IsTicking = true; // start clock when everything's loaded
-            AudioManager.Instance.ToggleGameTrack(true); // start background music
-        }
-    }
-
     public override void OnRoomServerPlayersReady()
     {
-        StartPreGameMessage msg = new StartPreGameMessage();
-        NetworkServer.SendToReady(msg);
+        NetworkServer.SendToReady(new StartPreGameMessage());
     }
 
     public override void OnRoomClientExit()
@@ -255,5 +265,15 @@ public class MyNetworkManager : NetworkRoomManager
 
         foreach (string weapon in weaponSelection)
             playerWeapons.EquipmentToAdd.Add(weapon);
+    }
+
+    private IEnumerator LoadIn(GameObject loadInUI)
+    {
+        double initTime = NetworkTime.time;
+
+        yield return new WaitUntil(() => NetworkTime.time - initTime >= _loadInTime);
+
+        NetworkServer.Destroy(loadInUI);
+        NetworkServer.SendToReady(new StartGameMessage()); // trigger game start on clients
     }
 }

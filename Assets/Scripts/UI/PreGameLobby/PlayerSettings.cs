@@ -26,9 +26,8 @@ public class PlayerSettings : MonoBehaviour
         public float DefaultValue;
     }
 
-    public Dictionary<string, KeyCode> s_HotkeyMappings = new Dictionary<string, KeyCode>();
-    public static PlayerSettings Instance { get; private set; }
-    public event System.Action<string> OnAudioLevelChanged;
+    public static Dictionary<string, KeyCode> s_HotkeyMappings = new Dictionary<string, KeyCode>();
+    public static event System.Action<string, float> OnAudioLevelChanged;
 
     [SerializeField] private List<HotkeySetting> _hotkeySettings; // set in inspector
     [SerializeField] private List<AudioSetting> _audioSettings; // set in inspector
@@ -63,7 +62,6 @@ public class PlayerSettings : MonoBehaviour
     {
         gameObject.SetActive(false);
 
-        Instance = this;
         _canvasGroup = GetComponent<CanvasGroup>();
         _allKeyCodes = (KeyCode[]) System.Enum.GetValues(typeof(KeyCode));
 
@@ -159,7 +157,7 @@ public class PlayerSettings : MonoBehaviour
         AudioSetting setting = (AudioSetting)_uiSettingMapping[slider];
         setting.Value = slider.value;
 
-        OnAudioLevelChanged?.Invoke(setting.Name);
+        OnAudioLevelChanged?.Invoke(setting.Name, setting.Value);
     }
 
     private void SetBtnColour(Button btn, Color colour)

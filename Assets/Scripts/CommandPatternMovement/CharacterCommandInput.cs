@@ -30,8 +30,6 @@ public class CharacterCommandInput : NetworkBehaviour
 */
     private void Awake()
     {
-        _playerSettings = PlayerSettings.Instance; // for access to hotkey mapping dict
-
         _commandProcessor = GetComponent<CommandProcessor>();
         _characterEquipment = GetComponent<CharacterEquipment>();
     }
@@ -50,7 +48,7 @@ public class CharacterCommandInput : NetworkBehaviour
         
         if (IsQueueingCommands)
         {
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Move"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Move"]))
             {
                 _objectHit = MouseClickInput.GetObjectHit(Camera.main);
                 
@@ -66,16 +64,16 @@ public class CharacterCommandInput : NetworkBehaviour
                 }
             }
                 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Undo"])) 
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Undo"])) 
                 _commandProcessor.Undo();
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Toggle Auto Attack"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Auto Attack"]))
                 _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsAutoAttacking"));
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Toggle Cloak"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Cloak"]))
                 ChangeCloak();
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Utilise Equipment"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Utilise Equipment"]))
             {
                 // only utilities are able to be queued (e.g. queueing a single gunshot or sword hit without aim seems useless)
                 if (_characterEquipment.ActiveEquipment is IUtility)
@@ -84,21 +82,21 @@ public class CharacterCommandInput : NetworkBehaviour
                     Debug.Log("You are not holding anything that is useable!");
             }
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Equipment 1"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 1"]))
                 _commandProcessor.QueueCommand(new SwitchWeaponCommand(_characterEquipment, 1));
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Equipment 2"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 2"]))
                 _commandProcessor.QueueCommand(new SwitchWeaponCommand(_characterEquipment, 2));
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Equipment 3"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 3"]))
                 _commandProcessor.QueueCommand(new SwitchWeaponCommand(_characterEquipment, 3));
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Equipment 4"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 4"]))
                 _commandProcessor.QueueCommand(new SwitchWeaponCommand(_characterEquipment, 4));
         }
         else
         {
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Move"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Move"]))
             {
                 _objectHit = MouseClickInput.GetObjectHit(Camera.main);
 
@@ -116,50 +114,50 @@ public class CharacterCommandInput : NetworkBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Toggle Auto Attack"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Auto Attack"]))
                 _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsAutoAttacking"));
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Toggle Cloak"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Cloak"]))
                 ChangeCloak();
 
-            if (Input.GetKey(_playerSettings.s_HotkeyMappings["Utilise Equipment"]))
+            if (Input.GetKey(PlayerSettings.s_HotkeyMappings["Utilise Equipment"]))
             {
                 _commandProcessor.ExecuteCommand(new RotateToMouseCommand(transform));
                 _commandProcessor.ExecuteCommand(new UtiliseCommand(_characterEquipment, netId));
             }
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Equipment 1"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 1"]))
                 _commandProcessor.ExecuteCommand(new SwitchWeaponCommand(_characterEquipment, 1));
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Equipment 2"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 2"]))
                 _commandProcessor.ExecuteCommand(new SwitchWeaponCommand(_characterEquipment, 2));
 
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Equipment 3"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 3"]))
                 _commandProcessor.ExecuteCommand(new SwitchWeaponCommand(_characterEquipment, 3));
             
-            if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Equipment 4"]))
+            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 4"]))
                 _commandProcessor.ExecuteCommand(new SwitchWeaponCommand(_characterEquipment, 4));
         }
 
         // unqueueable commands
-        if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Toggle Queue Commands"]))
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Queue Commands"]))
             _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsQueueingCommands"));
 
-        if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Character 1"]))
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Character 1"]))
             _commandProcessor.ExecuteCommand(new ChangePOVCommand(1));
 
-        if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Character 2"]))
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Character 2"]))
             _commandProcessor.ExecuteCommand(new ChangePOVCommand(2));
 
-        if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Character 3"]))
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Character 3"]))
             _commandProcessor.ExecuteCommand(new ChangePOVCommand(3));
 
-        if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Switch to Character 4"]))
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Character 4"]))
             _commandProcessor.ExecuteCommand(new ChangePOVCommand(4));
 
-        if (Input.GetKeyDown(_playerSettings.s_HotkeyMappings["Toggle Scoreboard"]))
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Scoreboard"]))
             _commandProcessor.ExecuteCommand(new ToggleScoreboardCommand(true));
-        if (Input.GetKeyUp(_playerSettings.s_HotkeyMappings["Toggle Scoreboard"]))
+        if (Input.GetKeyUp(PlayerSettings.s_HotkeyMappings["Toggle Scoreboard"]))
             _commandProcessor.ExecuteCommand(new ToggleScoreboardCommand(false));
 
         // implementation of active toggles

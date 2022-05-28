@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class BillboardCanvas : MonoBehaviour
 {
-    private Quaternion _initRot;
-
-    private void Awake()
-    {
-        _initRot = transform.rotation;
-    }
     private void LateUpdate()
     {
-        transform.rotation = _initRot;
+        // ensure character stat bars always seem to be flat
+        transform.LookAt(POVManager.Instance.CurrVirtualCam.transform);
     }
 }
