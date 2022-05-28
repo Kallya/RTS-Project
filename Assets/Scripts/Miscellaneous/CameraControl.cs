@@ -7,14 +7,14 @@ public class CameraControl : MonoBehaviour
 {
     private POVManager _povManager;
     private PlayerSettings _playerSettings;
-    private float _zoomSensitivity = 500f;
-    private float _moveSensitivity = 30f;
+    private float _zoomSensitivity;
+    private float _panSensitivity;
+    private float _rotSensitivity;
     private float _minZoom = 10f;
     private float _maxZoom = 50f;
-    private float _rotSensitivity = 200f;
     private Vector3 _screenCenter;
     private Quaternion _lastRot;
-    private bool _startedDebugging;
+    private float _boundingDimension;
 
     private void Awake()
     {
@@ -23,9 +23,23 @@ public class CameraControl : MonoBehaviour
 
     private void Start()
     {
+        InitialiseSettings();
+
         _povManager = POVManager.Instance;
+        PlayerSettings.OnSliderChanged += SliderChanged;
         
-        _lastRot = _povManager.CurrVirtualCam.Follow.rotation;
+        _boundingDimension = _povManager.BoundingCollider.bounds.size.x / 2;
+        // _lastRot = _povManager.CurrVirtualCam.Follow.rotation;
+    }
+
+    // initialise setting values based on player settings
+    private void InitialiseSettings()
+    {
+        // if no. of settings increase
+        // create a collection and loop through
+        SliderChanged("Rotation Sensitivity");
+        SliderChanged("Panning Sensitivity");
+        SliderChanged("Zoom Sensitivity");
     }
 
     private void Update()
@@ -41,7 +55,6 @@ public class CameraControl : MonoBehaviour
             AdjustCamZoom();
 
         Vector3 mousePos = Input.mousePosition;
-
         if (mousePos.x <= 0 || mousePos.x >= Screen.width || mousePos.y <= 0 || mousePos.y >= Screen.height)
             MoveCamToMouse();
 
@@ -72,10 +85,17 @@ public class CameraControl : MonoBehaviour
         Vector3 mouseDir = Vector3.Normalize(Input.mousePosition - _screenCenter); // direction of mouse from center of screen
         // adjustment for camera's viewing angle relative to current character's y rotation
         float rotation = _povManager.CurrVirtualCam.Follow.eulerAngles.y - _povManager.CurrVirtualCam.transform.rotation.eulerAngles.y;
-        Vector3 camMoveVec = Quaternion.Euler(0f, 0f, rotation) * mouseDir * _moveSensitivity * Time.deltaTime;
+        Vector3 camMoveVec = Quaternion.Euler(0f, 0f, rotation) * mouseDir * _panSensitivity * Time.deltaTime;
 
-        _povManager.CurrVirtualCamBody.m_TrackedObjectOffset.x += camMoveVec.x;
-        _povManager.CurrVirtualCamBody.m_TrackedObjectOffset.z += camMoveVec.y;
+        // only move offset on axix if the next cam position doesn't exceed the bounds
+        // as if offset keeps moving in a direction while cam is confined (clamped to edges of map)
+        // when moving back cam gets 'stuck' to edge (since it needs to reverse excess offset)
+        Vector3 currCamPos = _povManager.CurrVirtualCam.transform.position;
+
+        if (currCamPos.x + camMoveVec.x > -_boundingDimension && currCamPos.x + camMoveVec.x < _boundingDimension)
+            _povManager.CurrVirtualCamBody.m_TrackedObjectOffset.x += camMoveVec.x;
+        if (currCamPos.z + camMoveVec.y > -_boundingDimension && currCamPos.z + camMoveVec.y < _boundingDimension)
+            _povManager.CurrVirtualCamBody.m_TrackedObjectOffset.z += camMoveVec.y;
     }
 
     // removes relative nature of tracked object offset
@@ -104,20 +124,21 @@ public class CameraControl : MonoBehaviour
         _povManager.CurrVirtualCam.transform.Rotate(new Vector3(0f, mouseX * _rotSensitivity * Time.deltaTime, 0f), Space.World);
     }
 
-    private IEnumerator RotationDebug()
+    private void SliderChanged(string settingName)
     {
-        Debug.Log($"character rotation: {_povManager.CurrVirtualCam.Follow.rotation.eulerAngles}");
-        Debug.Log($"current tracked object offset: {_povManager.CurrVirtualCamBody.m_TrackedObjectOffset}");
-
-        yield return new WaitUntil(() => _lastRot == _povManager.CurrVirtualCam.Follow.rotation);
-
-        float adjustmentRot = -_povManager.CurrVirtualCam.transform.rotation.eulerAngles.y;
-        Vector3 adjustedOffset = Quaternion.Euler(0f, adjustmentRot, 0f) * _povManager.CurrVirtualCamBody.m_TrackedObjectOffset;
-
-        _povManager.CurrVirtualCamBody.m_TrackedObjectOffset = adjustedOffset;
-        _startedDebugging = false;
-        Debug.Log($"character rotation: {_povManager.CurrVirtualCam.Follow.rotation.eulerAngles}");
-        Debug.Log($"actual tracked object offset: {_povManager.CurrVirtualCamBody.m_TrackedObjectOffset}");
-        Debug.Log($"adjusted tracked object offset: {adjustedOffset}");
+        // each sensitivity scaled up based on testing
+        // with menu allowing adjustment between 0 and 1
+        switch (settingName)
+        {
+            case "Rotation Sensitivity":
+                _rotSensitivity = PlayerSettings.s_SliderMappings[settingName] * 1000f;
+                break;
+            case "Panning Sensitivity":
+                _panSensitivity = PlayerSettings.s_SliderMappings[settingName] * 100f;
+                break;
+            case "Zoom Sensitivity":
+                _zoomSensitivity = PlayerSettings.s_SliderMappings[settingName] * 1000f;
+                break;
+        }
     }
 }

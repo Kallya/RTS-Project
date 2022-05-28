@@ -109,13 +109,14 @@
      <Compile Include="Assets\Scripts\UI\InGameUI\UpdateEquipmentUI.cs" />
      <Compile Include="Assets\Scripts\Weapons\MaintainCloakCommand.cs" />
      <Compile Include="Assets\Scripts\Stats\DamageableCharacter.cs" />
-     <Compile Include="Assets\Scripts\UI\InGameUI\MinimapMovement.cs" />
+     <Compile Include="Assets\Scripts\UI\InGameUI\MinimapControls.cs" />
      <Compile Include="Assets\Scripts\UI\PreGameLobby\LobbyPlayerTextRefs.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\ChangeToggleCommand.cs" />
      <Compile Include="Assets\Scripts\UI\PreGameLobby\CharacterTypeSelection.cs" />
      <Compile Include="Assets\Scripts\Weapons\EquipmentInterfaces.cs" />
      <Compile Include="Assets\Scripts\Weapons\CharacterEquipment.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\RotateToMouseCommand.cs" />
+     <Compile Include="Assets\Scripts\Miscellaneous\BailOutCommand.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

@@ -8,7 +8,6 @@ public class UIPlayerControls : MonoBehaviour
     [SerializeField] private Image _autoAtkBtnImg;
     [SerializeField] private Image _queueBtnImg;
     private PlayerInfoUIManager _playerInfoUIManager;
-    private static float s_bailRange = 50f;
 
     private void Start()
     {
@@ -39,7 +38,7 @@ public class UIPlayerControls : MonoBehaviour
 
     public void QueueBtnClick()
     {
-        _playerInfoUIManager.CurrCmdProcessor.ExecuteCommand(new ChangeToggleCommand(
+        _playerInfoUIManager.CurrCmdInput.ExecuteQueueableCmd(new ChangeToggleCommand(
             _playerInfoUIManager.CurrCmdInput, 
             "IsQueueingCommands"
         ));
@@ -47,7 +46,7 @@ public class UIPlayerControls : MonoBehaviour
 
     public void AutoAttackBtnClick()
     {
-        _playerInfoUIManager.CurrCmdProcessor.ExecuteCommand(new ChangeToggleCommand(
+        _playerInfoUIManager.CurrCmdInput.ExecuteQueueableCmd(new ChangeToggleCommand(
             _playerInfoUIManager.CurrCmdInput, 
             "IsAutoAttacking"
         ));
@@ -58,23 +57,9 @@ public class UIPlayerControls : MonoBehaviour
         _playerInfoUIManager.CurrCmdProcessor.Undo();
     }
 
-    // character kills itself if not in certain range of enemies
     public void BailBtnClick()
     {
-        GameObject currCharacter = _playerInfoUIManager.CurrCharacter;
-
-        Collider[] collInRange = Physics.OverlapSphere(currCharacter.transform.position, s_bailRange);
-        
-        if (collInRange.Length == 0)
-            return;
-
-        foreach (Collider coll in collInRange)
-        {
-            if (coll.tag == "Enemy")
-                return; // notify player can't bail
-        }
-
-        Destroy(currCharacter); // bailout - on death functionality in damageablecharacter
+        _playerInfoUIManager.CurrCmdInput.ExecuteQueueableCmd(new BailOutCommand(_playerInfoUIManager.CurrCharacter));
     }
 
     private void SetBtnColour(Image btnImg, bool toggleState)

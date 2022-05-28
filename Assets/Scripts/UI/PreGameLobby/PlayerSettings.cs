@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 // functionality to set and store customisable player settings
 public class PlayerSettings : MonoBehaviour
@@ -18,7 +19,7 @@ public class PlayerSettings : MonoBehaviour
     }
 
     [System.Serializable]
-    public class AudioSetting
+    public class SliderSetting
     {
         public string Name;
         public Slider Slider;
@@ -27,37 +28,18 @@ public class PlayerSettings : MonoBehaviour
     }
 
     public static Dictionary<string, KeyCode> s_HotkeyMappings = new Dictionary<string, KeyCode>();
-    public static event System.Action<string, float> OnAudioLevelChanged;
+    public static Dictionary<string, float> s_SliderMappings = new Dictionary<string, float>(); // in game ref for slider settings
+    public static event System.Action<string> OnSliderChanged;
 
-    [SerializeField] private List<HotkeySetting> _hotkeySettings; // set in inspector
-    [SerializeField] private List<AudioSetting> _audioSettings; // set in inspector
+    [SerializeField] private List<HotkeySetting> _hotkeySettings; // assigned in inspector
+    [SerializeField] private List<SliderSetting> _sliderSettings; // assigned in inspector
     private KeyCode[] _allKeyCodes;
     private Dictionary<object, object> _uiSettingMapping = new Dictionary<object, object>(); // setting ui element, setting object
     private List<string> _usedKeys = new List<string>();
     private CanvasGroup _canvasGroup;
     private bool _waitingForInput = false;
     private string _newKey;
-/*
-    Default Mapping
-    private static Dictionary<string, object> _defaultSettings = new Dictionary<string, object>() {
-        {"Toggle Queue Commands", KeyCode.Space},
-        {"Toggle Scoreboard", KeyCode.Tab},
-        {"Toggle Cloak", KeyCode.T},
-        {"Toggle Auto Attack", KeyCode.D},
-        {"Move", KeyCode.Mouse1},
-        {"Undo", KeyCode.S},
-        {"Bail Out", KeyCode.A},
-        {"Utilise", KeyCode.F},
-        {"Switch to Character 1", KeyCode.Alpha1},
-        {"Switch to Character 2", KeyCode.Alpha2},
-        {"Switch to Character 3", KeyCode.Alpha3},
-        {"Switch to Character 4", KeyCode.Alpha4},
-        {"Switch to Equipment 1", KeyCode.Q},
-        {"Switch to Equipment 2", KeyCode.W},
-        {"Switch to Equipment 3", KeyCode.E},
-        {"Switch to Equipment 4", KeyCode.R}
-    };
-*/
+
     private void Awake()
     {
         gameObject.SetActive(false);
@@ -77,34 +59,43 @@ public class PlayerSettings : MonoBehaviour
             setting.Button.onClick.AddListener(() => StartCoroutine(GetNewKey(setting.Button)));
         }
 
-        foreach (AudioSetting setting in _audioSettings)
+        foreach (SliderSetting setting in _sliderSettings)
         {
             setting.Value = PlayerPrefs.GetFloat(setting.Name, setting.DefaultValue);
             setting.Slider.value = setting.Value;
 
             _uiSettingMapping.Add(setting.Slider, setting);
 
-            setting.Slider.onValueChanged.AddListener(delegate { AudioSliderChanged(setting.Slider); });
+            setting.Slider.onValueChanged.AddListener(delegate { SliderChanged(setting.Slider); });
         }
     }
 
     // update playerprefs when menu closed
     private void OnDisable()
     {
+        Debug.Log("settings menu disabled");
         foreach (HotkeySetting setting in _hotkeySettings)
         {
             PlayerPrefs.SetString(setting.Name, setting.Key);
 
-            // cache in game reference since PlayerPrefs can't store KeyCode
+            // cache as in game reference for faster lookup
+            // and since PlayerPrefs can't store KeyCode
             if (s_HotkeyMappings.Count == 0) // only on first update when empty
                 s_HotkeyMappings.Add(setting.Name, GetKeyCode(setting.Key));
             else
                 s_HotkeyMappings[setting.Name] = GetKeyCode(setting.Key);
         }
 
-        foreach (AudioSetting setting in _audioSettings)
+        foreach (SliderSetting setting in _sliderSettings)
         {
             PlayerPrefs.SetFloat(setting.Name, setting.Value);
+
+            if (s_SliderMappings.Count == 0)
+                s_SliderMappings.Add(setting.Name, setting.Value);
+            else
+                s_SliderMappings[setting.Name] = setting.Value;
+
+            OnSliderChanged?.Invoke(setting.Name); // any updates to values in game only occur after settings menu closed
         }
     }
 
@@ -152,12 +143,10 @@ public class PlayerSettings : MonoBehaviour
         _newKey = null; // set null again for next keybinding change
     }
 
-    private void AudioSliderChanged(Slider slider)
+    private void SliderChanged(Slider slider)
     {
-        AudioSetting setting = (AudioSetting)_uiSettingMapping[slider];
+        SliderSetting setting = (SliderSetting)_uiSettingMapping[slider];
         setting.Value = slider.value;
-
-        OnAudioLevelChanged?.Invoke(setting.Name, setting.Value);
     }
 
     private void SetBtnColour(Button btn, Color colour)

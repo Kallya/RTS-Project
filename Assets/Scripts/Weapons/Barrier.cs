@@ -13,11 +13,11 @@ public class Barrier : MonoBehaviour, IUtility, ILimitedUseEquippable
     
     public void Activate()
     {
-        Vector3 spawnPos = transform.parent.position + transform.parent.forward*5f;
+        Vector3 spawnPos = transform.position + transform.root.forward*5f;
         ObjectSpawner.Instance.CmdSpawnNetworkObject(
             _barrierObject.name, 
             spawnPos, 
-            _barrierObject.transform.rotation, 
+            _barrierObject.transform.rotation * transform.root.rotation, 
             NetworkClient.connection as NetworkConnectionToClient
         );
         

@@ -10,9 +10,9 @@ public class POVManager : NetworkBehaviour
     public static POVManager Instance { get; private set; }
     public event System.Action<Transform> OnPOVChanged;
     public List<GameObject> ActiveCharacters = new List<GameObject>();
-    // references for camera controls
     public CinemachineVirtualCamera CurrVirtualCam { get; private set; }
     public CinemachineFramingTransposer CurrVirtualCamBody { get; private set; }
+    public Collider BoundingCollider;
 
     private List<CharacterCommandInput> _playerInputs = new List<CharacterCommandInput>();
     private Dictionary<GameObject, PlayerSpriteReferences> _spriteReferences = new Dictionary<GameObject, PlayerSpriteReferences>();
@@ -101,9 +101,7 @@ public class POVManager : NetworkBehaviour
             
         int characterIndex = characterNum - 1;
 
-        // dead characters will be nulled to maintain
-        // hotkeys for switching characters
-        // this prevents pov changes to null objects
+        // prevent pov changes to dead characters
         if (ActiveCharacters[characterIndex] == null)
             return;
 
@@ -138,7 +136,10 @@ public class POVManager : NetworkBehaviour
     {
         GameObject cam = Instantiate(_characterVirtualCamPrefab);
         CinemachineVirtualCamera camComponent = cam.GetComponent<CinemachineVirtualCamera>();
+
         camComponent.Follow = character.transform;
+        cam.GetComponent<CinemachineConfiner>().m_BoundingVolume = BoundingCollider; // to confine to edges of map
+
         _characterCams.Add(camComponent);
         _characterCamBodies.Add(camComponent.GetCinemachineComponent<CinemachineFramingTransposer>());
     }

@@ -14,7 +14,7 @@ public class RotateToMouseCommand : ICommand
     // not accurate
     public void Execute()
     {
-        float camDist = Mathf.Sqrt(2*Mathf.Pow(Camera.main.transform.position.y-2, 2)); // distance of camera from map plane
+        float camDist = Mathf.Sqrt(2*Mathf.Pow(Camera.main.transform.position.y-0.5f, 2)); // distance of camera from map plane
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(
             new Vector3(Input.mousePosition.x, Input.mousePosition.y, camDist)
         );

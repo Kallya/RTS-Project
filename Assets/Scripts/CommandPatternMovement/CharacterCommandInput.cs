@@ -45,99 +45,49 @@ public class CharacterCommandInput : NetworkBehaviour
         // to allow leeway for things to load
         if (InputsEnabled == false)
             return;
-        
-        if (IsQueueingCommands)
+
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Move"]))
         {
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Move"]))
+            _objectHit = MouseClickInput.GetObjectHit(Camera.main);
+
+            if (_objectHit.transform != null)
             {
-                _objectHit = MouseClickInput.GetObjectHit(Camera.main);
-                
-                if (_objectHit.transform != null)
-                {
-                    if (_objectHit.transform.tag == "Ground")
-                        _commandProcessor.QueueCommand(new MoveCommand(
-                            gameObject, 
-                            MouseClickInput.GetMovementPosition(transform, Camera.main
-                        )));
-                    else if (_objectHit.transform.tag == "Enemy")
-                        _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsTargeting"));
-                }
+                if (_objectHit.transform.tag == "Ground")
+                    ExecuteQueueableCmd(new MoveCommand(gameObject, MouseClickInput.GetMovementPosition(transform, Camera.main)));
+                else if (_objectHit.transform.tag == "Enemy")
+                    ExecuteQueueableCmd(new ChangeToggleCommand(this, "IsTargeting"));
             }
-                
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Undo"])) 
-                _commandProcessor.Undo();
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Auto Attack"]))
-                _commandProcessor.QueueCommand(new ChangeToggleCommand(this, "IsAutoAttacking"));
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Cloak"]))
-                ChangeCloak();
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Utilise Equipment"]))
-            {
-                // only utilities are able to be queued (e.g. queueing a single gunshot or sword hit without aim seems useless)
-                if (_characterEquipment.ActiveEquipment is IUtility)
-                    _commandProcessor.QueueCommand(new UtiliseCommand(_characterEquipment, netId));
-                else
-                    Debug.Log("You are not holding anything that is useable!");
-            }
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 1"]))
-                _commandProcessor.QueueCommand(new SwitchWeaponCommand(_characterEquipment, 1));
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 2"]))
-                _commandProcessor.QueueCommand(new SwitchWeaponCommand(_characterEquipment, 2));
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 3"]))
-                _commandProcessor.QueueCommand(new SwitchWeaponCommand(_characterEquipment, 3));
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 4"]))
-                _commandProcessor.QueueCommand(new SwitchWeaponCommand(_characterEquipment, 4));
         }
-        else
+
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Auto Attack"]))
+            ExecuteQueueableCmd(new ChangeToggleCommand(this, "IsAutoAttacking"));
+
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Cloak"]))
+            ChangeCloak();
+
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Utilise Equipment"]))
         {
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Move"]))
-            {
-                _objectHit = MouseClickInput.GetObjectHit(Camera.main);
-
-                if (_objectHit.transform != null)
-                {
-                    if (_objectHit.transform.tag == "Ground")
-                        _commandProcessor.ExecuteCommand(
-                            new MoveCommand(
-                                gameObject, 
-                                MouseClickInput.GetMovementPosition(transform, Camera.main)
-                            )
-                        );
-                    else if (_objectHit.transform.tag == "Enemy")
-                        _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsTargeting"));
-                }
-            }
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Auto Attack"]))
-                _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsAutoAttacking"));
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Cloak"]))
-                ChangeCloak();
-
-            if (Input.GetKey(PlayerSettings.s_HotkeyMappings["Utilise Equipment"]))
-            {
-                _commandProcessor.ExecuteCommand(new RotateToMouseCommand(transform));
-                _commandProcessor.ExecuteCommand(new UtiliseCommand(_characterEquipment, netId));
-            }
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 1"]))
-                _commandProcessor.ExecuteCommand(new SwitchWeaponCommand(_characterEquipment, 1));
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 2"]))
-                _commandProcessor.ExecuteCommand(new SwitchWeaponCommand(_characterEquipment, 2));
-
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 3"]))
-                _commandProcessor.ExecuteCommand(new SwitchWeaponCommand(_characterEquipment, 3));
-            
-            if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 4"]))
-                _commandProcessor.ExecuteCommand(new SwitchWeaponCommand(_characterEquipment, 4));
+            // only utilities are able to be queued (e.g. queueing a single gunshot or sword hit without aim seems useless)
+            if (_characterEquipment.ActiveEquipment is IUtility)
+                ExecuteQueueableCmd(new UtiliseCommand(_characterEquipment, netId));
+            else
+                Debug.Log("You are not holding anything that is useable!");
         }
+
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Bail Out"]))
+            ExecuteQueueableCmd(new BailOutCommand(gameObject));
+
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 1"]))
+            ExecuteQueueableCmd(new SwitchWeaponCommand(_characterEquipment, 1));
+
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 2"]))
+            ExecuteQueueableCmd(new SwitchWeaponCommand(_characterEquipment, 2));
+
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 3"]))
+            ExecuteQueueableCmd(new SwitchWeaponCommand(_characterEquipment, 3));
+
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Switch to Equipment 4"]))
+            ExecuteQueueableCmd(new SwitchWeaponCommand(_characterEquipment, 4));
 
         // unqueueable commands
         if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Queue Commands"]))
@@ -159,6 +109,9 @@ public class CharacterCommandInput : NetworkBehaviour
             _commandProcessor.ExecuteCommand(new ToggleScoreboardCommand(true));
         if (Input.GetKeyUp(PlayerSettings.s_HotkeyMappings["Toggle Scoreboard"]))
             _commandProcessor.ExecuteCommand(new ToggleScoreboardCommand(false));
+
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Undo"]))
+            _commandProcessor.Undo();
 
         // implementation of active toggles
         if (IsAutoAttacking)
@@ -182,17 +135,15 @@ public class CharacterCommandInput : NetworkBehaviour
 
     public void ChangeCloak()
     {
-        ChangeToggleCommand toggleCmd = new ChangeToggleCommand(this, "IsCloaked");
-        CloakCommand cloakCmd = new CloakCommand(this, IsCloaked, netId);
+        ExecuteQueueableCmd(new ChangeToggleCommand(this, "IsCloaked"));
+        ExecuteQueueableCmd(new CloakCommand(this, netId));
+    }
+
+    public void ExecuteQueueableCmd(IQueueableCommand cmd)
+    {
         if (IsQueueingCommands)
-        {
-            _commandProcessor.QueueCommand(toggleCmd);
-            _commandProcessor.QueueCommand(cloakCmd);
-        }
+            _commandProcessor.QueueCommand(cmd);
         else
-        {
-            _commandProcessor.ExecuteCommand(toggleCmd);
-            _commandProcessor.ExecuteCommand(cloakCmd);
-        }
+            _commandProcessor.ExecuteCommand(cmd);
     }
 }

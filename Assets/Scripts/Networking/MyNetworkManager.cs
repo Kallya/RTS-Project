@@ -25,13 +25,16 @@ public struct SetScoreboardMessage : NetworkMessage
 public class MyNetworkManager : NetworkRoomManager
 {  
     public List<GameObject> SpawnedCharacters = new List<GameObject>();
+    public static List<string> MapsSceneNames = new List<string>() {
+        "Map1Scene",
+        "Map2Scene"
+    };
 
     [SerializeField] private GameObject _emptyPlayerPrefab;
     [SerializeField] private GameObject _kabukiCharacterPrefab;
     [SerializeField] private GameObject _tenguCharacterPrefab;
     [SerializeField] private GameObject _kitsuneCharacterPrefab;
     [SerializeField] private GameObject _loadInCanvas;
-    [SerializeField] private List<string> _mapsSceneNames;
     [SerializeField] private double _loadInTime = 10;
     private int _totalCharacterNum = 0;
     private int _currSpawnedCharacterNum = 0;
@@ -41,7 +44,7 @@ public class MyNetworkManager : NetworkRoomManager
         if (sceneName == RoomScene)
             NetworkServer.RegisterHandler<CharacterConfigurationMessage>(OnNetworkLockIn);
 
-        if (_mapsSceneNames.Contains(sceneName))
+        if (MapsSceneNames.Contains(sceneName))
         {
             GameObject loadInUI = Instantiate(_loadInCanvas);
             NetworkServer.Spawn(loadInUI);
@@ -116,7 +119,7 @@ public class MyNetworkManager : NetworkRoomManager
         NetworkServer.UnregisterHandler<CharacterConfigurationMessage>();
 
         // pick random map out of available ones (also rng element)
-        string gameplayScene = _mapsSceneNames[Random.Range(0, _mapsSceneNames.Count)];
+        string gameplayScene = MapsSceneNames[Random.Range(0, MapsSceneNames.Count)];
         ServerChangeScene(gameplayScene);
     }
 

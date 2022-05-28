@@ -9,13 +9,11 @@ public class CloakCommand : IQueueableCommand
     public event System.Action<IQueueableCommand> OnCompletion;
     
     private uint _characterNetId;
-    private bool _isCloaked;
     private CharacterCommandInput _characterCmdInput;
 
-    public CloakCommand(CharacterCommandInput characterCmdInput, bool isCloaked, uint netId)
+    public CloakCommand(CharacterCommandInput characterCmdInput, uint netId)
     {
         _characterNetId = netId;
-        _isCloaked = isCloaked;
         _characterCmdInput = characterCmdInput;
     }
 
@@ -23,7 +21,7 @@ public class CloakCommand : IQueueableCommand
     {
         CloakMessage msg = new CloakMessage() {
             CharacterNetId=_characterNetId,
-            IsCloaked=_isCloaked
+            IsCloaked=_characterCmdInput.IsCloaked
         };
 
         NetworkClient.Send(msg);

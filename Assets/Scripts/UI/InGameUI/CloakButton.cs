@@ -29,6 +29,7 @@ public class CloakButton : MonoBehaviour
     public void OnCloakBtnClick()
     {
         _playerInfoUIManager.CurrCmdInput.ChangeCloak();
+
     }
 
     private void ToggleChanged(string toggleName)

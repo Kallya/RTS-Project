@@ -5960,6 +5960,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   ActiveCharacters: []
+  BoundingCollider: {fileID: 1763352635}
   _characterVirtualCamPrefab: {fileID: 1891110510272518969, guid: fb5e08c839d745b4ebce1cb5ddf37aef, type: 3}
   _friendlySprite: {fileID: 78634268816347847, guid: cba814f10c5cc4d43a493bbb14529cc8, type: 3}
   _enemySprite: {fileID: 1985454311446186317, guid: e362e2ca9dbf0ab40850535cb4202004, type: 3}
@@ -8017,6 +8018,50 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!1 &1763352634
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1763352636}
+  - component: {fileID: 1763352635}
+  m_Layer: 0
+  m_Name: BoundingShape
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1763352635
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763352634}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 410, y: 50, z: 410}
+  m_Center: {x: 0, y: 25, z: 0}
+--- !u!4 &1763352636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763352634}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1791274465
 GameObject:
   m_ObjectHideFlags: 0
