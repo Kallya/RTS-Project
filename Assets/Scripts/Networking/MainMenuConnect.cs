@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class MainMenuConnect : MonoBehaviour
@@ -19,22 +18,38 @@ public class MainMenuConnect : MonoBehaviour
     {
         if (PlayerNameInput.text == "")
         {
-            Debug.Log("Please enter your player name");
+            ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.NoPlayerName]);
+            return;
+        }
+
+        if (MyNetworkManager.ConnectedPlayerNames.Contains(PlayerNameInput.text))
+        {
+            ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.UnavailablePlayerName]);
             return;
         }
 
         _manager.StartHost();
+
+        MyNetworkManager.ConnectedPlayerNames.Add(PlayerNameInput.text);
     }
 
     public void JoinGameBtnClick()
     {
         if (PlayerNameInput.text == "")
         {
-            Debug.Log("Please enter your player name");
+            ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.NoPlayerName]);
+            return;
+        }
+
+        if (MyNetworkManager.ConnectedPlayerNames.Contains(PlayerNameInput.text))
+        {
+            ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.UnavailablePlayerName]);
             return;
         }
 
         _manager.StartClient();
+
+        MyNetworkManager.ConnectedPlayerNames.Add(PlayerNameInput.text);
     }
 
 /*

@@ -21,9 +21,16 @@ public class UtiliseCommand : IQueueableCommand
     public void Execute()
     {
         if (_equip == null)
-            return; // not holding anything useable msg
+        {
+            ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.NotHoldingUtilisable]);
+            return;
+        }
+
         if (!CanActivate())
-            return; // not enough energy msg
+        {
+            ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.InsufficientEnergy]);
+            return;
+        }
 
         if (_equip is IWeapon weapon)
         {

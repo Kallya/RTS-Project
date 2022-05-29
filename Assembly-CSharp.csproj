@@ -84,7 +84,7 @@
      <Compile Include="Assets\Scripts\Weapons\Bullet.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\CloakButton.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\UpdateStatGraphicalIndicator.cs" />
-     <Compile Include="Assets\Scripts\UI\PreGameLobby\SettingsCanvas.cs" />
+     <Compile Include="Assets\Scripts\UI\PreGameLobby\UniversalCanvas.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\PlayerSpriteReferences.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\CharacterHUDSetup.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\ToggleScoreboardCommand.cs" />
@@ -92,6 +92,7 @@
      <Compile Include="Assets\Scripts\Stats\ObjectStats.cs" />
      <Compile Include="Assets\Scripts\Stats\CharacterStats.cs" />
      <Compile Include="Assets\Scripts\CommandPatternMovement\MoveCommand.cs" />
+     <Compile Include="Assets\Scripts\Miscellaneous\BailOutCommand.cs" />
      <Compile Include="Assets\Scripts\Weapons\Equipment.cs" />
      <Compile Include="Assets\Scripts\Weapons\Sword.cs" />
      <Compile Include="Assets\Scripts\CommandPatternMovement\MouseClickInput.cs" />
@@ -116,7 +117,7 @@
      <Compile Include="Assets\Scripts\Weapons\EquipmentInterfaces.cs" />
      <Compile Include="Assets\Scripts\Weapons\CharacterEquipment.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\RotateToMouseCommand.cs" />
-     <Compile Include="Assets\Scripts\Miscellaneous\BailOutCommand.cs" />
+     <Compile Include="Assets\Scripts\Miscellaneous\ErrorNotifier.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

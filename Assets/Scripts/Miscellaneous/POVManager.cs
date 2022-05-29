@@ -103,7 +103,10 @@ public class POVManager : NetworkBehaviour
 
         // prevent pov changes to dead characters
         if (ActiveCharacters[characterIndex] == null)
+        {
+            ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.DeadCharacterSwitch]);
             return;
+        }
 
         float zoomDist = 30f; // default zoom value
 

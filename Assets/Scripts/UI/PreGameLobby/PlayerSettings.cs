@@ -73,7 +73,6 @@ public class PlayerSettings : MonoBehaviour
     // update playerprefs when menu closed
     private void OnDisable()
     {
-        Debug.Log("settings menu disabled");
         foreach (HotkeySetting setting in _hotkeySettings)
         {
             PlayerPrefs.SetString(setting.Name, setting.Key);
@@ -114,7 +113,7 @@ public class PlayerSettings : MonoBehaviour
                 if (_usedKeys.Contains(key) == false)
                     _newKey = key;
                 else
-                    Debug.Log("This key is already used");
+                    ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.HotkeyConflict]);
             }
         }
     }

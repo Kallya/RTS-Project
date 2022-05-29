@@ -24,9 +24,15 @@ public class BailOutCommand : IQueueableCommand
         foreach (Collider coll in collInRange)
         {
             if (coll.tag == "Enemy")
-                return; // notify player can't bail
+            {
+                // notify character can't bail
+                ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.CannotBailOut]);
+                return;
+            }
         }
 
         GameObject.Destroy(_character); // bailout - on death functionality in damageablecharacter
+
+        OnCompletion?.Invoke(this);
     }
 }

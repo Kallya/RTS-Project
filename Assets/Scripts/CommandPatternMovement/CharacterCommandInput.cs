@@ -65,13 +65,19 @@ public class CharacterCommandInput : NetworkBehaviour
         if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Toggle Cloak"]))
             ChangeCloak();
 
-        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Utilise Equipment"]))
+        if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Utilise Equipment"]) && IsQueueingCommands == true)
         {
             // only utilities are able to be queued (e.g. queueing a single gunshot or sword hit without aim seems useless)
             if (_characterEquipment.ActiveEquipment is IUtility)
                 ExecuteQueueableCmd(new UtiliseCommand(_characterEquipment, netId));
             else
-                Debug.Log("You are not holding anything that is useable!");
+                ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.NotHoldingQueueableEquipment]);
+        }
+
+        if (Input.GetKey(PlayerSettings.s_HotkeyMappings["Utilise Equipment"]) && IsQueueingCommands == false)
+        {
+            _commandProcessor.ExecuteCommand(new RotateToMouseCommand(transform));
+            _commandProcessor.ExecuteCommand(new UtiliseCommand(_characterEquipment, netId));
         }
 
         if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Bail Out"]))

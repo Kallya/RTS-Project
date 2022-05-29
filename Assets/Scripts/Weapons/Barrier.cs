@@ -17,7 +17,7 @@ public class Barrier : MonoBehaviour, IUtility, ILimitedUseEquippable
         ObjectSpawner.Instance.CmdSpawnNetworkObject(
             _barrierObject.name, 
             spawnPos, 
-            _barrierObject.transform.rotation * transform.root.rotation, 
+            _barrierObject.transform.rotation * transform.rotation, 
             NetworkClient.connection as NetworkConnectionToClient
         );
         
