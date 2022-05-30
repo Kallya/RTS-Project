@@ -11,14 +11,16 @@ public class Sword : MonoBehaviour, IWeapon
 
     [SerializeField] private Sprite _equipSprite;
     private Rigidbody _rb;
-    private float _lastAttackTime = -s_attackRate;
-    private static float s_attackRate = 1f;
-    private static float s_collisionTimeAllowance = 2f; // time rb will detect collisions (essentially animation length)
+    private float _lastAttackTime;
+    private float _attackRate = 1f;
+    private float _collisionTimeAllowance = 2f; // time rb will detect collisions (essentially animation length)
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _rb.detectCollisions = false;
+
+        _lastAttackTime = -_attackRate;
     }
 
     private void Start()
@@ -29,7 +31,7 @@ public class Sword : MonoBehaviour, IWeapon
 
     public bool Attack()
     {
-        if (Time.time >= _lastAttackTime + s_attackRate)
+        if (Time.time >= _lastAttackTime + _attackRate)
         {
             StartCoroutine(AttackTime());
             _lastAttackTime = Time.time;
@@ -42,7 +44,7 @@ public class Sword : MonoBehaviour, IWeapon
     private IEnumerator AttackTime()
     {
         _rb.detectCollisions = true;
-        yield return new WaitForSeconds(s_collisionTimeAllowance);
+        yield return new WaitForSeconds(_collisionTimeAllowance);
         _rb.detectCollisions = false;
     }
 }

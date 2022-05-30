@@ -26,10 +26,10 @@ public class POVManager : NetworkBehaviour
     [SerializeField] private GameObject _enemyHealthBarSprite;
     [SerializeField] private GameObject _statBarCanvas;
     private static string _minimapSpriteName = "MinimapSprite";
-    private static int _cloakedLayer = 7;
-    private static int _minimapLayer = 6;
-    private static Color normalMinimapSpriteColour = new Color(0f, 1f, 0f, .5f);
-    private static Color selectedMinimapSpriteColour = Color.cyan;
+    private int _cloakedLayer = 7;
+    private int _minimapLayer = 6;
+    private Color _normalMinimapSpriteColour = Color.white;
+    private Color _selectedMinimapSpriteColour = Color.blue;
 
     private void Awake()
     {
@@ -114,7 +114,7 @@ public class POVManager : NetworkBehaviour
         {
             _playerInputs[characterIndex].enabled = false;
             _spriteReferences[CurrVirtualCam.Follow.gameObject].RangeIndicatorSprite.SetActive(false);
-            _spriteReferences[CurrVirtualCam.Follow.gameObject].MinimapSpriteRenderer.color = normalMinimapSpriteColour;
+            _spriteReferences[CurrVirtualCam.Follow.gameObject].MinimapSpriteRenderer.color = _normalMinimapSpriteColour;
             // CurrVirtualCam.Follow.GetComponent<CharacterCommandInput>().enabled = false;
             // CurrVirtualCam.Follow.GetComponent<PlayerSpriteReferences>().RangeIndicatorSprite.SetActive(false);
             zoomDist = CurrVirtualCamBody.m_CameraDistance;
@@ -130,7 +130,7 @@ public class POVManager : NetworkBehaviour
 
         _spriteReferences[ActiveCharacters[characterIndex]].RangeIndicatorSprite.SetActive(true);
         // differentiate current character from others to help locate on minimap
-        _spriteReferences[CurrVirtualCam.Follow.gameObject].MinimapSpriteRenderer.color = selectedMinimapSpriteColour;
+        _spriteReferences[CurrVirtualCam.Follow.gameObject].MinimapSpriteRenderer.color = _selectedMinimapSpriteColour;
         
         OnPOVChanged?.Invoke(CurrVirtualCam.Follow);
     }
@@ -160,7 +160,9 @@ public class POVManager : NetworkBehaviour
         minimapSprite.name = _minimapSpriteName;
         _spriteReferences[character].MinimapSprite = minimapSprite;
         _spriteReferences[character].MinimapSpriteRenderer = minimapSprite.GetComponent<SpriteRenderer>();
-        _spriteReferences[character].MinimapSpriteRenderer.color = normalMinimapSpriteColour;
+        
+        if (isEnemy == false)
+            _spriteReferences[character].MinimapSpriteRenderer.color = _normalMinimapSpriteColour;
     }
 
     private void AddRangeIndicator(GameObject character)

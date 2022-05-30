@@ -7,7 +7,7 @@ public class CommandProcessor : MonoBehaviour
 {
     public event System.Action<IQueueableCommand> OnCommandQueued;
     public event System.Action<IQueueableCommand> OnQueueableCommandExecuted;
-    public event System.Action OnCommandCompleted;
+    public event System.Action<IQueueableCommand> OnCommandCompleted;
     public event System.Action OnCommandUndone;
     // private List<ICommand> _commands = new List<ICommand>();
     private List<IQueueableCommand> _queuedCommands = new List<IQueueableCommand>();
@@ -45,7 +45,7 @@ public class CommandProcessor : MonoBehaviour
         if (_queuedCommands.Count != 0)
         {
             _queuedCommands.RemoveAt(0);
-            OnCommandCompleted?.Invoke(); // command only completed if it wasn't undone
+            OnCommandCompleted?.Invoke(command); // command only completed if it wasn't undone
         }
 
         ExecuteNextCommand();

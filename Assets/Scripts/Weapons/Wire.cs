@@ -16,7 +16,7 @@ public class Wire : MonoBehaviour, IUtility, ILimitedUseEquippable
     {
         ObjectSpawner.Instance.CmdSpawnNetworkObject(
             _wireObject.name, 
-            transform.position, 
+            new Vector3(transform.root.position.x, _wireObject.transform.position.y, transform.root.position.z), 
             _wireObject.transform.rotation * transform.root.rotation,
             NetworkClient.connection as NetworkConnectionToClient
         );

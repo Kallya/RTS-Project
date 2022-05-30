@@ -33,7 +33,6 @@ public class ErrorNotifier : MonoBehaviour
     [SerializeField] private List<GameObject> _errorObjectPool;
     private List<TMP_Text> _errorObjectText = new List<TMP_Text>();
     private int _poolIndex = 0;
-    private string _lastMsg;
 
     private void Awake()
     {
@@ -53,10 +52,18 @@ public class ErrorNotifier : MonoBehaviour
 
     private IEnumerator GenerateErrorMsgC(string msg)
     {
+        int _lastMsgIndex = _poolIndex - 1;
+        if (_lastMsgIndex < 0)
+            _lastMsgIndex = _errorObjectPool.Count - 1;
+
+        // prevent error msg flooding due to polling nature of input detection
+        // though this may result in missed msgs in specific cases
+        if (_errorObjectPool[_lastMsgIndex].activeSelf == true && _errorObjectText[_lastMsgIndex].text == msg)
+            yield break;
+
         _errorObjectText[_poolIndex].text = msg;
         _errorObjectPool[_poolIndex].SetActive(true);
 
-        _lastMsg = msg;
         int originalIndex = _poolIndex;
 
         // increment poolIndex to access next errorObj in pool

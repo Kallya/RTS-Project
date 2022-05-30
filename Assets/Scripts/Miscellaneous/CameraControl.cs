@@ -102,7 +102,7 @@ public class CameraControl : MonoBehaviour
     // preventing camera from rotating when the player does (somewhat nauseating to watch)
     private void AdjustTrackedObjectOffset()
     { 
-        float adjustmentRot = -_povManager.CurrVirtualCam.transform.rotation.eulerAngles.y;
+        float adjustmentRot = -_povManager.CurrVirtualCam.Follow.rotation.eulerAngles.y;
         Vector3 adjustedOffset = Quaternion.Euler(0f, adjustmentRot, 0f) * _povManager.CurrVirtualCamBody.m_TrackedObjectOffset;
         _povManager.CurrVirtualCamBody.m_TrackedObjectOffset.x = adjustedOffset.x;
         _povManager.CurrVirtualCamBody.m_TrackedObjectOffset.z = adjustedOffset.z;

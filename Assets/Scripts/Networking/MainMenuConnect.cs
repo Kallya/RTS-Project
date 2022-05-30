@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 using TMPro;
 
-public class MainMenuConnect : MonoBehaviour
+public class MainMenuConnect : NetworkBehaviour
 {
     public TMP_InputField PlayerNameInput;
 
@@ -22,15 +23,7 @@ public class MainMenuConnect : MonoBehaviour
             return;
         }
 
-        if (MyNetworkManager.ConnectedPlayerNames.Contains(PlayerNameInput.text))
-        {
-            ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.UnavailablePlayerName]);
-            return;
-        }
-
         _manager.StartHost();
-
-        MyNetworkManager.ConnectedPlayerNames.Add(PlayerNameInput.text);
     }
 
     public void JoinGameBtnClick()
@@ -41,22 +34,6 @@ public class MainMenuConnect : MonoBehaviour
             return;
         }
 
-        if (MyNetworkManager.ConnectedPlayerNames.Contains(PlayerNameInput.text))
-        {
-            ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.UnavailablePlayerName]);
-            return;
-        }
-
         _manager.StartClient();
-
-        MyNetworkManager.ConnectedPlayerNames.Add(PlayerNameInput.text);
     }
-
-/*
-    // buggy
-    public void OnStartServerBtnClick()
-    {
-        _manager.StartServer();
-    }
-*/
 }

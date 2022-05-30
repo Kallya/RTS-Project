@@ -29,8 +29,7 @@ public class MyNetworkManager : NetworkRoomManager
         "Map1Scene",
         "Map2Scene"
     };
-    public static List<string> ConnectedPlayerNames = new List<string>();
-
+    
     [SerializeField] private GameObject _emptyPlayerPrefab;
     [SerializeField] private GameObject _kabukiCharacterPrefab;
     [SerializeField] private GameObject _tenguCharacterPrefab;
@@ -113,6 +112,11 @@ public class MyNetworkManager : NetworkRoomManager
     public override void OnRoomClientExit()
     {
         NetworkClient.UnregisterHandler<StartPreGameMessage>();
+    }
+
+    public override void OnClientError(System.Exception exception)
+    {
+        ErrorNotifier.Instance.GenerateErrorMsg(exception.Message);
     }
 
     private void OnAllLockIn()
