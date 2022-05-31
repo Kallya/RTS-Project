@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 using TMPro;
 
-public class MainMenuConnect : NetworkBehaviour
+public class MainMenuConnect : MonoBehaviour
 {
     public TMP_InputField PlayerNameInput;
 

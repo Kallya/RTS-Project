@@ -59,8 +59,8 @@ public class ScoreManager : NetworkBehaviour
             _inactivePlayers += 1;
         
         // finish game if only one player left
-        //if (_inactivePlayers == _playerScores.Count - 1)
-            //FinishGame();
+        if (_inactivePlayers == _playerScores.Count - 1)
+            FinishGame();
     }
 
     private void InitialiseScores()
