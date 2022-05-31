@@ -12,12 +12,13 @@ public class POVManager : NetworkBehaviour
     public List<GameObject> ActiveCharacters = new List<GameObject>();
     public CinemachineVirtualCamera CurrVirtualCam { get; private set; }
     public CinemachineFramingTransposer CurrVirtualCamBody { get; private set; }
-    public Collider BoundingCollider;
+    public CinemachineCameraOffset CurrCamOffset { get; private set; }
 
     private List<CharacterCommandInput> _playerInputs = new List<CharacterCommandInput>();
     private Dictionary<GameObject, PlayerSpriteReferences> _spriteReferences = new Dictionary<GameObject, PlayerSpriteReferences>();
     private List<CinemachineVirtualCamera> _characterCams = new List<CinemachineVirtualCamera>();
     private List<CinemachineFramingTransposer> _characterCamBodies = new List<CinemachineFramingTransposer>();
+    private List<CinemachineCameraOffset> _characterCamOffsets = new List<CinemachineCameraOffset>();
     [SerializeField] private GameObject _characterVirtualCamPrefab;
     [SerializeField] private GameObject _friendlySprite;
     [SerializeField] private GameObject _enemySprite;
@@ -122,6 +123,7 @@ public class POVManager : NetworkBehaviour
 
         CurrVirtualCam = _characterCams[characterIndex];
         CurrVirtualCamBody = _characterCamBodies[characterIndex];
+        CurrCamOffset = _characterCamOffsets[characterIndex];
 
         _playerInputs[characterIndex].enabled = true;
         CurrVirtualCamBody.m_TrackedObjectOffset = Vector3.zero; // center cam on new character
@@ -141,10 +143,10 @@ public class POVManager : NetworkBehaviour
         CinemachineVirtualCamera camComponent = cam.GetComponent<CinemachineVirtualCamera>();
 
         camComponent.Follow = character.transform;
-        cam.GetComponent<CinemachineConfiner>().m_BoundingVolume = BoundingCollider; // to confine to edges of map
 
         _characterCams.Add(camComponent);
         _characterCamBodies.Add(camComponent.GetCinemachineComponent<CinemachineFramingTransposer>());
+        _characterCamOffsets.Add(camComponent.GetComponent<CinemachineCameraOffset>());
     }
 
     // add minimap sprite to character identifying allies and enemies

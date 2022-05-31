@@ -21,21 +21,33 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
     {
         string playerName = MyNetworkManager.singleton.GetComponent<MainMenuConnect>().PlayerNameInput.text;
 
+        CmdValidatePlayer(playerName);
+
+        CmdSetPlayerName(playerName);
+    }
+
+    [Command]
+    private void CmdValidatePlayer(string playerName)
+    {
         MyNetworkManager netManager = MyNetworkManager.singleton as MyNetworkManager;
         foreach (MyNetworkRoomPlayer roomPlayer in netManager.roomSlots)
         {
             if (roomPlayer.PlayerName == playerName)
-            {
-                if (roomPlayer.isServer)
-                    netManager.StopServer();
-                else
-                    netManager.StopClient();
-
-                ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.UnavailablePlayerName]);
-            }
+                TargetStopPlayer();
         }
+    }
 
-        CmdSetPlayerName(playerName);
+    [TargetRpc]
+    private void TargetStopPlayer()
+    {
+        MyNetworkManager netManager = MyNetworkManager.singleton as MyNetworkManager;
+        
+        if (isServer)
+            netManager.StopServer();
+        else
+            netManager.StopClient();
+
+        ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.UnavailablePlayerName]);
     }
 
     public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)

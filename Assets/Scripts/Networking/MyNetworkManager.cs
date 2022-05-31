@@ -26,8 +26,8 @@ public class MyNetworkManager : NetworkRoomManager
 {  
     public List<GameObject> SpawnedCharacters = new List<GameObject>();
     public static List<string> MapsSceneNames = new List<string>() {
-        "Map1Scene",
-        "Map2Scene"
+        "Map1",
+        "Map2"
     };
     
     [SerializeField] private GameObject _emptyPlayerPrefab;
@@ -36,6 +36,7 @@ public class MyNetworkManager : NetworkRoomManager
     [SerializeField] private GameObject _kitsuneCharacterPrefab;
     [SerializeField] private GameObject _loadInCanvas;
     [SerializeField] private double _loadInTime = 10;
+    private string _chosenMap;
     private int _totalCharacterNum = 0;
     private int _currSpawnedCharacterNum = 0;
 
@@ -72,6 +73,10 @@ public class MyNetworkManager : NetworkRoomManager
     private void OnStartPreGame(StartPreGameMessage msg)
     {
         UIObjectReferences.Instance.CharacterSetupUI.SetActive(true);
+
+        // pick random map and display it
+        _chosenMap = MapsSceneNames[Random.Range(0, MapsSceneNames.Count)];
+        UIObjectReferences.Instance.MapName.text = _chosenMap;
     }
 
     private void OnStartGame(StartGameMessage msg)
@@ -114,18 +119,11 @@ public class MyNetworkManager : NetworkRoomManager
         NetworkClient.UnregisterHandler<StartPreGameMessage>();
     }
 
-    public override void OnClientError(System.Exception exception)
-    {
-        ErrorNotifier.Instance.GenerateErrorMsg(exception.Message);
-    }
-
     private void OnAllLockIn()
     {
         NetworkServer.UnregisterHandler<CharacterConfigurationMessage>();
 
-        // pick random map out of available ones (also rng element)
-        string gameplayScene = MapsSceneNames[Random.Range(0, MapsSceneNames.Count)];
-        ServerChangeScene(gameplayScene);
+        ServerChangeScene(_chosenMap);
     }
 
     // endgame setup for clients
