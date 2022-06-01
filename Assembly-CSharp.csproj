@@ -39,6 +39,7 @@
      <Compile Include="Assets\Scripts\Weapons\Shotgun.cs" />
      <Compile Include="Assets\Scripts\Weapons\MoveCommandCompletionObserver.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\UIPlayerControls.cs" />
+     <Compile Include="Assets\Scripts\Miscellaneous\FPSCounter.cs" />
      <Compile Include="Assets\ParrelSync\Examples\CustomArgumentExample.cs" />
      <Compile Include="Assets\Scripts\UI\PreGameLobby\AddNewCharacterButtonManager.cs" />
      <Compile Include="Assets\Scripts\Stats\CharacterStatModifier.cs" />
@@ -80,6 +81,7 @@
      <Compile Include="Assets\Scripts\Miscellaneous\CameraControl.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\UpdateUIStatGraphicalIndicator.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\ChangePOVCommand.cs" />
+     <Compile Include="Assets\Scripts\UI\InGameUI\UpdateShieldHealthBar.cs" />
      <Compile Include="Assets\Scripts\Stats\TenguCharacterStats.cs" />
      <Compile Include="Assets\Scripts\Weapons\Bullet.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\CloakButton.cs" />
@@ -119,7 +121,6 @@
      <Compile Include="Assets\Scripts\Weapons\EquipmentInterfaces.cs" />
      <Compile Include="Assets\Scripts\Weapons\CharacterEquipment.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\RotateToMouseCommand.cs" />
-     <Compile Include="Assets\Scripts\UI\InGameUI\UpdateShieldHealthBar.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

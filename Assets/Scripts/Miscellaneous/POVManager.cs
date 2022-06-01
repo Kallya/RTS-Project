@@ -29,8 +29,8 @@ public class POVManager : NetworkBehaviour
     private static string _minimapSpriteName = "MinimapSprite";
     private int _cloakedLayer = 7;
     private int _minimapLayer = 6;
-    private Color _normalMinimapSpriteColour = Color.white;
-    private Color _selectedMinimapSpriteColour = Color.blue;
+    private Color _normalMinimapSpriteColour = Color.green;
+    private Color _selectedMinimapSpriteColour = Color.yellow;
 
     private void Awake()
     {

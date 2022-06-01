@@ -71,7 +71,7 @@ public class MinimapControls : MonoBehaviour, IPointerDownHandler
     {
         Vector3 panVec = clickPos - _playerInfo.CurrCharacter.transform.position;
         // adjustment for offset relative to character rotation
-        Vector3 adjustedOffset = Quaternion.Euler(45f, 0f, -45f) * new Vector3(panVec.x, panVec.z, 0f);
+        Vector3 adjustedOffset = Quaternion.Euler(45f, 0f, 0f) * new Vector3(panVec.x, panVec.z, 0f);
 
         _povManager.CurrCamOffset.m_Offset = adjustedOffset;
     }

@@ -14,4 +14,9 @@ public class MenuNavigator : MonoBehaviour
     {
         menu.SetActive(false);
     }
+
+    public void ExitAppClick()
+    {
+        Application.Quit();
+    }
 }

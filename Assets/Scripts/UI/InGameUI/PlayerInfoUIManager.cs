@@ -25,7 +25,7 @@ public class PlayerInfoUIManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
+    public void Start()
     {
         POVManager.Instance.OnPOVChanged += POVChanged;
     }

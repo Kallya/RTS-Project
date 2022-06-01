@@ -16,14 +16,14 @@ public class Shotgun : MonoBehaviour, IWeapon
     // 6 shotpoints?
     [SerializeField] private List<Transform> _shotPoints;
     private static float s_fireRate = 0.6f;
-    private float _lastShotTime = -s_fireRate;
+    private double _lastShotTime = -s_fireRate;
 
     public bool Attack()
     {
-        if (Time.time >= _lastShotTime + s_fireRate)
+        if (NetworkTime.time >= _lastShotTime + s_fireRate)
         {
             InstantiateBullets();
-            _lastShotTime = Time.time;
+            _lastShotTime = NetworkTime.time;
             return true;
         }
         else

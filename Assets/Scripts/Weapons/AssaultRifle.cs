@@ -15,14 +15,14 @@ public class AssaultRifle : MonoBehaviour, IWeapon
     [SerializeField] private Transform _shotPoint;
     private static float s_fireRate = 0.3f;
     // initialised to negative of fireRate so player can instantly start shooting on spawn
-    private float _lastShotTime = -s_fireRate;
+    private double _lastShotTime = -s_fireRate;
 
     public bool Attack()
     {
-        if (Time.time >= _lastShotTime + s_fireRate)
+        if (NetworkTime.time >= _lastShotTime + s_fireRate)
         {
             InstantiateBullet();
-            _lastShotTime = Time.time;
+            _lastShotTime = NetworkTime.time;
             return true;
         }
         else
