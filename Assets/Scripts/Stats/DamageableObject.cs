@@ -22,6 +22,7 @@ public class DamageableObject : NetworkBehaviour
     {
         int finalDmg = dmg;
 
+        // only potential for crit if character
         if (_damageableStats is CharacterStats charStats)
         {
             if (IsCrit())

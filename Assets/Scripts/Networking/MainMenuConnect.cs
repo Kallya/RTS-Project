@@ -9,6 +9,9 @@ public class MainMenuConnect : MonoBehaviour
     public TMP_InputField PlayerNameInput;
 
     private MyNetworkManager _manager;
+    [SerializeField] private GameObject _connectingText;
+    [SerializeField] private int _connectWaitTime = 3;
+    [SerializeField] private CanvasGroup _menuCanvasGroup;
 
     private void Awake()
     {
@@ -34,6 +37,23 @@ public class MainMenuConnect : MonoBehaviour
             return;
         }
 
+        StartCoroutine(AttemptClientConnect());
+    }
+
+    private IEnumerator AttemptClientConnect()
+    {
         _manager.StartClient();
+        _connectingText.SetActive(true);
+        _menuCanvasGroup.interactable = false;
+
+        yield return new WaitForSeconds(_connectWaitTime);
+
+        if (NetworkClient.isConnected == false)
+        {
+            _manager.StopClient();
+            _connectingText.SetActive(false);
+            _menuCanvasGroup.interactable = true;
+            ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.NoServerActive]);
+        }
     }
 }

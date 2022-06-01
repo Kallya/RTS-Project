@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MinimapControls : MonoBehaviour, IPointerClickHandler
+public class MinimapControls : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private int dimension; // length of one side of map (maps are square)
     private RectTransform _rectTransform;
@@ -21,7 +21,15 @@ public class MinimapControls : MonoBehaviour, IPointerClickHandler
         _playerInfo = PlayerInfoUIManager.Instance;
     }
 
-    public void OnPointerClick(PointerEventData pointerEventData)
+    private void Update()
+    {
+        if (Camera.main == null)
+            return;
+
+        transform.rotation = Quaternion.Euler(0f, 0f, Camera.main.transform.rotation.eulerAngles.y);
+    }
+
+    public void OnPointerDown(PointerEventData pointerEventData)
     {
         if (CharacterCommandInput.InputsEnabled == false)
             return;

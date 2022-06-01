@@ -5,11 +5,9 @@ using Mirror;
 
 public class Bullet : NetworkBehaviour, IWeapon
 {   
-    // weapon sprite useless on bullet 
     public Sprite EquipSprite { get => _equipSprite; }
-    // is it possible to dynamically reference from gun?
     public int Damage { get => _damage; }
-    public int EnergyCost { get => _energyCost; } // also useless
+    public int EnergyCost { get => _energyCost; } 
     public float Range { get => _range; }
 
     private Sprite _equipSprite;
@@ -28,7 +26,7 @@ public class Bullet : NetworkBehaviour, IWeapon
     private void Update()
     {
         if (Vector3.Distance(transform.position, s_initPos) >= _range)
-            Destroy(gameObject); // should I pool the bullets instead?
+            Destroy(gameObject); 
 
         transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }

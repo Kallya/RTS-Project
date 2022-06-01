@@ -20,15 +20,16 @@ public class EndgameManager : MonoBehaviour
 
     public void Setup(Score[] finalScores, int[] winnerIds)
     {
+        MyNetworkManager netManager = MyNetworkManager.singleton as MyNetworkManager;
+
         // set outcome heading
         if (winnerIds.Length > 1)
         {
             _outcomeText.text = "Draw";
             _outcomeText.color = Color.gray;
         }
-        else if (winnerIds[0] == NetworkClient.localPlayer.connectionToServer.connectionId)
+        else if (winnerIds[0] == netManager.ConnId)
         {
-            Debug.Log($"Winner ID: {winnerIds[0]}, localId : {NetworkClient.localPlayer.connectionToServer.connectionId}");
             _outcomeText.text = "Victory";
             _outcomeText.color = Color.cyan;
         }
@@ -61,8 +62,8 @@ public class EndgameManager : MonoBehaviour
     public void ReturnHomeBtnClick()
     {
         if (NetworkClient.localPlayer.isServer)
-            NetworkManager.singleton.StopHost();
+            MyNetworkManager.singleton.StopHost();
         else
-            NetworkManager.singleton.StopClient();
+            MyNetworkManager.singleton.StopClient();
     }
 }

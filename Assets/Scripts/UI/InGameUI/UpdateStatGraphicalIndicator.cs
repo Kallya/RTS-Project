@@ -17,7 +17,6 @@ public class UpdateStatGraphicalIndicator : MonoBehaviour
 
     public void AnyStatChanged(Stat stat)
     {
-        // useless condition for specific stat updates
         if (stat.Name == _thisStatName)
             _indicator.value = (float)stat.Value / stat.BaseValue;
     }

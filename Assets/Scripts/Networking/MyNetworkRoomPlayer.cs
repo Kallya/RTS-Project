@@ -26,6 +26,25 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
         CmdSetPlayerName(playerName);
     }
 
+    public override void OnStartAuthority()
+    {
+        CmdGetConnId();
+    }
+
+    [Command]
+    private void CmdGetConnId()
+    {
+        int connId = connectionToClient.connectionId;
+        TargetSetConnId(connectionToClient, connId);
+    }
+
+    [TargetRpc]
+    private void TargetSetConnId(NetworkConnection target, int connId)
+    {
+        MyNetworkManager netManager = MyNetworkManager.singleton as MyNetworkManager;
+        netManager.ConnId = connId; 
+    }
+
     [Command]
     private void CmdValidatePlayer(string playerName)
     {

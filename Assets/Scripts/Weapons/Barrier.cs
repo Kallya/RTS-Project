@@ -14,7 +14,7 @@ public class Barrier : MonoBehaviour, IUtility, ILimitedUseEquippable
     public void Activate()
     {
         Vector3 spawnPos = new Vector3(transform.root.position.x, _barrierObject.transform.position.y, transform.root.position.z) + transform.root.forward * 5f;
-        Debug.Log(transform.root.rotation);
+        
         ObjectSpawner.Instance.CmdSpawnNetworkObject(
             _barrierObject.name, 
             spawnPos, 

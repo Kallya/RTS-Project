@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 
 public class CameraControl : MonoBehaviour
 {
@@ -13,8 +12,6 @@ public class CameraControl : MonoBehaviour
     private float _minZoom = 10f;
     private float _maxZoom = 50f;
     private Vector3 _screenCenter;
-    [SerializeField] private float _boundingDimension;
-    private bool _isRestricted = false;
 
     private void Awake()
     {
@@ -54,8 +51,7 @@ public class CameraControl : MonoBehaviour
         
         Vector3 mousePos = Input.mousePosition;
         if (mousePos.x <= 0 || mousePos.x >= Screen.width || mousePos.y <= 0 || mousePos.y >= Screen.height)
-            if (_isRestricted == false)
-                MoveCamToMouse();
+            MoveCamToMouse();
         
 
         if (Input.GetKeyDown(PlayerSettings.s_HotkeyMappings["Center Camera"]))

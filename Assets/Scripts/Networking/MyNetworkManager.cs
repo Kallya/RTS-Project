@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-// empty message to trigger UI enable for character setup
-public struct StartPreGameMessage : NetworkMessage {}
+public struct StartPreGameMessage : NetworkMessage 
+{
+    public string ChosenMap;
+}
 // empty message to tell clients when to call SetLocalCharacters
 // to ensure all characters (allied and enemy) are setup
 public struct SetLocalCharactersMessage : NetworkMessage {}
@@ -26,9 +28,10 @@ public class MyNetworkManager : NetworkRoomManager
 {  
     public List<GameObject> SpawnedCharacters = new List<GameObject>();
     public static List<string> MapsSceneNames = new List<string>() {
-        "Map1",
-        "Map2"
+        "Urban Town",
+        "City"
     };
+    public int ConnId { get; set; }
     
     [SerializeField] private GameObject _emptyPlayerPrefab;
     [SerializeField] private GameObject _kabukiCharacterPrefab;
@@ -74,8 +77,8 @@ public class MyNetworkManager : NetworkRoomManager
     {
         UIObjectReferences.Instance.CharacterSetupUI.SetActive(true);
 
-        // pick random map and display it
-        _chosenMap = MapsSceneNames[Random.Range(0, MapsSceneNames.Count)];
+        // display chosen map
+        _chosenMap = msg.ChosenMap;
         UIObjectReferences.Instance.MapName.text = _chosenMap;
     }
 
@@ -111,12 +114,9 @@ public class MyNetworkManager : NetworkRoomManager
 
     public override void OnRoomServerPlayersReady()
     {
-        NetworkServer.SendToReady(new StartPreGameMessage());
-    }
-
-    public override void OnRoomClientExit()
-    {
-        NetworkClient.UnregisterHandler<StartPreGameMessage>();
+        // pick random map
+        string map = MapsSceneNames[Random.Range(0, MapsSceneNames.Count)];
+        NetworkServer.SendToReady(new StartPreGameMessage() { ChosenMap=map });
     }
 
     private void OnAllLockIn()

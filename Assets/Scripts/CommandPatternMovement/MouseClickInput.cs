@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MouseClickInput
 {
     public static RaycastHit GetObjectHit(Camera cam)
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return new RaycastHit();
+
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
         Physics.Raycast(ray, out RaycastHit hit);
 
         return hit;

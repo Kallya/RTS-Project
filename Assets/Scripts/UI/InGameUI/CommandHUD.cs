@@ -20,7 +20,7 @@ public class CommandHUD : MonoBehaviour
     [SerializeField] private GameObject _cmdTextPrefab;
     [SerializeField] private TMP_Text _characterIdentifier;
     private CommandProcessor _characterCmdProcessor;
-    private Dictionary<IQueueableCommand, int> _commandIndexRef = new Dictionary<IQueueableCommand, int>();
+    private Dictionary<IQueueableCommand, GameObject> _commandTextDict = new Dictionary<IQueueableCommand, GameObject>();
 
     private void SetupHUD()
     {
@@ -33,11 +33,11 @@ public class CommandHUD : MonoBehaviour
 
     private void CommandQueued(IQueueableCommand command)
     {
-        // cache index of command text in contentContainer children
-        _commandIndexRef.Add(command, _contentContainer.childCount);
-
         TMP_Text cmdText = Instantiate(_cmdTextPrefab, _contentContainer).GetComponent<TMP_Text>();
         cmdText.text = command.Name;
+
+        // cache command text for deletion
+        _commandTextDict.Add(command, cmdText.gameObject);
     }
 
     private void CommandCompleted(IQueueableCommand command)
@@ -46,7 +46,8 @@ public class CommandHUD : MonoBehaviour
         // cause destroying oldest command may result in two destroy calls to same command
         // due to speed of completion event call
         // leaving command text undeleted even when command is finished
-        Destroy(_contentContainer.GetChild(_commandIndexRef[command]).gameObject);
+        Destroy(_commandTextDict[command]);
+        _commandTextDict.Remove(command);
     }
 
     // Delete command at end of queue

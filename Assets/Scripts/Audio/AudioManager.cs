@@ -57,6 +57,7 @@ public class AudioManager : NetworkBehaviour
     private void CrunchTime()
     {
         _thisAudioSource.clip = _crunchTimeTrack;
+        _thisAudioSource.Play();
     }
     
 

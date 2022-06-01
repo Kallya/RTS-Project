@@ -13,7 +13,8 @@ public enum ErrorMessageType
     InsufficientEnergy, 
     DeadCharacterSwitch,
     CannotBailOut,
-    HotkeyConflict
+    HotkeyConflict,
+    NoServerActive
 }
 
 public class ErrorNotifier : MonoBehaviour
@@ -27,7 +28,8 @@ public class ErrorNotifier : MonoBehaviour
         {ErrorMessageType.InsufficientEnergy, "You have insufficient energy to use this equipment."},
         {ErrorMessageType.DeadCharacterSwitch, "You cannot switch to a dead character."},
         {ErrorMessageType.CannotBailOut, "You are within 50 units of an enemy. You cannot bail out."},
-        {ErrorMessageType.HotkeyConflict, "This key is conflicting with another keybinding"}
+        {ErrorMessageType.HotkeyConflict, "This key is conflicting with another keybinding."},
+        {ErrorMessageType.NoServerActive, "There is no active server to join."}
     };
 
     [SerializeField] private List<GameObject> _errorObjectPool;

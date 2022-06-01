@@ -130,8 +130,8 @@ public class CharacterCommandInput : NetworkBehaviour
         {
             _commandProcessor.ExecuteCommand(new TargetCommand(gameObject, _objectHit.transform, _characterEquipment, _commandProcessor));
 
-            if (_objectHit.transform == null)
-                _commandProcessor.ExecuteCommand(new ChangeToggleCommand(this, "IsTargeting"));
+            if (_objectHit.transform.tag != "Enemy")
+                IsTargeting = false;
         }
 
         if (IsCloaked && NetworkTime.time - LastCloakCostTime >= _cloakInterval)
