@@ -245,19 +245,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 3702}
     - Class: 114
-      Script: {instanceID: 3970}
+      Script: {instanceID: 3972}
     - Class: 114
-      Script: {instanceID: 4040}
+      Script: {instanceID: 4042}
     - Class: 114
-      Script: {instanceID: 4160}
+      Script: {instanceID: 4162}
     - Class: 114
-      Script: {instanceID: 4184}
+      Script: {instanceID: 4186}
     - Class: 114
-      Script: {instanceID: 4210}
+      Script: {instanceID: 4212}
     - Class: 114
-      Script: {instanceID: 4370}
+      Script: {instanceID: 4372}
     - Class: 114
-      Script: {instanceID: 4528}
+      Script: {instanceID: 4530}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -390,35 +390,35 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 3450}
     - Class: 114
-      Script: {instanceID: 3814}
+      Script: {instanceID: 3772}
     - Class: 114
-      Script: {instanceID: 3908}
+      Script: {instanceID: 3816}
     - Class: 114
-      Script: {instanceID: 3920}
+      Script: {instanceID: 3910}
     - Class: 114
-      Script: {instanceID: 3988}
+      Script: {instanceID: 3922}
     - Class: 114
-      Script: {instanceID: 4026}
+      Script: {instanceID: 3990}
     - Class: 114
       Script: {instanceID: 4028}
     - Class: 114
-      Script: {instanceID: 4160}
+      Script: {instanceID: 4030}
     - Class: 114
-      Script: {instanceID: 4180}
+      Script: {instanceID: 4162}
     - Class: 114
-      Script: {instanceID: 4326}
+      Script: {instanceID: 4182}
     - Class: 114
-      Script: {instanceID: 4382}
+      Script: {instanceID: 4328}
     - Class: 114
-      Script: {instanceID: 4472}
+      Script: {instanceID: 4384}
     - Class: 114
-      Script: {instanceID: 4506}
+      Script: {instanceID: 4474}
     - Class: 114
-      Script: {instanceID: 4554}
+      Script: {instanceID: 4508}
     - Class: 114
-      Script: {instanceID: 4632}
+      Script: {instanceID: 4556}
     - Class: 114
-      Script: {instanceID: 78204}
+      Script: {instanceID: 4634}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -541,11 +541,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 3702}
     - Class: 114
-      Script: {instanceID: 4026}
+      Script: {instanceID: 4028}
     - Class: 114
-      Script: {instanceID: 4160}
+      Script: {instanceID: 4162}
     - Class: 114
-      Script: {instanceID: 4584}
+      Script: {instanceID: 4586}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -686,19 +686,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 3702}
     - Class: 114
-      Script: {instanceID: 3970}
+      Script: {instanceID: 3972}
     - Class: 114
-      Script: {instanceID: 4040}
+      Script: {instanceID: 4042}
     - Class: 114
-      Script: {instanceID: 4160}
+      Script: {instanceID: 4162}
     - Class: 114
-      Script: {instanceID: 4184}
+      Script: {instanceID: 4186}
     - Class: 114
-      Script: {instanceID: 4210}
+      Script: {instanceID: 4212}
     - Class: 114
-      Script: {instanceID: 4370}
+      Script: {instanceID: 4372}
     - Class: 114
-      Script: {instanceID: 4528}
+      Script: {instanceID: 4530}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -2008,6 +2008,12 @@ ScriptsOnlyBuild:
     className: CinemachineGroupComposer
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LoadInCanvas
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -2432,16 +2438,10 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CharacterEquipment
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: LoadInCanvas
   platform: 19
   scenePathNames:
   - Assets/Scenes/MyOfflineScene.unity
   - Assets/Scenes/MyRoomScene.unity
   - Assets/Scenes/Urban Town.unity
   - Assets/Scenes/City.unity
-  playerPath: C:/Users/kaleb/Documents/RTSGameGit/RTS-Project/Builds/TestScenes.exe
+  playerPath: C:/Users/kaleb/Documents/RTSGameGit/RTS-Project/Builds/Unified.exe
