@@ -56,7 +56,7 @@ public class EndgameManager : MonoBehaviour
             textComponents.CharactersRemainingText.text = score.CharactersRemaining.ToString();
         }
 
-        gameObject.SetActive(true);            
+        gameObject.SetActive(true);          
     }
 
     public void ReturnHomeBtnClick()

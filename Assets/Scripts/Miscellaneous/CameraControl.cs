@@ -10,8 +10,8 @@ public class CameraControl : MonoBehaviour
     private float _panSensitivity;
     private float _rotSensitivity;
     private float _minZoom = 10f;
-    private float _maxZoom = 50f;
-    private float _panEdgeOffset = 5f;
+    private float _maxZoom = 100f;
+    private float _panEdgeOffset = 10f;
     private Vector3 _screenCenter;
 
     private void Awake()

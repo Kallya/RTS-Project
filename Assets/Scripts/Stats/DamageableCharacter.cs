@@ -63,11 +63,6 @@ public class DamageableCharacter : DamageableObject
     // ie. by bail out
     private void OnDestroy()
     {
-        // isclientonly instead of !isserver
-        // cause !isserver causing errors allowing client to run RPC
-        if (isClientOnly)
-            return;
-
         if (!isServer)
             return;
 

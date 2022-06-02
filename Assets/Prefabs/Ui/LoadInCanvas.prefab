@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 3562738191965452978}
   - component: {fileID: 4034778079036173059}
   - component: {fileID: 8919945941168421146}
+  - component: {fileID: -7169575680679215976}
   m_Layer: 5
   m_Name: LoadInCanvas
   m_TagString: Untagged
@@ -193,3 +194,15 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 00835b21cb578874a855199c3c56492b
   hasSpawned: 0
+--- !u!114 &-7169575680679215976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7721571477582219955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28165b9fec518f14a81f2d07c310d967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

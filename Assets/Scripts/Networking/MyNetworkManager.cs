@@ -47,13 +47,6 @@ public class MyNetworkManager : NetworkRoomManager
     {
         if (sceneName == RoomScene)
             NetworkServer.RegisterHandler<CharacterConfigurationMessage>(OnNetworkLockIn);
-
-        if (MapsSceneNames.Contains(sceneName))
-        {
-            GameObject loadInUI = Instantiate(_loadInCanvas);
-            NetworkServer.Spawn(loadInUI);
-            StartCoroutine(LoadIn(loadInUI));
-        }
     }
 
     public override void OnRoomStartClient()
@@ -122,6 +115,11 @@ public class MyNetworkManager : NetworkRoomManager
     private void OnAllLockIn()
     {
         NetworkServer.UnregisterHandler<CharacterConfigurationMessage>();
+
+        // setup loading screen
+        GameObject loadInUI = Instantiate(_loadInCanvas);
+        NetworkServer.Spawn(loadInUI);
+        StartCoroutine(LoadIn(loadInUI));
 
         ServerChangeScene(_chosenMap);
     }

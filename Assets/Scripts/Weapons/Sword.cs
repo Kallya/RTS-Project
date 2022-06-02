@@ -18,7 +18,7 @@ public class Sword : MonoBehaviour, IWeapon
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _rb.detectCollisions = false;
+        // _rb.detectCollisions = false;
 
         _lastAttackTime = -_attackRate;
     }
@@ -33,7 +33,7 @@ public class Sword : MonoBehaviour, IWeapon
     {
         if (Time.time >= _lastAttackTime + _attackRate)
         {
-            StartCoroutine(AttackTime());
+            // StartCoroutine(AttackTime());
             _lastAttackTime = Time.time;
             return true;
         }
@@ -41,10 +41,15 @@ public class Sword : MonoBehaviour, IWeapon
             return false;
     }
 
+    // sword was supposed to only be able to dmg during attack time
+    // though was unable to find a way to send command from sword
+    // to change rigidbody on server
+/*
     private IEnumerator AttackTime()
     {
         _rb.detectCollisions = true;
         yield return new WaitForSeconds(_collisionTimeAllowance);
         _rb.detectCollisions = false;
     }
+*/
 }

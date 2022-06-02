@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\Miscellaneous\CharacterAnimationManager.cs" />
      <Compile Include="Assets\Scripts\UI\PreGameLobby\LeaveLobby.cs" />
      <Compile Include="Assets\Scripts\Stats\KitsuneCharacterStats.cs" />
+     <Compile Include="Assets\Scripts\UI\PreGameLobby\IPDisplay.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\BillboardCanvas.cs" />
      <Compile Include="Assets\Scripts\UI\InGameUI\PlayerInfoUIManager.cs" />
      <Compile Include="Assets\Scripts\Networking\ObjectSpawner.cs" />
@@ -121,7 +122,7 @@
      <Compile Include="Assets\Scripts\Weapons\EquipmentInterfaces.cs" />
      <Compile Include="Assets\Scripts\Weapons\CharacterEquipment.cs" />
      <Compile Include="Assets\Scripts\Miscellaneous\RotateToMouseCommand.cs" />
-     <Compile Include="Assets\Scripts\UI\PreGameLobby\IPDisplay.cs" />
+     <Compile Include="Assets\Scripts\UI\PreGameLobby\LoadInCanvas.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

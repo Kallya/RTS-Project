@@ -25,11 +25,11 @@ ScriptsOnlyBuild:
     - EndgameManager
     - Equipment
     - ErrorNotifier
-    - FPSCounter
     - IPDisplay
     - KabukiCharacterStats
     - KitsuneCharacterStats
     - LeaveLobby
+    - LoadInCanvas
     - LobbyPlayerTextRefs
     - LockInButton
     - MainMenuConnect
@@ -338,8 +338,6 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1706}
     - Class: 114
-      Script: {instanceID: 1708}
-    - Class: 114
       Script: {instanceID: 1720}
     - Class: 114
       Script: {instanceID: 1722}
@@ -419,6 +417,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 4554}
     - Class: 114
       Script: {instanceID: 4632}
+    - Class: 114
+      Script: {instanceID: 78204}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -2432,6 +2432,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CharacterEquipment
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LoadInCanvas
   platform: 19
   scenePathNames:
   - Assets/Scenes/MyOfflineScene.unity
