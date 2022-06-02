@@ -54,8 +54,8 @@ public class CharacterCommandInput : NetworkBehaviour
             {
                 if (_objectHit.transform.tag == "Ground")
                     ExecuteQueueableCmd(new MoveCommand(gameObject, MouseClickInput.GetMovementPosition(transform, Camera.main)));
-                else if (_objectHit.transform.tag == "Enemy")
-                    ExecuteQueueableCmd(new ChangeToggleCommand(this, "IsTargeting"));
+                // else if (_objectHit.transform.tag == "Enemy")
+                    // ExecuteQueueableCmd(new ChangeToggleCommand(this, "IsTargeting"));
             }
         }
 
@@ -125,7 +125,7 @@ public class CharacterCommandInput : NetworkBehaviour
             if (_characterEquipment.ActiveEquipment is IWeapon)
                 _commandProcessor.ExecuteCommand(new AutoAttackCommand(gameObject, netId));
         }
-
+/*
         if (IsTargeting)
         {
             _commandProcessor.ExecuteCommand(new TargetCommand(gameObject, _objectHit.transform, _characterEquipment, _commandProcessor));
@@ -133,6 +133,7 @@ public class CharacterCommandInput : NetworkBehaviour
             if (_objectHit.transform.tag != "Enemy")
                 IsTargeting = false;
         }
+*/
 
         if (IsCloaked && NetworkTime.time - LastCloakCostTime >= _cloakInterval)
             _commandProcessor.ExecuteCommand(new MaintainCloakCommand(this, netId));

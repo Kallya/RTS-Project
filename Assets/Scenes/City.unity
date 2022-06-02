@@ -7285,7 +7285,7 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
-  m_ReverseArrangement: 1
+  m_ReverseArrangement: 0
 --- !u!1 &1559094692
 GameObject:
   m_ObjectHideFlags: 0
@@ -7808,7 +7808,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _indicator: {fileID: 1165579171}
   _thisStatName: Energy
-  _playerInfo: {fileID: 508976669}
 --- !u!1 &1726463433
 GameObject:
   m_ObjectHideFlags: 0
@@ -9142,7 +9141,7 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
-  m_ReverseArrangement: 1
+  m_ReverseArrangement: 0
 --- !u!1 &1938353560
 GameObject:
   m_ObjectHideFlags: 0
@@ -9492,7 +9491,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _indicator: {fileID: 1709681429}
   _thisStatName: Health
-  _playerInfo: {fileID: 508976669}
 --- !u!224 &6972534610728111942
 RectTransform:
   m_ObjectHideFlags: 0

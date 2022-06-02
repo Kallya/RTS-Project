@@ -49,7 +49,7 @@ public class MainMenuConnect : MonoBehaviour
 
     private IEnumerator AttemptClientConnect()
     {
-        _manager.networkAddress = _connectIPAddress.text; // set to host's ip address (which should be entered)
+        // _manager.networkAddress = _connectIPAddress.text; // set to host's ip address (which should be entered)
         _manager.StartClient();
         _connectingText.SetActive(true);
         _menuCanvasGroup.interactable = false;

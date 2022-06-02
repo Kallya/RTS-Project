@@ -200,7 +200,7 @@ public class MyNetworkManager : NetworkRoomManager
         // Spawn all characters
         for (int i = 0; i < charactersToSpawn; i++)
         {
-            Vector3 startPos = GetStartPosition().position;
+            Vector3 startPos = GetRandomStartPos().position;
 
             string characterType = roomPlayer.GetComponent<MyNetworkRoomPlayer>().CharacterTypes[i];
             GameObject character = null;
@@ -281,5 +281,13 @@ public class MyNetworkManager : NetworkRoomManager
 
         NetworkServer.Destroy(loadInUI);
         NetworkServer.SendToReady(new StartGameMessage()); // trigger game start on clients
+    }
+
+    private Transform GetRandomStartPos()
+    {
+        Transform pos = startPositions[Random.Range(0, startPositions.Count)];
+        UnRegisterStartPosition(pos);
+
+        return pos;
     }
 }

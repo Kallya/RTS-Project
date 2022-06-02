@@ -68,8 +68,8 @@ public class DamageableCharacter : DamageableObject
         if (isClientOnly)
             return;
 
-        // if (!isServer)
-            // return;
+        if (!isServer)
+            return;
 
         if (_damageableStats.Health.Value <= 0)
             return;
