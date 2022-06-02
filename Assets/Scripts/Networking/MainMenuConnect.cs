@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System;
-using System.Net;
 using UnityEngine;
 using Mirror;
 using TMPro;
@@ -30,7 +28,6 @@ public class MainMenuConnect : MonoBehaviour
             return;
         }
 
-        _manager.networkAddress = GetLocalIP();
         _manager.StartHost();
     }
 
@@ -52,7 +49,7 @@ public class MainMenuConnect : MonoBehaviour
 
     private IEnumerator AttemptClientConnect()
     {
-        _manager.networkAddress = _connectIPAddress.text.Trim(); // set to host's ip address (which should be entered)
+        _manager.networkAddress = _connectIPAddress.text; // set to host's ip address (which should be entered)
         _manager.StartClient();
         _connectingText.SetActive(true);
         _menuCanvasGroup.interactable = false;
@@ -66,19 +63,5 @@ public class MainMenuConnect : MonoBehaviour
             _menuCanvasGroup.interactable = true;
             ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.NoServerActive]);
         }
-    }
-
-    private string GetLocalIP()
-    {
-        var host = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (var ip in host.AddressList)
-        {
-            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-            {
-                return ip.ToString();
-            }
-        }
-
-        return "localhost";
     }
 }
