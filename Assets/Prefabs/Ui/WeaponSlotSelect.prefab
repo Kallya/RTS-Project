@@ -582,8 +582,6 @@ MonoBehaviour:
     m_Options:
     - m_Text: Assault Rifle
       m_Image: {fileID: 0}
-    - m_Text: Shield
-      m_Image: {fileID: 0}
     - m_Text: Sword
       m_Image: {fileID: 0}
     - m_Text: Shotgun

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Net;
 using UnityEngine;
 using Mirror;
 using TMPro;
@@ -12,6 +14,8 @@ public class MainMenuConnect : MonoBehaviour
     [SerializeField] private GameObject _connectingText;
     [SerializeField] private int _connectWaitTime = 3;
     [SerializeField] private CanvasGroup _menuCanvasGroup;
+    [SerializeField] private GameObject _clientConnectUI;
+    [SerializeField] private TMP_Text _connectIPAddress;
 
     private void Awake()
     {
@@ -26,6 +30,7 @@ public class MainMenuConnect : MonoBehaviour
             return;
         }
 
+        _manager.networkAddress = GetLocalIP();
         _manager.StartHost();
     }
 
@@ -37,11 +42,17 @@ public class MainMenuConnect : MonoBehaviour
             return;
         }
 
+        _clientConnectUI.SetActive(true);
+    }
+
+    public void AttemptClientConnectBtnClick()
+    {
         StartCoroutine(AttemptClientConnect());
     }
 
     private IEnumerator AttemptClientConnect()
     {
+        _manager.networkAddress = _connectIPAddress.text.Trim(); // set to host's ip address (which should be entered)
         _manager.StartClient();
         _connectingText.SetActive(true);
         _menuCanvasGroup.interactable = false;
@@ -55,5 +66,19 @@ public class MainMenuConnect : MonoBehaviour
             _menuCanvasGroup.interactable = true;
             ErrorNotifier.Instance.GenerateErrorMsg(ErrorNotifier.ErrorMessages[ErrorMessageType.NoServerActive]);
         }
+    }
+
+    private string GetLocalIP()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+
+        return "localhost";
     }
 }

@@ -7,18 +7,12 @@ public class MinimapControls : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private int dimension; // length of one side of map (maps are square)
     private RectTransform _rectTransform;
-    private POVManager _povManager;
-    private PlayerInfoUIManager _playerInfo;
+    [SerializeField] private POVManager _povManager;
+    [SerializeField] private PlayerInfoUIManager _playerInfo;
 
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
-    }
-
-    private void Start()
-    {
-        _povManager = POVManager.Instance;
-        _playerInfo = PlayerInfoUIManager.Instance;
     }
 
     private void Update()

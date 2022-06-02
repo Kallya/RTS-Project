@@ -8,12 +8,10 @@ public class UpdateEquipmentUI : MonoBehaviour
     // both lists must be in order of slots from 1 to 4
     [SerializeField] private List<Image> _equipmentSlotImgs; // imgs to set weapon sprites
     [SerializeField] private List<Image> _equipmentSlotBtns; // buttons to change colour indicating active weapon
-    private PlayerInfoUIManager _playerInfoUIManager;
+    [SerializeField] private PlayerInfoUIManager _playerInfoUIManager;
 
     private void Start()
     {
-        _playerInfoUIManager = PlayerInfoUIManager.Instance;
-
         _playerInfoUIManager.OnEquipSlotChanged += EquipSlotChanged;
         _playerInfoUIManager.OnPOVChanged += POVChanged;
     }

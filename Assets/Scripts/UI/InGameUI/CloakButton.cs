@@ -12,7 +12,7 @@ public struct CloakMessage : NetworkMessage
 public class CloakButton : MonoBehaviour
 {
     private Image _cloakBtn;
-    private PlayerInfoUIManager _playerInfoUIManager;
+    [SerializeField] private PlayerInfoUIManager _playerInfoUIManager;
 
     private void Awake()
     {
@@ -21,7 +21,6 @@ public class CloakButton : MonoBehaviour
     
     private void Start()
     {
-        _playerInfoUIManager = PlayerInfoUIManager.Instance;
         _playerInfoUIManager.OnPOVChanged += POVChanged;
         _playerInfoUIManager.OnToggleChanged += ToggleChanged;
     }

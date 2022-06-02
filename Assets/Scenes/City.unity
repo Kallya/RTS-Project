@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1561,6 +1561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b939d3eec04d59f45952ef6a29f84def, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _povManager: {fileID: 1192451494}
   _characterPortrait: {fileID: 1174616295}
 --- !u!1 &557410991
 GameObject:
@@ -1909,6 +1910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _thisStatName: Defence
+  _playerInfo: {fileID: 508976669}
 --- !u!1 &648082684
 GameObject:
   m_ObjectHideFlags: 0
@@ -2108,6 +2110,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dimension: 400
+  _povManager: {fileID: 1192451494}
+  _playerInfo: {fileID: 508976669}
 --- !u!1 &721844767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2837,6 +2841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _autoAtkBtnImg: {fileID: 270800714}
   _queueBtnImg: {fileID: 618640786}
+  _playerInfoUIManager: {fileID: 508976669}
 --- !u!1 &895756603
 GameObject:
   m_ObjectHideFlags: 0
@@ -3123,6 +3128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _thisStatName: Speed
+  _playerInfo: {fileID: 508976669}
 --- !u!1 &930530661
 GameObject:
   m_ObjectHideFlags: 0
@@ -3271,6 +3277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _thisStatName: Health
+  _playerInfo: {fileID: 508976669}
 --- !u!1 &935094776
 GameObject:
   m_ObjectHideFlags: 0
@@ -6038,6 +6045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c9eedd5f4b37944483f0296d22a0c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _povManager: {fileID: 1192451494}
 --- !u!54 &1192451497
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6571,6 +6579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0664631b89e481248bfe165bf4a916ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerInfoUIManager: {fileID: 508976669}
 --- !u!1 &1366529465
 GameObject:
   m_ObjectHideFlags: 0
@@ -6633,6 +6642,7 @@ MonoBehaviour:
   - {fileID: 986397788}
   - {fileID: 500510620}
   - {fileID: 1140016107}
+  _playerInfoUIManager: {fileID: 508976669}
 --- !u!1 &1415496885
 GameObject:
   m_ObjectHideFlags: 0
@@ -7798,6 +7808,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _indicator: {fileID: 1165579171}
   _thisStatName: Energy
+  _playerInfo: {fileID: 508976669}
 --- !u!1 &1726463433
 GameObject:
   m_ObjectHideFlags: 0
@@ -8972,6 +8983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _thisStatName: Energy
+  _playerInfo: {fileID: 508976669}
 --- !u!1 &1928541457
 GameObject:
   m_ObjectHideFlags: 0
@@ -9480,6 +9492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _indicator: {fileID: 1709681429}
   _thisStatName: Health
+  _playerInfo: {fileID: 508976669}
 --- !u!224 &6972534610728111942
 RectTransform:
   m_ObjectHideFlags: 0

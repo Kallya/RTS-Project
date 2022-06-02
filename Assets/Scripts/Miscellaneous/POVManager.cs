@@ -87,7 +87,7 @@ public class POVManager : NetworkBehaviour
         for (int i = 0; i < ActiveCharacters.Count; i++)
         {
             GameObject nextCharacter = ActiveCharacters[i];
-            if (character != null && nextCharacter != character)
+            if (nextCharacter != null && nextCharacter != character)
             {
                 ChangePOV(i+1);
                 break;
@@ -116,8 +116,7 @@ public class POVManager : NetworkBehaviour
             _playerInputs[characterIndex].enabled = false;
             _spriteReferences[CurrVirtualCam.Follow.gameObject].RangeIndicatorSprite.SetActive(false);
             _spriteReferences[CurrVirtualCam.Follow.gameObject].MinimapSpriteRenderer.color = _normalMinimapSpriteColour;
-            // CurrVirtualCam.Follow.GetComponent<CharacterCommandInput>().enabled = false;
-            // CurrVirtualCam.Follow.GetComponent<PlayerSpriteReferences>().RangeIndicatorSprite.SetActive(false);
+            CurrVirtualCam.Follow.GetComponent<CharacterCommandInput>().enabled = false;
             zoomDist = CurrVirtualCamBody.m_CameraDistance;
         }
 

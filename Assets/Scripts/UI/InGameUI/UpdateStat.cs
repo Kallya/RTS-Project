@@ -7,6 +7,7 @@ public class UpdateStat : MonoBehaviour
 {
     private TMP_Text _statText;
     [SerializeField] private string _thisStatName;
+    [SerializeField] private PlayerInfoUIManager _playerInfo;
 
     private void Awake()
     {
@@ -15,7 +16,7 @@ public class UpdateStat : MonoBehaviour
 
     private void Start()
     {
-        PlayerInfoUIManager.Instance.OnAnyStatChanged += AnyStatChanged;
+        _playerInfo.OnAnyStatChanged += AnyStatChanged;
     }
 
     private void AnyStatChanged(Stat stat)

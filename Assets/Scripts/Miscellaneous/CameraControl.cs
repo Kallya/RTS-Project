@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    private POVManager _povManager;
+    [SerializeField] private POVManager _povManager;
     private PlayerSettings _playerSettings;
     private float _zoomSensitivity;
     private float _panSensitivity;
     private float _rotSensitivity;
     private float _minZoom = 10f;
     private float _maxZoom = 50f;
+    private float _panEdgeOffset = 5f;
     private Vector3 _screenCenter;
 
     private void Awake()
@@ -21,8 +22,7 @@ public class CameraControl : MonoBehaviour
     private void Start()
     {
         InitialiseSettings();
-
-        _povManager = POVManager.Instance;
+        
         PlayerSettings.OnSliderChanged += SliderChanged;
     }
 
@@ -50,7 +50,7 @@ public class CameraControl : MonoBehaviour
 
         
         Vector3 mousePos = Input.mousePosition;
-        if (mousePos.x <= 0 || mousePos.x >= Screen.width || mousePos.y <= 0 || mousePos.y >= Screen.height)
+        if (mousePos.x <= _panEdgeOffset || mousePos.x >= Screen.width - _panEdgeOffset || mousePos.y <= _panEdgeOffset || mousePos.y >= Screen.height - _panEdgeOffset)
             MoveCamToMouse();
         
 

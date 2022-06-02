@@ -17,7 +17,8 @@ public class PlayerInfoUIManager : MonoBehaviour
     public GameObject CurrCharacter { get; private set; }
     public CommandProcessor CurrCmdProcessor { get; private set; }
     public CharacterCommandInput CurrCmdInput { get; private set; }
-    
+
+    [SerializeField] private POVManager _povManager;
     [SerializeField] private Image _characterPortrait;
 
     private void Awake()
@@ -27,7 +28,7 @@ public class PlayerInfoUIManager : MonoBehaviour
 
     public void Start()
     {
-        POVManager.Instance.OnPOVChanged += POVChanged;
+        _povManager.OnPOVChanged += POVChanged;
     }
 
     private void POVChanged(Transform currCharacter)

@@ -7,12 +7,10 @@ public class UIPlayerControls : MonoBehaviour
 {
     [SerializeField] private Image _autoAtkBtnImg;
     [SerializeField] private Image _queueBtnImg;
-    private PlayerInfoUIManager _playerInfoUIManager;
+    [SerializeField] private PlayerInfoUIManager _playerInfoUIManager;
 
     private void Start()
     {
-        _playerInfoUIManager = PlayerInfoUIManager.Instance;
-
         _playerInfoUIManager.OnPOVChanged += POVChanged;
         _playerInfoUIManager.OnToggleChanged += ToggleChanged;
     }
